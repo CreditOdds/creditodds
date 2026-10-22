@@ -42,7 +42,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v7
         with:
-          node-version: '22'
+          node-version-file: '.nvmrc'
 
       - name: Setup AWS SAM CLI
         uses: aws-actions/setup-sam@v3

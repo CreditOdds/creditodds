@@ -77,7 +77,7 @@ creditodds/
 
 ### Prerequisites
 
-- Node.js 22+
+- Node.js 22.23.4 (see `.nvmrc`; later patched Node 22 releases are supported)
 - npm 9+
 - AWS CLI and AWS SAM CLI (only for API deployment)
 
@@ -87,6 +87,10 @@ creditodds/
 # Clone the repository
 git clone https://github.com/CreditOdds/creditodds.git
 cd creditodds
+
+# Select the same Node.js release used by CI and Amplify
+nvm install
+nvm use
 
 # Install dependencies (installs all workspaces)
 npm install

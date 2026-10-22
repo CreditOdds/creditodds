@@ -4,7 +4,7 @@ Review items 12–13, implemented October 21, 2026.
 
 ## Dependencies and deployment
 
-- Firebase Admin 14.5.0 uses modular `/app` and `/auth` entrypoints throughout the API, admin CLI and Firebase signup function. Firebase Functions is 7.4.0. Local tooling requires Node 22.12+; deployed runtimes remain Node 22.
+- Firebase Admin 14.5.0 uses modular `/app` and `/auth` entrypoints throughout the API, admin CLI and Firebase signup function. Firebase Functions is 7.4.0. Local tooling requires Node 22.23.4 or later within Node 22; `.nvmrc` pins the version used by local development, GitHub Actions and Amplify builds. Lambda (`nodejs22.x`) and Firebase (`engines.node: "22"`) select managed major-version runtimes; their patch rollout must be verified separately with the providers.
 - Updated compatible transitives, pinned the Firebase web SDK's transitive gRPC to 1.14.6, and upgraded Jest/Vitest to remove their critical development-tooling finding. Keep `@firebase/app` at 0.16.2 until Lambda moves to Node 24.
 - Root, API and Firebase Functions have lockfiles. Update the root lock and the affected deployment lock together. Standalone API/Functions installs do not inherit root overrides; audit those independently.
 - Tailwind plugins are build dependencies, now correctly declared as development dependencies. This reclassification does **not** fix their advisories.
