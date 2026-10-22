@@ -1,7 +1,7 @@
 name: "Hawaiian Airlines Business Mastercard"
 bank: "Barclays"
 slug: "hawaiian-airlines-business-mastercard"
-accepting_applications: true
+accepting_applications: false
 apply_link: https://cards.barclaycardus.com/banking/credit-card/hawaiian-airlines/combo-app/hawaiian-bha-boh---combo-app/
 category: "business"
 image: "barclays-hawaiian-business.png"
