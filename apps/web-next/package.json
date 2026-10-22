@@ -10,6 +10,7 @@
     "start": "next start",
     "lint": "eslint . --max-warnings=0",
     "test": "vitest run",
+    "test:cache-lifecycle": "node scripts/test-fetch-cache-lifecycle.mjs",
     "analyze": "ANALYZE=true next build",
     "check:seo": "node scripts/check-seo.mjs"
   },
