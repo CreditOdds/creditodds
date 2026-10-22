@@ -1625,45 +1625,40 @@
     "t3_1x96dnf": "2026-10-19",
     "t3_1x94g6w": "2026-10-19",
     "t3_1x94bpj": "2026-10-19",
-    "t3_1xakvpi": "2026-10-21",
+    "t3_1xakvpi": "2026-10-22",
     "t3_1xakrvd": "2026-10-20",
-    "t3_1xakoc9": "2026-10-21",
+    "t3_1xakoc9": "2026-10-22",
     "t3_1xahe9q": "2026-10-21",
     "t3_1xae919": "2026-10-20",
     "t3_1xacarh": "2026-10-20",
     "t3_1xac2h7": "2026-10-20",
     "t3_1xa9z66": "2026-10-20",
-    "t3_1xa94tr": "2026-10-20"
+    "t3_1xa94tr": "2026-10-20",
+    "t3_1xcgtzc": "2026-10-22",
+    "t3_1xcgos1": "2026-10-22",
+    "t3_1xcari6": "2026-10-22",
+    "t3_1xc9s0t": "2026-10-22",
+    "t3_1xc8f0v": "2026-10-22",
+    "t3_1xc56tb": "2026-10-22",
+    "t3_1xc4wbc": "2026-10-22",
+    "t3_1xc4lft": "2026-10-22",
+    "t3_1xbyjv4": "2026-10-22",
+    "t3_1xbxiz0": "2026-10-22",
+    "t3_1xbxdbx": "2026-10-22",
+    "t3_1xbvgpz": "2026-10-22",
+    "t3_1xbthc1": "2026-10-22",
+    "t3_1xbsi03": "2026-10-22",
+    "t3_1xbs4y4": "2026-10-22",
+    "t3_1xbr6uj": "2026-10-22",
+    "t3_1xboc2q": "2026-10-22",
+    "t3_1xbi55q": "2026-10-22",
+    "t3_1xb9grj": "2026-10-22",
+    "t3_1xb4czq": "2026-10-22",
+    "t3_1xb2pts": "2026-10-22",
+    "t3_1xazwds": "2026-10-22",
+    "t3_1xau5a9": "2026-10-22"
   },
   "pending": {
-    "t3_1xa7gj1": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1xa7gj1/venture_x_business_denial_reason/",
-      "title": "Venture X Business Denial Reason",
-      "posted": "2026-10-19",
-      "card_name": "Capital One Venture X Business",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "LLC application denied for business size and entity type combination; one employee, $300k revenue, still no score.",
-      "firstSeen": "2026-10-19",
-      "attempts": 3,
-      "lastChecked": "2026-10-21"
-    },
-    "t3_1xa60p8": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1xa60p8/all_chase_biz_cards_not_just_ink_are_324/",
-      "title": "All Chase Biz cards, not just Ink, are 3/24.",
-      "posted": "2026-10-19",
-      "card_name": "United Business",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Sole prop application for United Business denied for being 4/24. No score given.",
-      "firstSeen": "2026-10-19",
-      "attempts": 3,
-      "lastChecked": "2026-10-21"
-    },
     "t3_1xakoc9": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1xakoc9/chase_freedom_unlimited_500_credit_limit/",
       "title": "Chase Freedom Unlimited - $500 Credit Limit",
@@ -1674,10 +1669,10 @@
         "credit_score"
       ],
       "note": "Approved for CFU in September 2026 with a $500 limit on a thin file. Cites Experian 698 now, not at application.",
-      "ask": "You mentioned an Experian 698 now. What was your score when you applied for the CFU in September?",
+      "ask": "You mentioned Experian 698 now. What was your score when you applied for the CFU in September?",
       "firstSeen": "2026-10-20",
-      "attempts": 2,
-      "lastChecked": "2026-10-21"
+      "attempts": 3,
+      "lastChecked": "2026-10-22"
     },
     "t3_1xakvpi": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1xakvpi/hard_focusing_on_getting_the_ritz_carlton_card/",
@@ -1690,27 +1685,68 @@
       ],
       "note": "Recently approved for the Marriott Boundless, planning a later product change to Ritz. No score or limit given.",
       "firstSeen": "2026-10-20",
-      "attempts": 2,
-      "lastChecked": "2026-10-21"
+      "attempts": 3,
+      "lastChecked": "2026-10-22"
+    },
+    "t3_1xcari6": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xcari6/first_time_poster_denied_for_starter_cards/",
+      "title": "First time poster: Denied for \"starter\" cards despite $56k income and zero rent. Is waiting my only option?",
+      "posted": "2026-10-22",
+      "card_name": "Chase Freedom Unlimited",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Denied for both CFU and Amex Blue Cash Everyday on a 5-month file, $56k income. No score given; a reply could yield two data points.",
+      "firstSeen": "2026-10-22",
+      "attempts": 1,
+      "lastChecked": "2026-10-22"
+    },
+    "t3_1xc56tb": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xc56tb/more_credit_cards_better/",
+      "title": "more credit cards = better?",
+      "posted": "2026-10-22",
+      "card_name": "Navy Federal cashRewards",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Just approved for Navy Federal cashRewards with a higher limit than their Capital One card. No score given.",
+      "firstSeen": "2026-10-22",
+      "attempts": 1,
+      "lastChecked": "2026-10-22"
+    },
+    "t3_1xbthc1": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xbthc1/denied_strata_premier_downgrade_on_strata_elite/",
+      "title": "Denied Strata Premier Downgrade on Strata Elite – Locked Out of TYP Transfer Options? Need Advice!",
+      "posted": "2026-10-21",
+      "card_name": "Citi Strata Premier",
+      "result": "denied",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Applied for Strata Premier in August 2026, denied and offered Double Cash instead. No score given.",
+      "ask": "When Citi denied the Strata Premier in August and approved the Double Cash, what was your credit score?",
+      "firstSeen": "2026-10-22",
+      "attempts": 1,
+      "lastChecked": "2026-10-22"
+    },
+    "t3_1xb2pts": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xb2pts/denied_for_ink_at_424_taxes_to_pay_soon_where/",
+      "title": "Denied for Ink at 4/24. Taxes to pay soon. Where else to look for a good SUB?",
+      "posted": "2026-10-20",
+      "result": "denied",
+      "missing": [
+        "card_name"
+      ],
+      "note": "Denied for a Chase Ink at 4/24 with 721 FICO and $90k income; recon cited age of revolving accounts. Which Ink is not stated.",
+      "ask": "Which Ink card did you apply for: Cash, Unlimited, or Preferred?",
+      "firstSeen": "2026-10-22",
+      "attempts": 1,
+      "lastChecked": "2026-10-22"
     }
   },
   "runs": [
-    {
-      "id": "2026-08-19T13:11:40.853Z",
-      "date": "2026-08-19",
-      "candidates": 13,
-      "revisits": 0,
-      "sourcesOk": 1,
-      "sourcesFailed": 1,
-      "published": 1,
-      "pending": 15,
-      "unaccounted": 0,
-      "skipped": {
-        "no_outcome": 6,
-        "pre_qual": 1,
-        "no_score": 2
-      }
-    },
     {
       "id": "2026-08-21T16:00:29.874Z",
       "date": "2026-08-21",
@@ -2640,6 +2676,22 @@
       "pending": 4,
       "unaccounted": 0,
       "skipped": {}
+    },
+    {
+      "id": "2026-10-22T14:03:42.344Z",
+      "date": "2026-10-22",
+      "candidates": 25,
+      "revisits": 2,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 2,
+      "pending": 6,
+      "unaccounted": 0,
+      "skipped": {
+        "no_score": 4,
+        "no_outcome": 11,
+        "pre_qual": 2
+      }
     }
   ]
 }
