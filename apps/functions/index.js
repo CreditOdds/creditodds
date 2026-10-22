@@ -2,6 +2,8 @@ const functions = require("firebase-functions/v1");
 const { logger } = require("firebase-functions");
 const { initializeApp } = require("firebase-admin/app");
 
+logger.info("runtime-version", { service: "firebase-functions", node: process.version });
+
 initializeApp();
 
 exports.onUserCreated = functions.auth.user().onCreate(async (user) => {

@@ -5,7 +5,8 @@ applications:
         preBuild:
           commands:
             # Keep the build runtime aligned with local development and CI.
-            - nvm install "$(cat ../../.nvmrc)"
+            # Amplify defaults include unrelated global tools (e.g. Cypress).
+            - nvm install --skip-default-packages "$(cat ../../.nvmrc)"
             - nvm use "$(cat ../../.nvmrc)"
             - node --version
             # Install dependencies from repo root (monorepo with workspaces)
