@@ -1,7 +1,8 @@
-import { readCachedResponse, canCacheResponse } from './responseCache';
+import { fetchCachedWithRetry, isPublicCachedRead } from './cachedFetch';
 
-// Cache ownership is outside the transport deadline. Cache refresh callbacks
-// invoke the complete bounded operation, never a single fetch attempt.
+// Uncached reads have request-owned deadlines. Public Next cached reads use
+// Next's native lifecycle: a Lambda freeze must not expire an application timer
+// on background work and hand that rejection to a later invocation.
 export interface FetchRetryOptions {
   retries?: number;
   backoffMs?: number;
@@ -39,9 +40,8 @@ export async function fetchWithRetry(
   opts: FetchRetryOptions = {},
 ): Promise<Response> {
   init?.signal?.throwIfAborted();
-  if (canCacheResponse(init)) {
-    const work = readCachedResponse(input, init!, opts, fetchTransportWithRetry);
-    // Cancelling one optional section must not cancel a shared cache refresh.
+  if (isPublicCachedRead(init)) {
+    const work = fetchCachedWithRetry(input, init!, opts);
     return init?.signal ? abortable(work, init.signal) : work;
   }
   return fetchTransportWithRetry(input, init, opts);

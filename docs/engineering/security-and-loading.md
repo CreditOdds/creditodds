@@ -23,13 +23,14 @@ All JSON-LD emitters use `serializeJsonLd`, escaping `<` so a content string can
 
 | Read | Attempt deadline | Total budget | Retries |
 | --- | --- | --- | --- |
-| SSR/ISR fetch wrapper | 4 seconds | 10 seconds | Up to 4 for GET/HEAD, inside budget |
+| Uncached fetch wrapper | 4 seconds | 10 seconds | Up to 4 for GET/HEAD, inside budget |
+| Public Next cached/ISR reads | Native transport/platform limits | No application wall-clock timer | Up to 4 foreground retries |
 | Optional card sections | Inherit wrapper | 2.5 seconds per concurrent group | Inside section budget |
 | Places | 8 seconds, including body | 8 seconds | None |
 | Brevo operation | 8 seconds, including body | 15 seconds including backoff | Only explicit 429 responses; never ambiguous writes |
 | API card catalog CDN | 5 seconds, including connection/body | 10 seconds | One transient-network retry |
 
-Uncached caller cancellation stops retry/backoff. For explicitly cached public reads, caller cancellation stops only that caller's wait: the shared cache operation retains its own bounded transport deadline. Timers and listeners are cleaned up. See the shared-cache lifecycle section below for ownership and revalidation behavior.
+Uncached caller cancellation stops retry/backoff. Explicitly cached public server reads use native Next caching and do not receive application wall-clock deadlines. Caller-provided cancellation is still honored. See the server-cache rollback section below for the production limitation.
 
 Ratings, wire and product-change reads now run concurrently after the primary card lookup. Other optional sections and the local benefits lookup have independent short budgets. A stalled optional read falls back to the existing empty-section behavior; the primary card lookup still propagates outages and distinguishes a confirmed 404. The benefits overlay uses an asynchronous cached slug index instead of repeated synchronous full-file parsing. Edge OG generation imports a small public-card fetcher and pure article-tag metadata, eliminating the nine cross-runtime import warnings.
 
@@ -67,7 +68,9 @@ News detail metadata and rendering now share concurrent catalog reads. Each work
 
 Completed fetches and optional reads no longer abort their signals during cleanup, allowing Next's other response-stream branch to finish cache work. Failed or stalled requests still abort and retain their existing budgets. News view counts now receive the optional-section 2.5-second budget and cancellation signal. Regression coverage includes shared requests, recovery after rejection, fallback expiry/removal, missing IDs and successful signal cleanup.
 
-## Shared fetch/cache lifecycle
+## Shared fetch/cache lifecycle (superseded)
+
+The custom `unstable_cache` layer below was rolled back after post-deployment errors continued. It is retained here as incident history, not the current implementation.
 
 The former wrapper placed a deadline around Next's patched fetch. In Next 16.4.2, stale revalidation strips the caller's signal and shares pending refresh promises. Retrying that outer operation can rejoin work the deadline cannot cancel. This is especially problematic when ISR work resumes after a Lambda idle interval. The replacement keeps the complete bounded retry/body-read operation **inside** `unstable_cache`. Its underlying fetch uses `cache: 'no-store'`, with no nested `next.revalidate`; each attempt owns its signal. Next owns cache freshness, persistence, tags and stale-on-refresh-error. This uses the existing Data Cache without enabling Cache Components or changing the site's rendering model. See [Next's cache API](https://nextjs.org/docs/app/api-reference/functions/unstable_cache).
 
@@ -76,3 +79,13 @@ Only explicitly cached server GET/HEAD reads with public options are eligible. B
 Caller signals are never captured by a shared refresh. An optional section may stop waiting after 2.5 seconds while a cache fill continues within its own 10-second budget. Fresh cache hits create no transport timers. HTTP errors other than 404, malformed JSON, private/no-store responses and responses setting cookies are not persisted. A cold failure remains a real failure; a failed refresh preserves the previous persistent cache value. A genuine 404 replaces a deleted resource. Next's existing stale-on-error behavior has no one-hour cutoff; this is distinct from the removed worker snapshot. Sustained origin outages still need monitoring, and cold requests can still fail. Sentry's timeout filtering is unchanged.
 
 `npm run test:cache-lifecycle --workspace=@creditodds/web-next` creates an isolated production Next app and controllable local origin, then removes them. It tests cold and expired ISR reads, metadata/page request sharing, cold HEAD, failed HEAD-triggered refresh, dynamic stale/background reads, body cancellation, process pause/resume, 5xx and malformed JSON preservation, recovery, independent caller cancellation, and genuine 404 deletion. No fixture routes ship. The suite runs on frontend pull requests in `test-fetch-cache-lifecycle.yml`; ordinary unit tests still cover deadline limits, replay safety and caller cancellation.
+
+## Server-cache rollback after continued Lambda timeout errors
+
+Issue 7805905496 on the homepage occurred after the previous cache refactor. At 03:29:10 UTC on October 22, CloudWatch logged the deadline about 64 ms after the invocation started; the invocation finished in 785 ms. Other cache-refresh errors involved news, articles, cards and view counts. These observations point to resumed work, not a new ten-second wait within that invocation. The earlier runtime test covered suspension only with an already-populated cache; it did not establish safety for cold-cache work.
+
+The containment restores native Next fetch caching and first-attempt render memoization for explicitly cached public server GET/HEAD reads. Retries use a fresh non-aborting signal to bypass a memoized failure, as before the deadline rollout. There is no process-global in-flight map, no custom persistent response serialization, and no application wall-clock deadline attached to ISR/cache-owned reads. Caller cancellation remains supported. Browser/uncached requests retain bounded attempts and total deadlines, and API deadlines are unchanged. Sentry error filters are unchanged; native transport failures still surface.
+
+This deliberately trades the new ten-second server-cache budget for compatibility with a host that can suspend unfinished work. A genuinely stalled origin is bounded by native transport/platform behavior and can take longer; this is a rollback/containment, not a claim that every origin outage is solved. A durable replacement needs a verified invocation-lifetime integration or an architecture that does not perform timed network work after the response ends.
+
+The production Next fixture now covers **cold-cache suspension** while a healthy origin response arrives, as well as expired caches, HEAD-triggered regeneration, dynamic background reads, recovery and deletion. It asserts that no application `Request deadline exceeded` is synthesized for cache-owned work. Unit tests retain uncached deadline/body-cancellation coverage and verify that native timeout failures are not hidden.
