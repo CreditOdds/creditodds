@@ -3086,9 +3086,10 @@ merchants:
 #   russell-stover 12986504 -> advertiser 4441453, expired 24-Sep-2026
 #   revive-superfoods 17247786 -> advertiser 7846247, expired 31-Aug-2026
 #
-# Caveat on the FlexOffers list: both marketplaces only search by advertiser
-# NAME, not by website, so "no program found" means no brand-name match. Qatar
-# Airways was listed as "Qatar Airways Global", so a merchant relisted under a
-# parent or agency name would have been missed. Worth a second pass before
-# treating any of these as permanently gone.
+# The FlexOffers 16 were each searched twice on 2026-10-23: by advertiser-name
+# substring (verified substring, not prefix) and by keyword search, which also
+# matches program descriptions. Both returned nothing, so these are absent from
+# the marketplace under any name, not merely under the brand name. Near-misses
+# deliberately NOT taken: Edible Arrangements CA (227994, wrong country) and
+# dji-club.com (246207, a reseller, not DJI).
 # ---------------------------------------------------------------------------
