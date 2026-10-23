@@ -10026,6 +10026,27 @@
 .landing-v2.store-v2 .store-affiliate-btn:hover {
   background: var(--accent-deep);
 }
+/* Banner variant. The creative is a third-party ad image, so it gets no
+   shimmer and no accent fill — dressing someone else's ad up as our own UI is
+   exactly the "looks like a CreditOdds deal" problem the yaml header warns
+   about. Flat, bordered, obviously an ad. */
+.landing-v2.store-v2 .store-affiliate-banner {
+  display: block;
+  flex: 0 1 auto;
+  max-width: 100%;
+  line-height: 0;
+  text-decoration: none;
+}
+/* height:auto with the intrinsic width/height attributes still on the element
+   keeps the reserved aspect ratio while letting the banner shrink inside a
+   narrow panel, so a 728x90 leaderboard cannot force a horizontal scrollbar
+   on mobile. */
+.landing-v2.store-v2 .store-affiliate-banner img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+}
 /* Shimmer: a light sweep that crosses the button, then rests. The gradient is
    an overlay, so it must not eat the click. Sweep occupies the first ~35% of
    the cycle; the rest is the pause that keeps it from reading as a spinner. */

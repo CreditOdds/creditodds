@@ -25,6 +25,17 @@ export interface StoreAffiliate {
   offer?: string;
   /** Overrides the button label entirely. Beats `offer`. */
   cta?: string;
+  /**
+   * Network-hosted banner creative. Optional: only a minority of merchants
+   * have an evergreen, standard-size banner, so the text CTA remains the
+   * fallback and the default. Dimensions are required so the slot can be
+   * reserved and the image cannot shift the page while it loads.
+   */
+  banner?: {
+    image: string;
+    width: number;
+    height: number;
+  };
 }
 
 export interface Store {

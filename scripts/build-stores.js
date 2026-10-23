@@ -91,6 +91,26 @@ function loadAffiliates() {
       errors.push(`affiliates.yaml: ${slug} link_id must be a string (quote it)`);
       continue;
     }
+    // A banner is all-or-nothing: without every field the <img> either fails to
+    // load or reserves the wrong box and shifts the page. Half a banner is worse
+    // than none, so reject the entry rather than silently fall back.
+    const bannerKeys = ['banner_image', 'banner_width', 'banner_height'];
+    const bannerSet = bannerKeys.filter(k => entry[k] !== undefined);
+    if (bannerSet.length > 0 && bannerSet.length < bannerKeys.length) {
+      errors.push(`affiliates.yaml: ${slug} needs all of ${bannerKeys.join(', ')} or none (got ${bannerSet.join(', ')})`);
+      continue;
+    }
+    if (bannerSet.length === bannerKeys.length) {
+      if (typeof entry.banner_image !== 'string' || !entry.banner_image.startsWith('https://')) {
+        errors.push(`affiliates.yaml: ${slug} banner_image must be an https url`);
+        continue;
+      }
+      if (!Number.isInteger(entry.banner_width) || !Number.isInteger(entry.banner_height)
+          || entry.banner_width <= 0 || entry.banner_height <= 0) {
+        errors.push(`affiliates.yaml: ${slug} banner_width/banner_height must be positive integers`);
+        continue;
+      }
+    }
     if (entry.expires !== undefined) {
       // js-yaml parses an unquoted ISO date into a Date; accept both forms.
       const expires = entry.expires instanceof Date
@@ -112,6 +132,13 @@ function loadAffiliates() {
       network,
       ...(entry.offer ? { offer: entry.offer } : {}),
       ...(entry.cta ? { cta: entry.cta } : {}),
+      ...(entry.banner_image ? {
+        banner: {
+          image: entry.banner_image,
+          width: entry.banner_width,
+          height: entry.banner_height,
+        },
+      } : {}),
     });
   }
 
