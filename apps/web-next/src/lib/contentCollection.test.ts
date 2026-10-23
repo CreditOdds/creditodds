@@ -28,7 +28,7 @@ describe.each([
     await expect(list()).rejects.toThrow();
   });
   it('rejects malformed catalog entries', async () => {
-    fetchMock.mockResolvedValue(Response.json({ [key]: [{}] }));
+    fetchMock.mockImplementation(async () => Response.json({ [key]: [{}] }));
     await expect(find('missing')).rejects.toThrow('Invalid');
   });
   it('returns null only after a successful catalog lookup', async () => {
@@ -39,6 +39,26 @@ describe.each([
   it('accepts an explicitly empty collection', async () => {
     fetchMock.mockResolvedValue(Response.json({ [key]: [] }));
     expect(await list()).toEqual([]);
+  });
+  it('refetches a garbled catalog once under a fresh cache key', async () => {
+    fetchMock
+      .mockResolvedValueOnce(new Response('{"x": "bad\ncontrol"}'))
+      .mockResolvedValueOnce(Response.json({ [key]: [{ [identifier]: 'found' }] }));
+    expect(await find('found')).toMatchObject({ [identifier]: 'found' });
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(String(fetchMock.mock.calls[1][0])).toMatch(/\?_=\d+$/);
+  });
+  it('rejects a catalog that is still invalid after the refetch', async () => {
+    fetchMock.mockImplementation(async () => new Response('{'));
+    await expect(list()).rejects.toThrow('Invalid');
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+  });
+  it('does not refetch after HTTP or network failures', async () => {
+    fetchMock.mockImplementation(async () => new Response('{}', { status: 503 }));
+    await expect(list()).rejects.toThrow('503');
+    fetchMock.mockReset().mockRejectedValue(new Error('timeout'));
+    await expect(list()).rejects.toThrow('timeout');
+    expect(fetchMock).toHaveBeenCalledTimes(1);
   });
 });
 
