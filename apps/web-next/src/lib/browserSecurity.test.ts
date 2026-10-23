@@ -2,6 +2,7 @@ import { afterEach, expect, it, vi } from 'vitest';
 import { serializeJsonLd } from './serializeJsonLd';
 import { POST } from '../app/api/csp-report/route';
 import { buildContentSecurityPolicy } from '../../security-policy.mjs';
+import storesData from '../../../../data/stores.json';
 
 afterEach(() => vi.restoreAllMocks());
 it('preserves JSON while preventing closing-tag injection', () => {
@@ -19,6 +20,13 @@ it('enforces production origins without eval, allowing development HMR', () => {
   expect(prod).toContain('https://auth.example.com');
   expect(prod).toContain('report-uri /api/csp-report');
   expect(buildContentSecurityPolicy({ NODE_ENV: 'development' })).toContain("'unsafe-eval'");
+});
+it('allows every affiliate banner host in img-src', () => {
+  const imgSrc = buildContentSecurityPolicy({ NODE_ENV: 'production' }).split('; ').find((d) => d.startsWith('img-src '))!.split(' ').slice(1);
+  const allowed = (host: string) => imgSrc.some((src) => src === `https://${host}` || (src.startsWith('https://*.') && host.endsWith(src.slice('https://*'.length))));
+  const hosts = new Set(storesData.stores.flatMap((s: { affiliate?: { banner?: { image: string } } }) => (s.affiliate?.banner ? [new URL(s.affiliate.banner.image).host] : [])));
+  expect(hosts.size).toBeGreaterThan(0);
+  expect([...hosts].filter((h) => !allowed(h))).toEqual([]);
 });
 it('accepts browser reports without logging URLs, credentials or script samples', async () => {
   const log = vi.spyOn(console, 'warn').mockImplementation(() => {});

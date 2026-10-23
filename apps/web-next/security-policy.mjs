@@ -21,7 +21,10 @@ export function buildContentSecurityPolicy(env = process.env) {
     `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ''} https://apis.google.com https://www.gstatic.com https://relay.creditodds.com https://www.googletagmanager.com`,
     "style-src 'self' 'unsafe-inline'",
     "font-src 'self' data:",
-    "img-src 'self' data: blob: https://d3ay3etzd1512y.cloudfront.net https://credit-card-data-site.s3.us-east-2.amazonaws.com https://*.googleusercontent.com https://*.google-analytics.com https://www.googletagmanager.com",
+    // Affiliate banners on /best-card-for/[slug] load from the networks' ad
+    // CDNs. Hosts mirror data/affiliates.yaml; re-check after a bulk banner
+    // refresh, since an unlisted host is blocked and the CTA falls back to text.
+    "img-src 'self' data: blob: https://d3ay3etzd1512y.cloudfront.net https://credit-card-data-site.s3.us-east-2.amazonaws.com https://*.googleusercontent.com https://*.google-analytics.com https://www.googletagmanager.com https://a.impactradius-go.com https://console.partnerize.com https://*.pntra.com https://*.pntrs.com https://*.pjtra.com https://*.pjatr.com https://*.gopjn.com https://*.pntrac.com https://media.pepperjamnetwork.com https://content.flexlinks.com https://*.awin1.com https://www.opmpros.com",
     `connect-src 'self' ${api} ${auth} https://*.googleapis.com https://relay.creditodds.com https://*.sentry.io https://*.ingest.sentry.io https://*.ingest.us.sentry.io https://*.google-analytics.com https://www.googletagmanager.com${dev ? ' ws: wss:' : ''}`,
     `frame-src 'self' ${auth} https://accounts.google.com https://apis.google.com`,
     "worker-src 'self' blob:",

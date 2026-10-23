@@ -78,12 +78,18 @@ merchants:
   avis:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110000459.1011178499&trid=1552713.235866&foc=16&fot=9999&fos=6"
     offer: "the free upgrade offer"
+    banner_image: "https://console.partnerize.com/upload/5c867a962a91aavis_web_300250_logo_pos.png"
+    banner_width: 300
+    banner_height: 250
   # Banana Republic Factory — Banana Republic Factory Deep Link
   banana-republic:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10152.821953&trid=1552713.196751&foc=16&fot=9999&fos=6"
   # BarkBox — Double Deluxe Text Link
   barkbox:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.34203.3007009&trid=1552713.179044&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/34203-2944604"
+    banner_width: 300
+    banner_height: 250
   # Bloomingdale's
   bloomingdales:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.13867&trid=1552713.619&foc=17&fot=9999&fos=6&url="
@@ -92,6 +98,9 @@ merchants:
   blue-bottle-coffee:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8124&trid=1552713.230054&foc=17&fot=9999&fos=6&url="
     link_id: "156052.8124"
+    banner_image: "https://www.pntra.com/b/4-495833-47736-141294"
+    banner_width: 250
+    banner_height: 250
   # Bluemercury
   bluemercury:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43420&trid=1552713.169800&foc=17&fot=9999&fos=6&url="
@@ -101,13 +110,22 @@ merchants:
   budget:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100467.1100135418&trid=1552713.235827&foc=16&fot=9999&fos=6"
     offer: "up to 35% off"
+    banner_image: "https://console.partnerize.com/upload/5cbf6fd0ac930BU_web_rgb_rev_stacked_300_250.jpg"
+    banner_width: 300
+    banner_height: 250
   # Build-A-Bear Workshop — Top text link (Bluey Buddies)
   build-a-bear-workshop:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9841.625281&trid=1552713.228001&foc=16&fot=9999&fos=6"
+    banner_image: "https://www.pntrac.com/b/4-459279-47736-253666"
+    banner_width: 250
+    banner_height: 250
   # Carhartt — Top text link (Free US Ground Shipping)
   carhartt:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16441.1470306&trid=1552713.172497&foc=16&fot=9999&fos=6"
     offer: "free US ground shipping"
+    banner_image: "https://a.impactradius-go.com/display-ad/16441-1470083"
+    banner_width: 300
+    banner_height: 250
   # Casper (US) — Top text link (Casper comfort)
   casper:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106444.1011176221&trid=1552713.215199&foc=16&fot=9999&fos=6"
@@ -134,6 +152,9 @@ merchants:
   crocs:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8119.2132677&trid=1552713.156899&foc=16&fot=9999&fos=6"
     offer: "15% off with Crocs Club"
+    banner_image: "https://a.impactradius-go.com/display-ad/8119-471622"
+    banner_width: 300
+    banner_height: 250
   # Edible Arrangements — Free Shipping over $79
   edible-arrangements:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.31430.2836765&trid=1552713.191403&foc=16&fot=9999&fos=6"
@@ -141,9 +162,15 @@ merchants:
   # Express — Top text link (Beckham Collab)
   express:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.22046.3297509&trid=1552713.159956&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/22046-1928334"
+    banner_width: 300
+    banner_height: 250
   # Extended Stay America — Ongoing Extended Stay America Hotels
   extended-stay-america:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.4500.287312&trid=1552713.160228&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/4500-1954166"
+    banner_width: 300
+    banner_height: 250
   # Ferguson Home — Pro Signup
   ferguson:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14079.2005752&trid=1552713.159185&foc=16&fot=9999&fos=6"
@@ -154,6 +181,9 @@ merchants:
   # GlassesUSA.com — Top text link (homepage/influencer promo)
   glassesusa:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.1546.2329237&trid=1552713.215491&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/1546-673917"
+    banner_width: 300
+    banner_height: 250
   # Harry's — Subscribe & Save up to 15%
   harrys:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.4972.2134695&trid=1552713.239745&foc=16&fot=9999&fos=6"
@@ -165,6 +195,9 @@ merchants:
   # Hims, Inc. — Hims Multi-category Solutions
   hims:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23929.2906777&trid=1552713.199713&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/23929-2077955"
+    banner_width: 300
+    banner_height: 250
   # Hulu — Hulu + Live TV Free Trial
   hulu:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42392.1000001517&trid=1552713.191558&foc=16&fot=9999&fos=6"
@@ -183,13 +216,22 @@ merchants:
   # LL Flooring (formerly Lumber Liquidators) — Top text link (Closing Sales)
   ll-flooring:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11231.2158448&trid=1552713.244085&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/11231-1189892"
+    banner_width: 300
+    banner_height: 250
   # L'Occitane - US — Top text link ($20 off first order)
   loccitane:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110106629.1100204342&trid=1552713.159479&foc=16&fot=9999&fos=6"
     offer: "$20 off your first order"
+    banner_image: "https://console.partnerize.com/upload/5aec3f79e5fc199574aae8970d16ee02300x250png"
+    banner_width: 300
+    banner_height: 250
   # LOFT — Top text link is a product page; homepage via Deep Link Generator recommended
   loft:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.27705.3286435&trid=1552713.158369&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/27705-3214531"
+    banner_width: 250
+    banner_height: 250
   # MGM Resorts — Top text link (ARIA Las Vegas)
   mgm-resorts:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106514.1011163374&trid=1552713.249226&foc=16&fot=9999&fos=6"
@@ -207,6 +249,9 @@ merchants:
   pet-supermarket:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9554.311023&trid=1552713.214692&foc=16&fot=9999&fos=6"
     offer: "free shipping over $49"
+    banner_image: "https://www.pntrs.com/b/4-455169-47736-207000"
+    banner_width: 300
+    banner_height: 250
   # Radisson Hotels (US) — Top text link (Plan & Save with Park Plaza)
   radisson:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.5907.3049906&trid=1552713.179007&foc=16&fot=9999&fos=6"
@@ -228,10 +273,17 @@ merchants:
   # Shipt — Top text link (Lowe's same-day)
   shipt:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16249.2851846&trid=1552713.198916&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/16249-3776079"
+    banner_width: 300
+    banner_height: 250
   # Shutterfly, Inc. (US)
   shutterfly:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.54144&trid=1552713.249967&foc=17&fot=9999&fos=6&url="
     link_id: "1.54144"
+  # Silver Gold Bull
+  silver-gold-bull:
+    url: "https://www.kqzyfj.com/click-101737824-10959602"
+    network: cj
   # Singapore Airlines — Enjoy more freedom when you book with Singapore Airlines
   singapore-airlines:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43929.4611686018427605410&trid=1552713.237830&foc=16&fot=9999&fos=6"
@@ -246,13 +298,22 @@ merchants:
   the-realreal:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8270.887764&trid=1552713.245338&foc=16&fot=9999&fos=6"
     offer: "the $25 new member credit"
+    banner_image: "https://a.impactradius-go.com/display-ad/8270-491072"
+    banner_width: 300
+    banner_height: 250
   # Total Wine — Top text link (wines under $15)
   total-wine-and-more:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9710.624887&trid=1552713.225825&foc=16&fot=9999&fos=6"
     offer: "wines under $15"
+    banner_image: "https://www.pjatr.com/b/4-437988-47736-227434"
+    banner_width: 300
+    banner_height: 250
   # Tractor Supply — Shop Clothing and Accessories
   tractor-supply:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.7937.260594&trid=1552713.159505&foc=16&fot=9999&fos=6"
+    banner_image: "https://www.pntrs.com/b/4-306773-47736-137077"
+    banner_width: 468
+    banner_height: 60
   # UNIQLO USA
   uniqlo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.40462&trid=1552713.189444&foc=17&fot=9999&fos=6&url="
@@ -263,9 +324,15 @@ merchants:
   # Vivid Seats — Top text link (College Basketball Crown)
   vivid-seats:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12730.2851893&trid=1552713.159252&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/12730-1349695"
+    banner_width: 300
+    banner_height: 250
   # Walmart.com US — Home Savings
   walmart:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9383.1486423&trid=1552713.156813&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/9383-1294983"
+    banner_width: 300
+    banner_height: 250
   # Wine.com
   winecom:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.2025&trid=1552713.323&foc=17&fot=9999&fos=6&url="
@@ -288,6 +355,9 @@ merchants:
   1800petmeds:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9643.322259&trid=1552713.187444&foc=16&fot=9999&fos=6"
     offer: "40% off your first order with code NEW40"
+    banner_image: "https://www.pjatr.com/b/4-438850-47736-219166"
+    banner_width: 300
+    banner_height: 250
   # 32 Degrees
   32-degrees:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25938.2098587&trid=1552713.195512&foc=16&fot=9999&fos=6"
@@ -295,6 +365,9 @@ merchants:
   511-tactical:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14180&trid=1552713.160494&foc=17&fot=9999&fos=6&url="
     link_id: "156074.14180"
+    banner_image: "https://a.impactradius-go.com/display-ad/14180-1349599"
+    banner_width: 300
+    banner_height: 250
   # 7 For All Mankind
   7-for-all-mankind:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.36145.1010001182&trid=1552713.190539&foc=16&fot=9999&fos=6"
@@ -303,10 +376,16 @@ merchants:
   adam-and-eve:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.6898&trid=1552713.163415&foc=17&fot=9999&fos=6&url="
     link_id: "156052.6898"
+    banner_image: "https://www.gopjn.com/b/4-453104-47736-107783"
+    banner_width: 300
+    banner_height: 250
   # Aesop US
   aesop:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9664.622458&trid=1552713.234849&foc=16&fot=9999&fos=6"
     offer: "15% off"
+    banner_image: "https://www.pntra.com/b/4-429953-47736-220465"
+    banner_width: 300
+    banner_height: 250
   # Agent Provocateur
   agent-provocateur:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39673.4611686018427606343&trid=1552713.234784&foc=16&fot=9999&fos=6"
@@ -321,6 +400,9 @@ merchants:
   # Alo Yoga
   alo-yoga:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9050.342887&trid=1552713.199850&foc=16&fot=9999&fos=6"
+    banner_image: "https://www.pjtra.com/b/4-330063-47736-170958"
+    banner_width: 300
+    banner_height: 250
   # Alpha Industries
   alpha-industries:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10348.694149&trid=1552713.160630&foc=16&fot=9999&fos=6"
@@ -353,6 +435,9 @@ merchants:
   ariat:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10644.696794&trid=1552713.240088&foc=16&fot=9999&fos=6"
     offer: "10% off your first purchase"
+    banner_image: "https://a.impactradius-go.com/display-ad/10644-905347"
+    banner_width: 300
+    banner_height: 250
   # Art.com
   art-com:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.45368.1000000115&trid=1552713.215196&foc=16&fot=9999&fos=6"
@@ -364,6 +449,9 @@ merchants:
   aspen-dental:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.20979.3298152&trid=1552713.239908&foc=16&fot=9999&fos=6"
     offer: "20% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/20979-3743195"
+    banner_width: 728
+    banner_height: 90
   # Astound Broadband Powered by RCN
   astound-broadband-powered-by-rcn:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.4318.3845202&trid=1552713.180101&foc=16&fot=9999&fos=6"
@@ -378,6 +466,9 @@ merchants:
   avery:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8547.483063&trid=1552713.190782&foc=16&fot=9999&fos=6"
     offer: "25% off with code A25OFF1000"
+    banner_image: "https://www.pntrs.com/b/4-440633-47736-153328"
+    banner_width: 300
+    banner_height: 250
   # Away
   away:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8621&trid=1552713.233568&foc=17&fot=9999&fos=6&url="
@@ -386,6 +477,9 @@ merchants:
   babylist:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13580.1458037&trid=1552713.237794&foc=16&fot=9999&fos=6"
     offer: "10% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/13580-2963771"
+    banner_width: 468
+    banner_height: 60
   # Banana Republic Factory
   banana-republic-factory:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10152&trid=1552713.196751&foc=17&fot=9999&fos=6&url="
@@ -394,6 +488,9 @@ merchants:
   barefoot-dreams:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.20795&trid=1552713.237568&foc=17&fot=9999&fos=6&url="
     link_id: "156074.20795"
+    banner_image: "https://a.impactradius-go.com/display-ad/20795-1772040"
+    banner_width: 300
+    banner_height: 250
   # Beautyrest
   beautyrest:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10598.1938255&trid=1552713.248817&foc=16&fot=9999&fos=6"
@@ -409,10 +506,16 @@ merchants:
   blueair:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16168.3107588&trid=1552713.243992&foc=16&fot=9999&fos=6"
     offer: "up to 50% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/16168-2105140"
+    banner_width: 728
+    banner_height: 90
   # Bombas Socks
   bombas-socks:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8171.618217&trid=1552713.240202&foc=16&fot=9999&fos=6"
     offer: "25% off your first purchase"
+    banner_image: "https://www.pntra.com/b/4-546541-47736-142593"
+    banner_width: 300
+    banner_height: 250
   # Bonobos eCommerce Performance
   bonobos:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11113&trid=1552713.248479&foc=17&fot=9999&fos=6&url="
@@ -436,6 +539,9 @@ merchants:
   budget-truck-rental:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101100538.1011107121&trid=1552713.235867&foc=16&fot=9999&fos=6"
     offer: "20% off with code 20DIS"
+    banner_image: "https://console.partnerize.com/upload/5bc4f3beb2b6110675886-1525797142000.jpg"
+    banner_width: 300
+    banner_height: 250
   # Buffy Inc
   buffy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.28059.2836301&trid=1552713.214427&foc=16&fot=9999&fos=6"
@@ -469,17 +575,30 @@ merchants:
   # Care.com
   care-com:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12834.976006&trid=1552713.158931&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/12834-998306"
+    banner_width: 300
+    banner_height: 250
   # Cavender's
   cavenders:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.36070.3856555&trid=1552713.246090&foc=16&fot=9999&fos=6"
     offer: "up to 50% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/36070-3036295"
+    banner_width: 300
+    banner_height: 250
   # CHARLES & KEITH (US)
   charles-and-keith:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13805&trid=1552713.194849&foc=17&fot=9999&fos=6&url="
     link_id: "156074.13805"
+    banner_image: "https://a.impactradius-go.com/display-ad/13805-3780793"
+    banner_width: 300
+    banner_height: 250
   # CheapOair.ca
   cheapoair:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156105.37732.1000000463&trid=1552713.158377&foc=16&fot=9999&fos=6"
+  # Checks In The Mail
+  checks-in-the-mail:
+    url: "https://www.anrdoezrs.net/click-101737824-17177976"
+    network: cj
   # Chegg Mexico
   chegg:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.17831.1597234&trid=1552713.233154&foc=16&fot=9999&fos=6"
@@ -493,6 +612,9 @@ merchants:
   # Cometeer
   cometeer:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.15716.1950739&trid=1552713.228152&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/15716-1974162"
+    banner_width: 300
+    banner_height: 250
   # Corkcicle
   corkcicle:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13045.3363020&trid=1552713.245365&foc=16&fot=9999&fos=6"
@@ -500,6 +622,9 @@ merchants:
   # CORSAIR
   corsair:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8513.2643428&trid=1552713.233391&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/8513-1955024"
+    banner_width: 300
+    banner_height: 250
   # COS
   cos:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42840.1000000776&trid=1552713.227732&foc=16&fot=9999&fos=6"
@@ -508,9 +633,15 @@ merchants:
   cosori:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41709.3818110&trid=1552713.245911&foc=16&fot=9999&fos=6"
     offer: "10% off sitewide"
+    banner_image: "https://a.impactradius-go.com/display-ad/41709-3745595"
+    banner_width: 300
+    banner_height: 250
   # Cruise America
   cruise-america:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.29922.2807206&trid=1552713.245350&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/29922-2806893"
+    banner_width: 300
+    banner_height: 250
   # Curology
   curology:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.47975.1000000004&trid=1552713.227948&foc=16&fot=9999&fos=6"
@@ -549,6 +680,9 @@ merchants:
   dickies:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25209.2029313&trid=1552713.230392&foc=16&fot=9999&fos=6"
     offer: "15% off for new customers"
+    banner_image: "https://a.impactradius-go.com/display-ad/25209-3917131"
+    banner_width: 300
+    banner_height: 250
   # Diesel US
   diesel:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.49384&trid=1552713.232396&foc=17&fot=9999&fos=6&url="
@@ -604,9 +738,15 @@ merchants:
   # Etihad Airways (Global)
   etihad-airways:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.1100166.1011162159&trid=1552713.226079&foc=16&fot=9999&fos=6"
+    banner_image: "https://console.partnerize.com/upload/5ddbfb535901d728x90_AUS7.jpg"
+    banner_width: 728
+    banner_height: 90
   # Fabletics CA
   fabletics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.7361.412745&trid=1552713.243928&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/7361-922974"
+    banner_width: 300
+    banner_height: 250
   # Factor
   factor:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41435.3278839&trid=1552713.227764&foc=16&fot=9999&fos=6"
@@ -615,9 +755,15 @@ merchants:
   farberware:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11993&trid=1552713.239550&foc=17&fot=9999&fos=6&url="
     link_id: "156074.11993"
+    banner_image: "https://a.impactradius-go.com/display-ad/11993-998374"
+    banner_width: 300
+    banner_height: 250
   # Fender Musical Instruments Corp.
   fender:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.33985.2956212&trid=1552713.242190&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/33985-2963652"
+    banner_width: 728
+    banner_height: 90
   # Fenty Beauty (Global)
   fenty-beauty:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42834&trid=1552713.214878&foc=17&fot=9999&fos=6&url="
@@ -636,6 +782,9 @@ merchants:
   # fuboTV
   fubotv:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5119.383725&trid=1552713.176972&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/5119-1653291"
+    banner_width: 300
+    banner_height: 250
   # Furla US
   furla:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101105919.1011116822&trid=1552713.226358&foc=16&fot=9999&fos=6"
@@ -647,9 +796,15 @@ merchants:
   gametime:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10874.1443269&trid=1552713.214076&foc=16&fot=9999&fos=6"
     offer: "up to 60% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/10874-3199738"
+    banner_width: 300
+    banner_height: 250
   # Gazelle
   gazelle:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.17233.3877131&trid=1552713.202442&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/17233-1478694"
+    banner_width: 300
+    banner_height: 250
   # Gerber Gear
   gerber-gear:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.15821.1178121&trid=1552713.213475&foc=16&fot=9999&fos=6"
@@ -661,6 +816,9 @@ merchants:
   gilt-and-gilt-city:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.1000009372.1100147967&trid=1552713.158309&foc=16&fot=9999&fos=6"
     offer: "80% off"
+    banner_image: "https://media.pepperjamnetwork.com/banners/9372/376202_1548451733"
+    banner_width: 300
+    banner_height: 250
   # Glossier
   glossier:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.7573.2132593&trid=1552713.171220&foc=16&fot=9999&fos=6"
@@ -676,6 +834,9 @@ merchants:
   going:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10802.731100&trid=1552713.237685&foc=16&fot=9999&fos=6"
     offer: "up to 90% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/10802-1571745"
+    banner_width: 300
+    banner_height: 250
   # Goldbelly
   goldbelly:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13451.3881759&trid=1552713.215607&foc=16&fot=9999&fos=6"
@@ -684,6 +845,9 @@ merchants:
   govee:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12845.2840658&trid=1552713.224344&foc=16&fot=9999&fos=6"
     offer: "60% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/12845-2013038"
+    banner_width: 300
+    banner_height: 250
   # Greenworks Tools
   greenworks-tools:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53521.1000000004&trid=1552713.232799&foc=16&fot=9999&fos=6"
@@ -691,10 +855,16 @@ merchants:
   grove-collaborative:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8442.2825761&trid=1552713.201205&foc=16&fot=9999&fos=6"
     offer: "20% off your first order with code WELCOME"
+    banner_image: "https://a.impactradius-go.com/display-ad/8442-2980098"
+    banner_width: 300
+    banner_height: 250
   # Guess
   guess:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9298&trid=1552713.158989&foc=17&fot=9999&fos=6&url="
     link_id: "156052.9298"
+    banner_image: "https://www.pjtra.com/b/4-534233-47736-180816"
+    banner_width: 300
+    banner_height: 250
   # Gymboree
   gymboree:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10756.2013600&trid=1552713.214444&foc=16&fot=9999&fos=6"
@@ -707,9 +877,15 @@ merchants:
   hanna-andersson:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5644.2692567&trid=1552713.181293&foc=16&fot=9999&fos=6"
     offer: "20% off for new customers"
+    banner_image: "https://a.impactradius-go.com/display-ad/5644-1658330"
+    banner_width: 300
+    banner_height: 250
   # Hers
   hers:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23930.4611686018427603203&trid=1552713.203896&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/23930-2580370"
+    banner_width: 300
+    banner_height: 250
   # Hey Dude Shoes
   hey-dude-shoes:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16269.1358297&trid=1552713.227887&foc=16&fot=9999&fos=6"
@@ -717,6 +893,9 @@ merchants:
   # Hickory Farms
   hickory-farms:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5619.1568327&trid=1552713.196521&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/5619-1604001"
+    banner_width: 300
+    banner_height: 250
   # High Sierra
   high-sierra:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11772.1409568&trid=1552713.244043&foc=16&fot=9999&fos=6"
@@ -746,9 +925,15 @@ merchants:
   hydro-flask:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18825.1922057&trid=1552713.202999&foc=16&fot=9999&fos=6"
     offer: "up to 40% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/18825-1856798"
+    banner_width: 300
+    banner_height: 250
   # Icebreaker US
   icebreaker:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25168.2082702&trid=1552713.247495&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/25168-2042044"
+    banner_width: 300
+    banner_height: 250
   # Igloo Coolers
   igloo-coolers:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46441.1000000006&trid=1552713.208505&foc=16&fot=9999&fos=6"
@@ -760,6 +945,9 @@ merchants:
   # IPSY
   ipsy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10459.2078428&trid=1552713.226275&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/10459-2222503"
+    banner_width: 300
+    banner_height: 250
   # ITA Airways (US)
   ita-airways:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.49569.4611686018427603255&trid=1552713.239112&foc=16&fot=9999&fos=6"
@@ -786,6 +974,9 @@ merchants:
   k-swiss:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9956.311096&trid=1552713.227940&foc=16&fot=9999&fos=6"
     offer: "up to 60% off select styles"
+    banner_image: "https://www.pntra.com/b/4-479021-47736-275478"
+    banner_width: 300
+    banner_height: 250
   # Kaplan North America
   kaplan:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.1697.1010005031&trid=1552713.200470&foc=16&fot=9999&fos=6"
@@ -817,9 +1008,15 @@ merchants:
   lastpass:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8692.2595725&trid=1552713.206309&foc=16&fot=9999&fos=6"
     offer: "20% off for new customers"
+    banner_image: "https://a.impactradius-go.com/display-ad/8692-1631341"
+    banner_width: 300
+    banner_height: 250
   # LATAM Airlines
   latam-airlines:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25131.3887134&trid=1552713.237808&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/25131-3872894"
+    banner_width: 300
+    banner_height: 250
   # Lavazza US
   lavazza:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.23314.4611686018427606349&trid=1552713.232384&foc=16&fot=9999&fos=6"
@@ -827,6 +1024,9 @@ merchants:
   lee-jeans:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11766&trid=1552713.237878&foc=17&fot=9999&fos=6&url="
     link_id: "156074.11766"
+    banner_image: "https://a.impactradius-go.com/display-ad/11766-856183"
+    banner_width: 300
+    banner_height: 250
   # LegalZoom.com
   legalzoom:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.26746.2115304&trid=1552713.240854&foc=16&fot=9999&fos=6"
@@ -834,13 +1034,22 @@ merchants:
   levoit:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41708&trid=1552713.235505&foc=17&fot=9999&fos=6&url="
     link_id: "156074.41708"
+    banner_image: "https://a.impactradius-go.com/display-ad/41708-3919182"
+    banner_width: 300
+    banner_height: 250
   # Life is Good
   life-is-good:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14635.1948131&trid=1552713.158389&foc=16&fot=9999&fos=6"
     offer: "25% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/14635-1162360"
+    banner_width: 300
+    banner_height: 250
   # Lindt Chocolatier
   lindt-chocolatier:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8053.574848&trid=1552713.180430&foc=16&fot=9999&fos=6"
+    banner_image: "https://www.gopjn.com/b/4-500875-47736-140704"
+    banner_width: 728
+    banner_height: 90
   # Liquid I.V.
   liquid-iv:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13609.1958902&trid=1552713.242792&foc=16&fot=9999&fos=6"
@@ -856,6 +1065,9 @@ merchants:
   lucky-brand:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9596.504271&trid=1552713.187771&foc=16&fot=9999&fos=6"
     offer: "up to 75% off"
+    banner_image: "https://www.pntrs.com/b/4-421949-47736-213681"
+    banner_width: 336
+    banner_height: 280
   # Lucky Strike
   lucky-strike:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53231.1000000002&trid=1552713.239304&foc=16&fot=9999&fos=6"
@@ -863,10 +1075,16 @@ merchants:
   lumens-light-plus-living:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.3281.197540&trid=1552713.158720&foc=16&fot=9999&fos=6"
     offer: "up to 75% off clearance"
+    banner_image: "https://a.impactradius-go.com/display-ad/3281-348763"
+    banner_width: 250
+    banner_height: 250
   # Madison Reed
   madison-reed:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13741&trid=1552713.200433&foc=17&fot=9999&fos=6&url="
     link_id: "156074.13741"
+    banner_image: "https://a.impactradius-go.com/display-ad/13741-2155354"
+    banner_width: 300
+    banner_height: 250
   # Manscaped UK
   manscaped:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156139.48084.1000000017&trid=1552713.249081&foc=16&fot=9999&fos=6"
@@ -881,12 +1099,20 @@ merchants:
   # Marks and Spencer US
   marks-and-spencer:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.23351.4611686018427605560&trid=1552713.232677&foc=16&fot=9999&fos=6"
+  # Marshall
+  marshall:
+    url: "https://www.kqzyfj.com/click-101737824-17035118"
+    network: cj
   # Masterlock
   masterlock:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.32591.2963515&trid=1552713.247668&foc=16&fot=9999&fos=6"
   # Maui Jim
   maui-jim:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110006385.1100142498&trid=1552713.239898&foc=16&fot=9999&fos=6"
+  # Mavis Discount Tire
+  mavis-discount-tire:
+    url: "https://www.jdoqocy.com/click-101737824-15764585"
+    network: cj
   # Maytag
   maytag:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53708.1000000016&trid=1552713.217612&foc=16&fot=9999&fos=6"
@@ -901,27 +1127,48 @@ merchants:
   # Milk Bar
   milk-bar:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9484.411983&trid=1552713.211101&foc=16&fot=9999&fos=6"
+    banner_image: "https://www.pjtra.com/b/4-396839-47736-197840"
+    banner_width: 300
+    banner_height: 250
   # Milk Makeup
   milk-makeup:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.21499.1993215&trid=1552713.199552&foc=16&fot=9999&fos=6"
     offer: "up to 98% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/21499-1827774"
+    banner_width: 300
+    banner_height: 250
   # Mint Mobile
   mint-mobile:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.7915.2191950&trid=1552713.199305&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/7915-2747886"
+    banner_width: 300
+    banner_height: 250
   # Minted
   minted:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.19909.3746698&trid=1552713.200435&foc=16&fot=9999&fos=6"
     offer: "25% off with code ENGAGED25"
+    banner_image: "https://a.impactradius-go.com/display-ad/19909-1747095"
+    banner_width: 300
+    banner_height: 250
   # Misfits Market
   misfits-market:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12419.2170579&trid=1552713.236533&foc=16&fot=9999&fos=6"
     offer: "up to 30% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/12419-1249988"
+    banner_width: 300
+    banner_height: 250
   # Mizuno
   mizuno:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5422.2862402&trid=1552713.158961&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/5422-383177"
+    banner_width: 300
+    banner_height: 250
   # Moen
   moen:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.28862.4611686018427604202&trid=1552713.239522&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/28862-3905903"
+    banner_width: 300
+    banner_height: 250
   # Moroccanoil
   moroccanoil:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43410&trid=1552713.211705&foc=17&fot=9999&fos=6&url="
@@ -933,6 +1180,9 @@ merchants:
   munchkin:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.7649.483108&trid=1552713.163230&foc=16&fot=9999&fos=6"
     offer: "10% off with sign up"
+    banner_image: "https://a.impactradius-go.com/display-ad/7649-717616"
+    banner_width: 300
+    banner_height: 250
   # Naked Wines
   naked-wines:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13852.1723735&trid=1552713.163400&foc=16&fot=9999&fos=6"
@@ -952,9 +1202,15 @@ merchants:
   # NBA League Pass
   nba-league-pass:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16284.2176785&trid=1552713.240613&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/16284-3283865"
+    banner_width: 300
+    banner_height: 250
   # NETGEAR
   netgear:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9780.623923&trid=1552713.228108&foc=16&fot=9999&fos=6"
+    banner_image: "https://www.pjtra.com/b/4-449886-47736-242813"
+    banner_width: 300
+    banner_height: 250
   # New Era
   new-era:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.45269.1000000343&trid=1552713.215793&foc=16&fot=9999&fos=6"
@@ -985,6 +1241,9 @@ merchants:
   one-kings-lane:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10043.582414&trid=1552713.233565&foc=16&fot=9999&fos=6"
     offer: "20% off"
+    banner_image: "https://www.pntra.com/b/4-500989-47736-307731"
+    banner_width: 336
+    banner_height: 280
   # OneTravel.com
   onetravel:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.35420.1010000558&trid=1552713.157114&foc=16&fot=9999&fos=6"
@@ -1010,6 +1269,13 @@ merchants:
   penske-truck-rental:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106404.111000691&trid=1552713.242188&foc=16&fot=9999&fos=6"
     offer: "10% off with code GETMOVING"
+    banner_image: "https://console.partnerize.com/upload/c7e592f42e7b5edd362961c3ec28714ePenske_img_medium_box_truck_300x250jpg"
+    banner_width: 300
+    banner_height: 250
+  # PeopleFinders
+  peoplefinders:
+    url: "https://www.kqzyfj.com/click-101737824-10782325"
+    network: cj
   # PerriconeMD US
   perricone-md:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.21122&trid=1552713.178759&foc=17&fot=9999&fos=6&url="
@@ -1028,10 +1294,16 @@ merchants:
   # Philo
   philo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.24088.3372938&trid=1552713.200059&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/24088-3300286"
+    banner_width: 300
+    banner_height: 250
   # Polk Audio Global
   polk-audio:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101106052.1100105683&trid=1552713.225844&foc=16&fot=9999&fos=6"
     offer: "up to 40% off"
+    banner_image: "https://console.partnerize.com/upload/44e891d0c9d4b75112babe2f492c9da4022521300x250jpg"
+    banner_width: 300
+    banner_height: 250
   # Princess Cruise Lines, Ltd.
   princess-cruises:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.40030&trid=1552713.172492&foc=17&fot=9999&fos=6&url="
@@ -1040,10 +1312,16 @@ merchants:
   prose:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11046.1964687&trid=1552713.202760&foc=16&fot=9999&fos=6"
     offer: "50% off your first order"
+    banner_image: "https://a.impactradius-go.com/display-ad/11046-3973514"
+    banner_width: 300
+    banner_height: 250
   # Public Goods
   public-goods:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11802.918004&trid=1552713.226288&foc=16&fot=9999&fos=6"
     offer: "10% off your first purchase with code RMN10"
+    banner_image: "https://a.impactradius-go.com/display-ad/11802-861159"
+    banner_width: 300
+    banner_height: 600
   # Puffy Mattress
   puffy-mattress:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12125.1617842&trid=1552713.239252&foc=16&fot=9999&fos=6"
@@ -1058,10 +1336,16 @@ merchants:
   # rag & bone
   rag-and-bone:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.19645.3764113&trid=1552713.233128&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/19645-3751824"
+    banner_width: 300
+    banner_height: 250
   # Razer Online Store
   razer-online-store:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10229.1781361&trid=1552713.163469&foc=16&fot=9999&fos=6"
     offer: "75% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/10229-855106"
+    banner_width: 300
+    banner_height: 250
   # RC Willey
   rc-willey:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39945&trid=1552713.195269&foc=17&fot=9999&fos=6&url="
@@ -1070,10 +1354,16 @@ merchants:
   rebecca-minkoff:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9950&trid=1552713.162599&foc=17&fot=9999&fos=6&url="
     link_id: "156052.9950"
+    banner_image: "https://www.pntrac.com/b/4-475686-47736-272998"
+    banner_width: 300
+    banner_height: 250
   # Rent the Runway
   rent-the-runway:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9690.590512&trid=1552713.225416&foc=16&fot=9999&fos=6"
     offer: "up to 90% off sale items"
+    banner_image: "https://www.pntra.com/b/4-540020-47736-223734"
+    banner_width: 300
+    banner_height: 250
   # ResortPass
   resortpass:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.50076.3871321&trid=1552713.237733&foc=16&fot=9999&fos=6"
@@ -1082,16 +1372,25 @@ merchants:
   restaurant-com:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.21234.1813802&trid=1552713.157348&foc=16&fot=9999&fos=6"
     offer: "50% off dining deals"
+    banner_image: "https://a.impactradius-go.com/display-ad/21234-1809382"
+    banner_width: 300
+    banner_height: 250
   # Reverb
   reverb:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.67144.4611686018427603056&trid=1552713.232346&foc=16&fot=9999&fos=6"
   # Ria Money Transfer
   ria-money-transfer:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.3035.245780&trid=1552713.200067&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/3035-1937268"
+    banner_width: 300
+    banner_height: 250
   # Roborock
   roborock:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14848.1705455&trid=1552713.240023&foc=16&fot=9999&fos=6"
     offer: "4% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/14848-3050993"
+    banner_width: 300
+    banner_height: 250
   # Rosetta Stone
   rosetta-stone:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18979&trid=1552713.172635&foc=17&fot=9999&fos=6&url="
@@ -1103,10 +1402,16 @@ merchants:
   rue-la-la:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.1000005478&trid=1552713.161427&foc=17&fot=9999&fos=6&url="
     link_id: "156085.1000005478"
+    banner_image: "https://console.partnerize.com/upload/8a61a7f04fe179077095289a5e37d511280126_1491320983jpg"
+    banner_width: 300
+    banner_height: 250
   # Rugs USA
   rugs:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9280&trid=1552713.203964&foc=17&fot=9999&fos=6&url="
     link_id: "156074.9280"
+    banner_image: "https://a.impactradius-go.com/display-ad/9280-3812095"
+    banner_width: 300
+    banner_height: 250
   # Samsung
   samsung:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.47773.1000000009&trid=1552713.159074&foc=16&fot=9999&fos=6"
@@ -1117,6 +1422,9 @@ merchants:
   scholastic:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8138.229226&trid=1552713.158514&foc=16&fot=9999&fos=6"
     offer: "up to 30% off"
+    banner_image: "https://www.pntrac.com/b/4-522574-47736-141582"
+    banner_width: 300
+    banner_height: 250
   # Schwinn Fitness
   schwinn-fitness:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25824.2760452&trid=1552713.246191&foc=16&fot=9999&fos=6"
@@ -1124,6 +1432,9 @@ merchants:
   seed-health:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.19848.1987528&trid=1552713.240621&foc=16&fot=9999&fos=6"
     offer: "15% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/19848-1719345"
+    banner_width: 320
+    banner_height: 100
   # Segway Inc.
   segway:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156099.31949.1241153&trid=1552713.240078&foc=16&fot=9999&fos=6"
@@ -1138,9 +1449,15 @@ merchants:
   shiseido:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10171&trid=1552713.191860&foc=17&fot=9999&fos=6&url="
     link_id: "156052.10171"
+    banner_image: "https://www.pntra.com/b/4-547892-47736-385801"
+    banner_width: 336
+    banner_height: 280
   # SHOKZ US
   shokz:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.32610.3923568&trid=1552713.241227&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/32610-2853227"
+    banner_width: 250
+    banner_height: 250
   # Shopbop
   shopbop:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42352.1000000904&trid=1552713.178509&foc=16&fot=9999&fos=6"
@@ -1155,6 +1472,9 @@ merchants:
   # Smartwool
   smartwool:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25166.2184624&trid=1552713.245347&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/25166-2042252"
+    banner_width: 300
+    banner_height: 250
   # SOCCER.com
   soccer-com:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8096.576831&trid=1552713.157185&foc=16&fot=9999&fos=6"
@@ -1181,6 +1501,9 @@ merchants:
   # Straight Talk
   straight-talk:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.15770.1370616&trid=1552713.158359&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/15770-3960975"
+    banner_width: 300
+    banner_height: 250
   # Stride Rite
   stride-rite:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.37376&trid=1552713.159288&foc=17&fot=9999&fos=6&url="
@@ -1188,16 +1511,25 @@ merchants:
   # Talkspace
   talkspace:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14729.2226977&trid=1552713.196110&foc=16&fot=9999&fos=6"
+    banner_image: "https://www.opmpros.com/host/talkspace/images/logos/TALK_300x250.jpg"
+    banner_width: 300
+    banner_height: 250
   # Taskrabbit North America
   taskrabbit:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18223.2951684&trid=1552713.234963&foc=16&fot=9999&fos=6"
     offer: "$10 off for new customers"
+    banner_image: "https://a.impactradius-go.com/display-ad/18223-2001952"
+    banner_width: 300
+    banner_height: 250
   # Tatcha
   tatcha:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.38643.1000000452&trid=1552713.181394&foc=16&fot=9999&fos=6"
   # Tecovas
   tecovas:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14836.3361613&trid=1552713.239177&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/14836-2017122"
+    banner_width: 300
+    banner_height: 250
   # The Bouqs
   the-bouqs:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.39813&trid=1552713.161010&foc=17&fot=9999&fos=6&url="
@@ -1229,6 +1561,9 @@ merchants:
   trade-coffee:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9472.2913607&trid=1552713.230744&foc=16&fot=9999&fos=6"
     offer: "50% off your first order"
+    banner_image: "https://a.impactradius-go.com/display-ad/9472-3392639"
+    banner_width: 300
+    banner_height: 250
   # Tramontina (US)
   tramontina:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.62429.2605926&trid=1552713.245572&foc=16&fot=9999&fos=6"
@@ -1236,6 +1571,9 @@ merchants:
   # TransUnion Credit Monitoring
   transunion-credit-monitoring:
     url: "https://track.flexlinkspro.com/g.ashx?foid=24.239403.6662804&trid=1552713.239403&foc=16&fot=9999&fos=6"
+    banner_image: "https://content.flexlinks.com/sharedimages/products/144480553/6663608.gif"
+    banner_width: 300
+    banner_height: 250
   # Tripadvisor - Experiences
   tripadvisor-experiences:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53777.1000000024&trid=1552713.249280&foc=16&fot=9999&fos=6"
@@ -1253,17 +1591,30 @@ merchants:
   # TRX Training
   trx-training:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.26332.2748229&trid=1552713.161965&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/26332-2096259"
+    banner_width: 160
+    banner_height: 600
   # Universal Standard
   universal-standard:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11299.2922125&trid=1552713.215260&foc=16&fot=9999&fos=6"
     offer: "20% off for new customers"
+    banner_image: "https://a.impactradius-go.com/display-ad/11299-2839076"
+    banner_width: 300
+    banner_height: 250
   # Vera Bradley Designs, Inc.
   vera-bradley:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.24943.1010003564&trid=1552713.157861&foc=16&fot=9999&fos=6"
     offer: "20% off for new customers"
+  # Verizon
+  verizon:
+    url: "https://www.tkqlhce.com/click-101737824-17289039"
+    network: cj
   # Viagogo
   viagogo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110105856.1100139725&trid=1552713.199427&foc=16&fot=9999&fos=6"
+    banner_image: "https://console.partnerize.com/upload/3f5f7c13af11313a69ca9fb3485c71b7vg_Sports_300x250jpg"
+    banner_width: 300
+    banner_height: 250
   # Victorinox US
   victorinox:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43998.1000000019&trid=1552713.205647&foc=16&fot=9999&fos=6"
@@ -1281,14 +1632,23 @@ merchants:
   # Virgin Experience Gifts
   virgin-experience-gifts:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.17004.1838619&trid=1552713.232693&foc=16&fot=9999&fos=6"
+    banner_image: "https://a.impactradius-go.com/display-ad/17004-1435606"
+    banner_width: 300
+    banner_height: 250
   # Visible
   visible:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12909.1586315&trid=1552713.213808&foc=16&fot=9999&fos=6"
     offer: "up to 50% off when you upgrade"
+    banner_image: "https://a.impactradius-go.com/display-ad/12909-3929293"
+    banner_width: 300
+    banner_height: 250
   # Weber Inc.
   weber:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14695.3749619&trid=1552713.247914&foc=16&fot=9999&fos=6"
     offer: "20% off"
+    banner_image: "https://a.impactradius-go.com/display-ad/14695-1651125"
+    banner_width: 250
+    banner_height: 250
   # Weleda
   weleda:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.44684.1000000098&trid=1552713.209906&foc=16&fot=9999&fos=6"
@@ -1300,6 +1660,9 @@ merchants:
   westgate-resorts:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110106385.1101155989&trid=1552713.245447&foc=16&fot=9999&fos=6"
     offer: "up to 20% off nightly rates"
+    banner_image: "https://console.partnerize.com/upload/c8735f6feefd8348a171d34f5fefb843SPM_Partnerize_300x250_SM_CompA_v001_1jpg"
+    banner_width: 300
+    banner_height: 250
   # Wish US & CA
   wish:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53195.1000000011&trid=1552713.216420&foc=16&fot=9999&fos=6"
@@ -1320,14 +1683,24 @@ merchants:
   ace-hardware:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9988&trid=1552713.161558&foc=17&fot=9999&fos=6&url="
     link_id: "156074.9988"
+  # Aceable
+  aceable:
+    url: "https://www.kqzyfj.com/click-101737824-15026634"
+    network: cj
   # Best Buy
   best-buy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10014&trid=1552713.712&foc=17&fot=9999&fos=6&url="
     link_id: "156074.10014"
+    banner_image: "https://a.impactradius-go.com/display-ad/10014-3305749"
+    banner_width: 300
+    banner_height: 250
   # Costco Membership
   costco:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110106609&trid=1552713.248906&foc=17&fot=9999&fos=6&url="
     link_id: "156085.110106609"
+    banner_image: "https://console.partnerize.com/upload/6937221303fe6300_x_601.jpg"
+    banner_width: 300
+    banner_height: 250
   # Dollar Rent-a-Car
   dollar-rent-a-car:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.35267&trid=1552713.158829&foc=17&fot=9999&fos=6&url="
@@ -1340,6 +1713,9 @@ merchants:
   food-lion:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10965&trid=1552713.226393&foc=17&fot=9999&fos=6&url="
     link_id: "156074.10965"
+    banner_image: "https://a.impactradius-go.com/display-ad/10965-3289535"
+    banner_width: 300
+    banner_height: 250
   # Giant Food
   giant-food:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10968&trid=1552713.215429&foc=17&fot=9999&fos=6&url="
@@ -1356,6 +1732,9 @@ merchants:
   lenovo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.3808&trid=1552713.157497&foc=17&fot=9999&fos=6&url="
     link_id: "156074.3808"
+    banner_image: "https://a.impactradius-go.com/display-ad/3808-232562"
+    banner_width: 300
+    banner_height: 250
   # MAC Cosmetics
   mac-cosmetics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.41340&trid=1552713.201336&foc=17&fot=9999&fos=6&url="
@@ -1372,6 +1751,9 @@ merchants:
   petco:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10290&trid=1552713.189505&foc=17&fot=9999&fos=6&url="
     link_id: "156074.10290"
+    banner_image: "https://a.impactradius-go.com/display-ad/10290-2126884"
+    banner_width: 300
+    banner_height: 250
   # Rover
   rover:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46193&trid=1552713.209001&foc=17&fot=9999&fos=6&url="
@@ -1408,10 +1790,16 @@ merchants:
   bissell:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8952&trid=1552713.198815&foc=17&fot=9999&fos=6&url="
     link_id: "156052.8952"
+    banner_image: "https://www.pntra.com/b/4-318088-47736-166440"
+    banner_width: 300
+    banner_height: 250
   # BLACK+DECKER
   black-and-decker:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10047&trid=1552713.234710&foc=17&fot=9999&fos=6&url="
     link_id: "156052.10047"
+    banner_image: "https://www.gopjn.com/b/4-505998-47736-309072"
+    banner_width: 336
+    banner_height: 280
   # Bulova
   bulova:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16604&trid=1552713.212036&foc=17&fot=9999&fos=6&url="
@@ -1424,6 +1812,10 @@ merchants:
   dyson:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.36310&trid=1552713.189851&foc=17&fot=9999&fos=6&url="
     link_id: "1.36310"
+  # E-file.com
+  e-file:
+    url: "https://www.anrdoezrs.net/click-101737824-11917165"
+    network: cj
   # Jackery
   jackery:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18694&trid=1552713.230818&foc=17&fot=9999&fos=6&url="
@@ -1432,6 +1824,9 @@ merchants:
   logitech:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8585&trid=1552713.157431&foc=17&fot=9999&fos=6&url="
     link_id: "156074.8585"
+    banner_image: "https://a.impactradius-go.com/display-ad/8585-3016179"
+    banner_width: 300
+    banner_height: 250
   # Samsonite
   samsonite:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11771&trid=1552713.158800&foc=17&fot=9999&fos=6&url="
@@ -1480,6 +1875,9 @@ merchants:
   laneige:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41770&trid=1552713.248464&foc=17&fot=9999&fos=6&url="
     link_id: "156074.41770"
+    banner_image: "https://a.impactradius-go.com/display-ad/41770-3753726"
+    banner_width: 250
+    banner_height: 250
   # Little Tikes
   little-tikes:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53444&trid=1552713.245527&foc=17&fot=9999&fos=6&url="
@@ -1541,7 +1939,7 @@ merchants:
     network: cj
   # Ashimary Hair
   ashimary-hair:
-    url: "https://www.dpbolvw.net/click-101737824-17330376"
+    url: "https://www.kqzyfj.com/click-101737824-17357701"
     network: cj
   # Carla Car Rental
   carla-car-rental:
@@ -1587,6 +1985,9 @@ merchants:
   foreo:
     url: "https://www.jdoqocy.com/click-101737824-15527432"
     network: cj
+  # Forever 21
+  forever-21:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.57393&trid=1552713.254850&foc=17&fot=9999&fos=6&url="
   # FragranceShop.com
   fragranceshop:
     url: "https://www.tkqlhce.com/click-101737824-16942205"
@@ -1835,7 +2236,7 @@ merchants:
     network: cj
   # Coofandy
   coofandy:
-    url: "https://www.dpbolvw.net/click-101737824-17313938"
+    url: "https://www.tkqlhce.com/click-101737824-17137568"
     network: cj
   # SmartBuyGlasses
   smartbuyglasses:
@@ -1876,10 +2277,16 @@ merchants:
   100-pure:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.37229&trid=1552713.230391&foc=17&fot=9999&fos=6&url="
     offer: "20% off your first order"
+    banner_image: "https://a.impactradius-go.com/display-ad/37229-3059938"
+    banner_width: 300
+    banner_height: 250
   # Aerosoles
   aerosoles:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9946&trid=1552713.175791&foc=17&fot=9999&fos=6&url="
     offer: "free shipping"
+    banner_image: "https://www.pntrac.com/b/4-474496-47736-272782"
+    banner_width: 300
+    banner_height: 250
   # Alibaba US
   alibaba:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156100.274315&trid=1552713.207736&foc=17&fot=9999&fos=6&url="
@@ -1910,9 +2317,15 @@ merchants:
   bowers-and-wilkins:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110005992&trid=1552713.228055&foc=17&fot=9999&fos=6&url="
     offer: "free shipping"
+    banner_image: "https://media.pepperjamnetwork.com/banners/9844/460099_1632415633"
+    banner_width: 300
+    banner_height: 250
   # Brinks Home
   brinks-home:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41354&trid=1552713.247347&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/41354-3366580"
+    banner_width: 300
+    banner_height: 250
   # Bruno Magli
   bruno-magli:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18734&trid=1552713.216081&foc=17&fot=9999&fos=6&url="
@@ -1920,37 +2333,67 @@ merchants:
   # Chubbies
   chubbies:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16759&trid=1552713.249484&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/16759-2006654"
+    banner_width: 300
+    banner_height: 250
   # CLEAR+
   clear:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.23636&trid=1552713.245749&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/23636-2796426"
+    banner_width: 300
+    banner_height: 250
   # Codecademy (offer withheld pending verification)
   codecademy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9595&trid=1552713.209296&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://www.pntrs.com/b/4-422366-47736-213588"
+    banner_width: 300
+    banner_height: 250
   # Cub Cadet (offer withheld pending verification)
   cub-cadet:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9498&trid=1552713.212603&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://www.pntra.com/b/4-399197-47736-199030"
+    banner_width: 300
+    banner_height: 250
   # Dansko
   dansko:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9278&trid=1552713.202021&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://www.pntra.com/b/4-538244-47736-179949"
+    banner_width: 300
+    banner_height: 250
   # Denon Global
   denon:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110005993&trid=1552713.228060&foc=17&fot=9999&fos=6&url="
     offer: "free shipping"
+    banner_image: "https://media.pepperjamnetwork.com/banners/9756/453311_1623965576"
+    banner_width: 300
+    banner_height: 250
   # Earthlink
   earthlink:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.11979&trid=1552713.247913&foc=17&fot=9999&fos=6&url="
   # edX
   edx:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.17728&trid=1552713.180112&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/17728-1876740"
+    banner_width: 300
+    banner_height: 250
   # Elvie US
   elvie:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.44020&trid=1552713.228006&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/44020-3377262"
+    banner_width: 300
+    banner_height: 250
   # Europcar (US & Canada)
   europcar:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.5861&trid=1552713.189661&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://content.flexlinks.com/sharedimages/products/3352179/1852623.jpg"
+    banner_width: 468
+    banner_height: 60
   # European Wax Center
   european-wax-center:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.30094&trid=1552713.245382&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/30094-3230363"
+    banner_width: 300
+    banner_height: 250
   # EveryPlate
   everyplate:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41438.3275790&trid=1552713.249102&foc=16&fot=9999&fos=6"
@@ -1958,6 +2401,9 @@ merchants:
   # Firstleaf Wine Club
   firstleaf:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.38398&trid=1552713.249831&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/38398-3291896"
+    banner_width: 300
+    banner_height: 250
   # Flamingo
   flamingo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.9412&trid=1552713.248795&foc=17&fot=9999&fos=6&url="
@@ -1976,9 +2422,15 @@ merchants:
   # Grailed
   grailed:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13931&trid=1552713.227549&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/13931-1124221"
+    banner_width: 300
+    banner_height: 250
   # H&R Block
   h-and-r-block:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5683&trid=1552713.156923&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/5683-1916744"
+    banner_width: 250
+    banner_height: 250
   # Horizon Fitness (offer withheld pending verification)
   horizon-fitness:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12130&trid=1552713.196086&foc=17&fot=9999&fos=6&url="
@@ -1986,6 +2438,9 @@ merchants:
   hudson-jeans:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10023&trid=1552713.178072&foc=17&fot=9999&fos=6&url="
     offer: "free shipping over $200"
+    banner_image: "https://www.pjtra.com/b/4-497483-47736-301314"
+    banner_width: 300
+    banner_height: 250
   # Hunter Fan Company
   hunter-fan:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.46207&trid=1552713.225483&foc=17&fot=9999&fos=6&url="
@@ -2001,6 +2456,9 @@ merchants:
   # Kampgrounds of America
   koa:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.50482&trid=1552713.235147&foc=17&fot=9999&fos=6&url="
+  # Kobo
+  kobo:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.37217&trid=1552713.161439&foc=17&fot=9999&fos=6&url="
   # Life Fitness (offer withheld pending verification)
   life-fitness:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.17731&trid=1552713.189439&foc=17&fot=9999&fos=6&url="
@@ -2031,15 +2489,28 @@ merchants:
   # Pit Boss Grills
   pit-boss-grills:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10421&trid=1552713.213540&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/10421-1609179"
+    banner_width: 300
+    banner_height: 250
   # Pixi Beauty
   pixi-beauty:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8883&trid=1552713.198431&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://www.gopjn.com/b/4-307443-47736-163903"
+    banner_width: 300
+    banner_height: 250
   # PopSockets
   popsockets:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43682&trid=1552713.200566&foc=17&fot=9999&fos=6&url="
   # Qatar Airways
   qatar-airways:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25312&trid=1552713.249626&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/25312-2117696"
+    banner_width: 250
+    banner_height: 250
+  # QuickBooks
+  quickbooks:
+    url: "https://www.jdoqocy.com/click-101737824-15486369"
+    network: cj
   # Radioshack USA LLC (offer withheld pending verification)
   radioshack:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.32498&trid=1552713.248461&foc=17&fot=9999&fos=6&url="
@@ -2056,30 +2527,48 @@ merchants:
   # Stadium Goods
   stadium-goods:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101104598&trid=1552713.195570&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://console.partnerize.com/upload/a1391713096941abd19b00a73d5e89ae300x250_Display_BO21_Ajpg"
+    banner_width: 300
+    banner_height: 250
   # Superdry (US)
   superdry:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.44521&trid=1552713.209552&foc=17&fot=9999&fos=6&url="
   # The Parking Spot
   the-parking-spot:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10415&trid=1552713.211617&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/10415-841146"
+    banner_width: 300
+    banner_height: 250
   # Theory
   theory:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.36186&trid=1552713.202068&foc=17&fot=9999&fos=6&url="
   # Troy Bilt (offer withheld pending verification)
   troy-bilt:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9368&trid=1552713.203841&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://www.pjatr.com/b/4-374365-47736-185899"
+    banner_width: 300
+    banner_height: 250
   # VEGAS.com (offer withheld pending verification)
   vegas-com:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.4221&trid=1552713.159075&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/4221-268706"
+    banner_width: 300
+    banner_height: 250
   # VersedSkin.com (offer withheld pending verification)
   versed:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9474&trid=1552713.211622&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://www.pjatr.com/b/4-396161-47736-197211"
+    banner_width: 300
+    banner_height: 250
   # Victrola
   victrola:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18889&trid=1552713.207542&foc=17&fot=9999&fos=6&url="
   # Vivint (US)
   vivint:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.21822&trid=1552713.225643&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://www.awin1.com/cshow.php?s=2800452&v=21822&q=405051&r=264419"
+    banner_width: 120
+    banner_height: 600
   # Wet n Wild
   wet-n-wild:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43590&trid=1552713.201598&foc=17&fot=9999&fos=6&url="
@@ -2092,9 +2581,15 @@ merchants:
   # Yale Home
   yale-home:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.37641&trid=1552713.247667&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/37641-3924491"
+    banner_width: 300
+    banner_height: 250
   # Yves Rocher
   yves-rocher:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.27010&trid=1552713.249667&foc=17&fot=9999&fos=6&url="
+    banner_image: "https://a.impactradius-go.com/display-ad/27010-2156932"
+    banner_width: 728
+    banner_height: 90
 
   # --- Added 2026-08-05 (CJ Affiliate approvals, Tier A+B new store pages) ---
   # network: cj on each entry; CJ CLICK URLs are complete, used as-is.
@@ -2232,6 +2727,14 @@ merchants:
   # Dr Dennis Gross
   dr-dennis-gross:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10172&trid=1552713.250034&foc=17&fot=9999&fos=6&url="
+  # Dr. Scholl's Shoes
+  dr-scholls:
+    url: "https://track.flexlinkspro.com/g.ashx?foid=1.38503&trid=1552713.177563&foc=17&fot=9999&fos=6&url="
+  # Dream Pairs
+  dream-pairs:
+    url: "https://www.tkqlhce.com/click-101737824-15466305"
+    network: cj
+    offer: "free shipping on Dream Pairs shoes"
   # E-Z UP
   e-z-up:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.44569&trid=1552713.249425&foc=17&fot=9999&fos=6&url="
@@ -2247,6 +2750,10 @@ merchants:
   # Half Price Drapes
   half-price-drapes:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.33761&trid=1552713.249746&foc=17&fot=9999&fos=6&url="
+  # HalloweenCostumes.com
+  halloweencostumes:
+    url: "https://www.tkqlhce.com/click-101737824-11473122"
+    network: cj
   # ibuypower
   ibuypower:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.14818&trid=1552713.249464&foc=17&fot=9999&fos=6&url="
@@ -2268,6 +2775,11 @@ merchants:
   # LuxeDecor
   luxedecor:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.24586&trid=1552713.249607&foc=17&fot=9999&fos=6&url="
+  # M&M'S
+  m-and-ms:
+    url: "https://www.kqzyfj.com/click-101737824-15712042"
+    network: cj
+    offer: "free standard shipping over $59"
   # Michael Kors US Outlet
   michael-kors:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.54310&trid=1552713.250376&foc=17&fot=9999&fos=6&url="
