@@ -60,10 +60,6 @@ merchants:
   anthropologie:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39789&trid=1552713.226041&foc=17&fot=9999&fos=6&url="
     link_id: "1.39789"
-  # Ashley Homestore
-  ashley-furniture:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=1.40094&trid=1552713.171284&foc=17&fot=9999&fos=6&url="
-    link_id: "1.40094"
   # ASUS (US & Canada)
   asus:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.31828&trid=1552713.237737&foc=17&fot=9999&fos=6&url="
@@ -155,10 +151,6 @@ merchants:
     banner_image: "https://a.impactradius-go.com/display-ad/8119-471622"
     banner_width: 300
     banner_height: 250
-  # Edible Arrangements — Free Shipping over $79
-  edible-arrangements:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.31430.2836765&trid=1552713.191403&foc=16&fot=9999&fos=6"
-    offer: "free shipping over $79"
   # Express — Top text link (Beckham Collab)
   express:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.22046.3297509&trid=1552713.159956&foc=16&fot=9999&fos=6"
@@ -245,13 +237,6 @@ merchants:
   # Old Navy — Old Navy Landing Page
   old-navy:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5555.660845&trid=1552713.162751&foc=16&fot=9999&fos=6"
-  # Pet Supermarket — Free shipping over $49
-  pet-supermarket:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9554.311023&trid=1552713.214692&foc=16&fot=9999&fos=6"
-    offer: "free shipping over $49"
-    banner_image: "https://www.pntrs.com/b/4-455169-47736-207000"
-    banner_width: 300
-    banner_height: 250
   # Radisson Hotels (US) — Top text link (Plan & Save with Park Plaza)
   radisson:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.5907.3049906&trid=1552713.179007&foc=16&fot=9999&fos=6"
@@ -502,9 +487,6 @@ merchants:
   benefit-cosmetics:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.24765.169441110001948&trid=1552713.169943&foc=16&fot=9999&fos=6"
     offer: "15% off"
-  # Blenders Eyewear
-  blenders-eyewear:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.60071.4611686018427604884&trid=1552713.207001&foc=16&fot=9999&fos=6"
   # Blueair
   blueair:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.16168.3107588&trid=1552713.243992&foc=16&fot=9999&fos=6"
@@ -642,12 +624,6 @@ merchants:
     banner_image: "https://a.impactradius-go.com/display-ad/41709-3745595"
     banner_width: 300
     banner_height: 250
-  # Cruise America
-  cruise-america:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.29922.2807206&trid=1552713.245350&foc=16&fot=9999&fos=6"
-    banner_image: "https://a.impactradius-go.com/display-ad/29922-2806893"
-    banner_width: 300
-    banner_height: 250
   # Curology
   curology:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.47975.1000000004&trid=1552713.227948&foc=16&fot=9999&fos=6"
@@ -701,9 +677,6 @@ merchants:
   dinnerly:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.10033&trid=1552713.195361&foc=17&fot=9999&fos=6&url="
     link_id: "156178.10033"
-  # DJI
-  dji:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156178.7327.4611686018427603991&trid=1552713.217744&foc=16&fot=9999&fos=6"
   # Dooney & Bourke
   dooney-and-bourke:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.6652.625287&trid=1552713.162489&foc=16&fot=9999&fos=6"
@@ -727,9 +700,6 @@ merchants:
   ecco:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.39558.1000002653&trid=1552713.180375&foc=16&fot=9999&fos=6"
     offer: "20% off $250+ with code ECCODEAL"
-  # ecobee
-  ecobee:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=1.46044.1000000018&trid=1552713.215645&foc=16&fot=9999&fos=6"
   # EILEEN FISHER
   eileen-fisher:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.42820.1000000372&trid=1552713.213376&foc=16&fot=9999&fos=6"
@@ -854,9 +824,6 @@ merchants:
     banner_image: "https://a.impactradius-go.com/display-ad/12845-2013038"
     banner_width: 300
     banner_height: 250
-  # Greenworks Tools
-  greenworks-tools:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=1.53521.1000000004&trid=1552713.232799&foc=16&fot=9999&fos=6"
   # Grove Collaborative
   grove-collaborative:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8442.2825761&trid=1552713.201205&foc=16&fot=9999&fos=6"
@@ -1358,10 +1325,6 @@ merchants:
     banner_image: "https://a.impactradius-go.com/display-ad/10229-855106"
     banner_width: 300
     banner_height: 250
-  # RC Willey
-  rc-willey:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=1.39945&trid=1552713.195269&foc=17&fot=9999&fos=6&url="
-    link_id: "1.39945"
   # Rebecca Minkoff US
   rebecca-minkoff:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9950&trid=1552713.162599&foc=17&fot=9999&fos=6&url="
@@ -1557,10 +1520,6 @@ merchants:
   # Therabody
   therabody:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10041.3230206&trid=1552713.243987&foc=16&fot=9999&fos=6"
-  # Thrive Causemetics
-  thrive-causemetics:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110003653.1100176299&trid=1552713.232808&foc=16&fot=9999&fos=6"
-    offer: "up to 40% off"
   # Timberland US
   timberland:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25164.2107591&trid=1552713.239487&foc=16&fot=9999&fos=6"
@@ -1589,9 +1548,6 @@ merchants:
   # Tripadvisor - Experiences
   tripadvisor-experiences:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53777.1000000024&trid=1552713.249280&foc=16&fot=9999&fos=6"
-  # Trip.com
-  tripcom:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100541.1011139756&trid=1552713.235670&foc=16&fot=9999&fos=6"
   # True Religion
   true-religion:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8543.610615&trid=1552713.201072&foc=16&fot=9999&fos=6"
@@ -1675,10 +1631,6 @@ merchants:
     banner_image: "https://console.partnerize.com/upload/c8735f6feefd8348a171d34f5fefb843SPM_Partnerize_300x250_SM_CompA_v001_1jpg"
     banner_width: 300
     banner_height: 250
-  # Wish US & CA
-  wish:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=1.53195.1000000011&trid=1552713.216420&foc=16&fot=9999&fos=6"
-    offer: "15% off first purchase with code WISHSHOPPING"
   # Wrangler
   wrangler:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25202&trid=1552713.193401&foc=17&fot=9999&fos=6&url="
@@ -1834,10 +1786,6 @@ merchants:
     banner_image: "https://www.lduhtrp.net/image-101737824-17226251"
     banner_width: 320
     banner_height: 480
-  # Jackery
-  jackery:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18694&trid=1552713.230818&foc=17&fot=9999&fos=6&url="
-    link_id: "156074.18694"
   # Logitech
   logitech:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8585&trid=1552713.157431&foc=17&fot=9999&fos=6&url="
@@ -1885,10 +1833,6 @@ merchants:
   fox-rent-a-car:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43381&trid=1552713.206854&foc=17&fot=9999&fos=6&url="
     link_id: "1.43381"
-  # JanSport
-  jansport:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=1.42224&trid=1552713.190203&foc=17&fot=9999&fos=6&url="
-    link_id: "1.42224"
   # Laneige
   laneige:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41770&trid=1552713.248464&foc=17&fot=9999&fos=6&url="
@@ -1993,10 +1937,6 @@ merchants:
     banner_image: "https://www.tqlkg.com/image-101737824-10726054"
     banner_width: 300
     banner_height: 250
-  # CorneaCare
-  corneacare:
-    url: "https://www.tkqlhce.com/click-101737824-17073223"
-    network: cj
   # Crowned Skin
   crowned-skin:
     url: "https://www.tkqlhce.com/click-101737824-17208127"
@@ -2132,10 +2072,6 @@ merchants:
   # Rexing
   rexing:
     url: "https://www.anrdoezrs.net/click-101737824-14503215"
-    network: cj
-  # Russell Stover
-  russell-stover:
-    url: "https://www.tkqlhce.com/click-101737824-12986504"
     network: cj
   # Seats.aero
   seats-aero:
@@ -2452,20 +2388,11 @@ merchants:
   # Blinkist (offer withheld pending verification)
   blinkist:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10732&trid=1552713.212952&foc=17&fot=9999&fos=6&url="
-  # Bobbie
-  bobbie:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.33836&trid=1552713.249750&foc=17&fot=9999&fos=6&url="
   # Bowers & Wilkins Global
   bowers-and-wilkins:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110005992&trid=1552713.228055&foc=17&fot=9999&fos=6&url="
     offer: "free shipping"
     banner_image: "https://media.pepperjamnetwork.com/banners/9844/460099_1632415633"
-    banner_width: 300
-    banner_height: 250
-  # Brinks Home
-  brinks-home:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.41354&trid=1552713.247347&foc=17&fot=9999&fos=6&url="
-    banner_image: "https://a.impactradius-go.com/display-ad/41354-3366580"
     banner_width: 300
     banner_height: 250
   # Bruno Magli
@@ -2567,12 +2494,6 @@ merchants:
     banner_image: "https://a.impactradius-go.com/display-ad/13931-1124221"
     banner_width: 300
     banner_height: 250
-  # H&R Block
-  h-and-r-block:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.5683&trid=1552713.156923&foc=17&fot=9999&fos=6&url="
-    banner_image: "https://a.impactradius-go.com/display-ad/5683-1916744"
-    banner_width: 250
-    banner_height: 250
   # Horizon Fitness (offer withheld pending verification)
   horizon-fitness:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12130&trid=1552713.196086&foc=17&fot=9999&fos=6&url="
@@ -2643,12 +2564,6 @@ merchants:
   # PopSockets
   popsockets:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.43682&trid=1552713.200566&foc=17&fot=9999&fos=6&url="
-  # Qatar Airways
-  qatar-airways:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.25312&trid=1552713.249626&foc=17&fot=9999&fos=6&url="
-    banner_image: "https://a.impactradius-go.com/display-ad/25312-2117696"
-    banner_width: 250
-    banner_height: 250
   # QuickBooks
   quickbooks:
     url: "https://www.jdoqocy.com/click-101737824-15486369"
@@ -2784,10 +2699,6 @@ merchants:
   # PuroAir
   puroair:
     url: "https://www.tkqlhce.com/click-101737824-17235046"
-    network: cj
-  # Revive Superfoods
-  revive-superfoods:
-    url: "https://www.jdoqocy.com/click-101737824-17247786"
     network: cj
   # Soundcore
   soundcore:
@@ -3057,9 +2968,6 @@ merchants:
   # Ultrahuman Healthcare
   ultrahuman:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.38784&trid=1552713.250189&foc=17&fot=9999&fos=6&url="
-  # Uniform Advantage
-  uniform-advantage:
-    url: "https://track.flexlinkspro.com/g.ashx?foid=156074.24120&trid=1552713.249600&foc=17&fot=9999&fos=6&url="
   # Vantrue Dashcam
   vantrue:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.30643&trid=1552713.249720&foc=17&fot=9999&fos=6&url="
@@ -3155,3 +3063,32 @@ merchants:
     banner_image: "https://www.tqlkg.com/image-101737824-17241074"
     banner_width: 300
     banner_height: 250
+
+# ---------------------------------------------------------------------------
+# DORMANT — programs that ended, removed 2026-10-23. Store pages still live,
+# just unmonetized. Verified in each network's dashboard on 2026-10-22; these
+# are not stale-export guesses. Re-applications are pending where noted, and a
+# re-approval issues a NEW link id, so restoring an entry means pulling a fresh
+# link, never reinstating the old URL below.
+#
+# FlexOffers (no active US program found by advertiser-name search):
+#   ashley-furniture 171284 | blenders-eyewear 207001 | bobbie 249750
+#   brinks-home 247347 | cruise-america 245350 | dji 217744 | ecobee 215645
+#   edible-arrangements 191403 | greenworks-tools 232799 | h-and-r-block 156923
+#   jansport 190203 | pet-supermarket 214692 | rc-willey 195269
+#   thrive-causemetics 232808 | uniform-advantage 249600 | wish 216420
+#   tripcom 235670 — advertiser still listed but DEACTIVATED/SUSPENDED
+#   qatar-airways 249626 — re-applied, PENDING as "Qatar Airways Global" 171542
+#   jackery 230818 — re-applied, PENDING
+#
+# CJ (relationship expired; re-applied, all PENDING manual review):
+#   corneacare 17073223 -> advertiser 7428068, expired 6-Oct-2026
+#   russell-stover 12986504 -> advertiser 4441453, expired 24-Sep-2026
+#   revive-superfoods 17247786 -> advertiser 7846247, expired 31-Aug-2026
+#
+# Caveat on the FlexOffers list: both marketplaces only search by advertiser
+# NAME, not by website, so "no program found" means no brand-name match. Qatar
+# Airways was listed as "Qatar Airways Global", so a merchant relisted under a
+# parent or agency name would have been missed. Worth a second pass before
+# treating any of these as permanently gone.
+# ---------------------------------------------------------------------------
