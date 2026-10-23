@@ -83,6 +83,12 @@ export default function StoreAffiliateCta(props: Props) {
             loading="lazy"
             decoding="async"
             onError={() => setBannerFailed(true)}
+            // React 18 does not replay an error that fired before hydration,
+            // and the top banner starts loading with the HTML, so a fast 404
+            // can beat the handler. A complete image with no pixels has failed.
+            ref={(img) => {
+              if (img?.complete && img.naturalWidth === 0) setBannerFailed(true);
+            }}
           />
         </a>
       ) : (

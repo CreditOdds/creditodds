@@ -148,9 +148,6 @@ merchants:
   # Cox Communications — Top text link (Cox Mobile)
   cox-communications:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101100508.1011106275&trid=1552713.203132&foc=16&fot=9999&fos=6"
-    banner_image: "https://fcbchicago.egnyte.com/dd/bEw7t7BLgP/?token=17738da2-e12b-45a7-9ccb-1e3e5e714a8d&entryId=c525bb78-5da6-4277-9634-e71f21c6bebd&thumbNail=1&w=1200&h=1200&type=proportional&preview=true&accessToken=17738da2-e12b-45a7-9ccb-1e3e5e714a8d"
-    banner_width: 728
-    banner_height: 90
   # Crocs US — Top text link (Crocs Club 15% off)
   crocs:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8119.2132677&trid=1552713.156899&foc=16&fot=9999&fos=6"
@@ -297,9 +294,6 @@ merchants:
   # Stubhub NORAM — Top text link (Concert tickets)
   stubhub:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100799.1011103770&trid=1552713.257&foc=16&fot=9999&fos=6"
-    banner_image: "https://console.partnerize.com/upload/82093afbf62a2c4390c697de35e0615b26WC_300x250jpg"
-    banner_width: 300
-    banner_height: 250
   # The RealReal — Top text link ($25 New Member Credit)
   the-realreal:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8270.887764&trid=1552713.245338&foc=16&fot=9999&fos=6"
@@ -357,9 +351,6 @@ merchants:
   1-800-pack-rat:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.15653.2015612&trid=1552713.243983&foc=16&fot=9999&fos=6"
     offer: "up to 50% off with code SPRING50"
-    banner_image: "https://a.impactradius-go.com/display-ad/15653-3305824"
-    banner_width: 300
-    banner_height: 250
   # 1800PetMeds
   1800petmeds:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9643.322259&trid=1552713.187444&foc=16&fot=9999&fos=6"
@@ -611,9 +602,6 @@ merchants:
   # Chegg Mexico
   chegg:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.17831.1597234&trid=1552713.233154&foc=16&fot=9999&fos=6"
-    banner_image: "https://a.impactradius-go.com/display-ad/17831-1706132"
-    banner_width: 300
-    banner_height: 250
   # Clarins
   clarins:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13674.1069631&trid=1552713.189975&foc=16&fot=9999&fos=6"
@@ -631,9 +619,6 @@ merchants:
   corkcicle:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.13045.3363020&trid=1552713.245365&foc=16&fot=9999&fos=6"
     offer: "up to 40% off sale items"
-    banner_image: "https://a.impactradius-go.com/display-ad/13045-1395656"
-    banner_width: 300
-    banner_height: 250
   # CORSAIR
   corsair:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8513.2643428&trid=1552713.233391&foc=16&fot=9999&fos=6"
@@ -687,9 +672,6 @@ merchants:
   dhgate:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12108.1466364&trid=1552713.243958&foc=16&fot=9999&fos=6"
     offer: "up to 80% off"
-    banner_image: "https://a.impactradius-go.com/display-ad/12108-952258"
-    banner_width: 300
-    banner_height: 250
   # Diane von Furstenberg EU
   diane-von-furstenberg:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156174.53601.1000000014&trid=1552713.230273&foc=16&fot=9999&fos=6"
@@ -807,15 +789,9 @@ merchants:
   furla:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.101105919.1011116822&trid=1552713.226358&foc=16&fot=9999&fos=6"
     offer: "10% off"
-    banner_image: "https://console.partnerize.com/upload/fffdfd3b6607a8cc7415b7a1635ca961Banner_Furla_Cruise25_Bags_USAUS_300_x_250jpg"
-    banner_width: 300
-    banner_height: 250
   # G-Star RAW
   g-star-raw:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110101042.101161543&trid=1552713.207312&foc=16&fot=9999&fos=6"
-    banner_image: "https://console.partnerize.com/upload/6a1d3d47b6ada26Q2_SALE_07_PAID_GLOBAL_AFFILIATE_160x600_03-PHASE_UNI_ES_V1A_[200kb].jpg"
-    banner_width: 160
-    banner_height: 600
   # Gametime
   gametime:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10874.1443269&trid=1552713.214076&foc=16&fot=9999&fos=6"
@@ -1242,9 +1218,6 @@ merchants:
   # NFL+
   nfl-plus:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.5298.618531&trid=1552713.160987&foc=16&fot=9999&fos=6"
-    banner_image: "https://www.pntrs.com/b/4-540321-47736-55814"
-    banner_width: 300
-    banner_height: 250
   # Nutribullet
   nutribullet:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.9496&trid=1552713.211957&foc=17&fot=9999&fos=6&url="
@@ -1318,9 +1291,6 @@ merchants:
   # Philips Hue US
   philips-hue:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156394.354192.25561930&trid=1552713.204271&foc=16&fot=9999&fos=6"
-    banner_image: "https://hst.tradedoubler.com/file/354192/common/g/178fb1329d97457e28f62f5e7a24d01d.jpg"
-    banner_width: 300
-    banner_height: 250
   # Philo
   philo:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.24088.3372938&trid=1552713.200059&foc=16&fot=9999&fos=6"
@@ -1610,9 +1580,6 @@ merchants:
   # Trip.com
   tripcom:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100541.1011139756&trid=1552713.235670&foc=16&fot=9999&fos=6"
-    banner_image: "https://console.partnerize.com/upload/5a6aa3ed8a4660e7699f6ed4abd39b9f300x250png"
-    banner_width: 300
-    banner_height: 250
   # True Religion
   true-religion:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.8543.610615&trid=1552713.201072&foc=16&fot=9999&fos=6"
@@ -1853,9 +1820,6 @@ merchants:
   jackery:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18694&trid=1552713.230818&foc=17&fot=9999&fos=6&url="
     link_id: "156074.18694"
-    banner_image: "https://a.impactradius-go.com/display-ad/18694-1964170"
-    banner_width: 300
-    banner_height: 250
   # Logitech
   logitech:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.8585&trid=1552713.157431&foc=17&fot=9999&fos=6&url="
@@ -1895,9 +1859,6 @@ merchants:
   charlotte-tilbury:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156085.110100564&trid=1552713.191863&foc=17&fot=9999&fos=6&url="
     link_id: "156085.110100564"
-    banner_image: "https://console.partnerize.com/upload/7b74fc5ed07bb8ccc672ada8fc75b541affiliate300x250jpg"
-    banner_width: 300
-    banner_height: 250
   # DC Shoes
   dc-shoes:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.53685&trid=1552713.158793&foc=17&fot=9999&fos=6&url="
@@ -2337,9 +2298,6 @@ merchants:
   bartesian:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.15632&trid=1552713.227565&foc=17&fot=9999&fos=6&url="
     offer: "free shipping over $50"
-    banner_image: "https://a.impactradius-go.com/display-ad/15632-2101535"
-    banner_width: 300
-    banner_height: 250
   # Betsey Johnson
   betsey-johnson:
     url: "https://track.flexlinkspro.com/g.ashx?foid=1.37850&trid=1552713.159569&foc=17&fot=9999&fos=6&url="
@@ -2352,9 +2310,6 @@ merchants:
   # Blinkist (offer withheld pending verification)
   blinkist:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.10732&trid=1552713.212952&foc=17&fot=9999&fos=6&url="
-    banner_image: "https://a.impactradius-go.com/display-ad/10732-1562088"
-    banner_width: 300
-    banner_height: 250
   # Bobbie
   bobbie:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.33836&trid=1552713.249750&foc=17&fot=9999&fos=6&url="
@@ -2479,9 +2434,6 @@ merchants:
   # Horizon Fitness (offer withheld pending verification)
   horizon-fitness:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.12130&trid=1552713.196086&foc=17&fot=9999&fos=6&url="
-    banner_image: "https://a.impactradius-go.com/display-ad/12130-874394"
-    banner_width: 300
-    banner_height: 250
   # Hudson Jeans
   hudson-jeans:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156052.10023&trid=1552713.178072&foc=17&fot=9999&fos=6&url="
@@ -2611,9 +2563,6 @@ merchants:
   # Victrola
   victrola:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.18889&trid=1552713.207542&foc=17&fot=9999&fos=6&url="
-    banner_image: "https://a.impactradius-go.com/display-ad/18889-1703467"
-    banner_width: 300
-    banner_height: 250
   # Vivint (US)
   vivint:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156178.21822&trid=1552713.225643&foc=17&fot=9999&fos=6&url="
