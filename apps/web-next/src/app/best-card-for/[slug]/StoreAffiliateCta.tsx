@@ -79,7 +79,7 @@ export default function StoreAffiliateCta(props: Props) {
             src={banner.image}
             width={banner.width}
             height={banner.height}
-            alt={`${storeName} — advertisement`}
+            alt={`${storeName} advertisement`}
             loading="lazy"
             decoding="async"
             onError={() => setBannerFailed(true)}
