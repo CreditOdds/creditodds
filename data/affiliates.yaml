@@ -2155,10 +2155,6 @@ merchants:
     banner_image: "https://www.awltovhc.com/image-101737824-13942203"
     banner_width: 300
     banner_height: 250
-  # Sunber Hair
-  sunber-hair:
-    url: "https://www.jdoqocy.com/click-101737824-15898110"
-    network: cj
   # Surfshark
   surfshark:
     url: "https://www.jdoqocy.com/click-101737824-15438544"
@@ -2194,10 +2190,6 @@ merchants:
   # The Tight Spot
   the-tight-spot:
     url: "https://www.kqzyfj.com/click-101737824-17147704"
-    network: cj
-  # TP-Link
-  tp-link:
-    url: "https://www.kqzyfj.com/click-101737824-15624194"
     network: cj
   # Trampoline Parts and Supply
   trampoline-parts-and-supply:
@@ -2255,10 +2247,6 @@ merchants:
 
   # --- Added 2026-07-14 (CJ Affiliate Tier A+B new approvals) ---
   # network: cj on each entry; CJ CLICK URLs are complete, used as-is.
-  # Gabb Wireless
-  gabb-wireless:
-    url: "https://www.anrdoezrs.net/click-101737824-17216185"
-    network: cj
   # All-Clad (Home & Cook: All-Clad, Krups, Rowenta, T-Fal)
   all-clad:
     url: "https://www.anrdoezrs.net/click-101737824-17166872"
@@ -2288,10 +2276,6 @@ merchants:
     banner_image: "https://www.tqlkg.com/image-101737824-13973282"
     banner_width: 300
     banner_height: 250
-  # Stamps.com
-  stamps-com:
-    url: "https://www.kqzyfj.com/click-101737824-15461513"
-    network: cj
   # Parallels
   parallels:
     url: "https://www.anrdoezrs.net/click-101737824-15311542"
@@ -2385,10 +2369,6 @@ merchants:
     banner_image: "https://www.lduhtrp.net/image-101737824-17269258"
     banner_width: 250
     banner_height: 250
-  # ShipStation
-  shipstation:
-    url: "https://www.anrdoezrs.net/click-101737824-13896119"
-    network: cj
 
   # --- Added 2026-08-05 (FlexOffers approvals, Tier A+B new store pages) ---
   # Deep links (foc=17) taken verbatim from the approved-programs sheet, with
@@ -3083,9 +3063,9 @@ merchants:
     banner_image: "https://www.awltovhc.com/image-101737824-17126224"
     banner_width: 300
     banner_height: 250
-  # Free Country
+  # Free Country (14466028 "Shop FreeCountry Men's" landed on a 404; this one lands on the homepage)
   free-country:
-    url: "https://www.tkqlhce.com/click-101737824-14466028"
+    url: "https://www.kqzyfj.com/click-101737824-14466030"
     network: cj
     banner_image: "https://www.ftjcfx.com/image-101737824-14453469"
     banner_width: 300
