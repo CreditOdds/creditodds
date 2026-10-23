@@ -24,7 +24,10 @@ it('enforces production origins without eval, allowing development HMR', () => {
 it('allows every affiliate banner host in img-src', () => {
   const imgSrc = buildContentSecurityPolicy({ NODE_ENV: 'production' }).split('; ').find((d) => d.startsWith('img-src '))!.split(' ').slice(1);
   const allowed = (host: string) => imgSrc.some((src) => src === `https://${host}` || (src.startsWith('https://*.') && host.endsWith(src.slice('https://*'.length))));
-  const hosts = new Set(storesData.stores.flatMap((s: { affiliate?: { banner?: { image: string } } }) => (s.affiliate?.banner ? [new URL(s.affiliate.banner.image).host] : [])));
+  const urls = storesData.stores.flatMap((s: { affiliate?: { banner?: { image: string } } }) => (s.affiliate?.banner ? [new URL(s.affiliate.banner.image)] : []));
+  const hosts = new Set(urls.map((u) => u.host));
+  // CSP checks redirect hops too, and CJ impression URLs 302 through CJ's own hosts.
+  if (urls.some((u) => /^\/image-\d+-\d+$/.test(u.pathname))) ['www.yceml.net', 'cj.dotomi.com', 'www.emjcd.com'].forEach((h) => hosts.add(h));
   expect(hosts.size).toBeGreaterThan(0);
   expect([...hosts].filter((h) => !allowed(h))).toEqual([]);
 });
