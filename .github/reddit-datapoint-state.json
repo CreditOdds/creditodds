@@ -1657,7 +1657,7 @@
     "t3_1xb2pts": "2026-10-23",
     "t3_1xazwds": "2026-10-22",
     "t3_1xau5a9": "2026-10-22",
-    "t3_1xd2vsq": "2026-10-24",
+    "t3_1xd2vsq": "2026-10-25",
     "t3_1xd22cu": "2026-10-23",
     "t3_1xd0j97": "2026-10-23",
     "t3_1xczzun": "2026-10-23",
@@ -1672,41 +1672,21 @@
     "t3_1xe18nh": "2026-10-24",
     "t3_1xdwt3h": "2026-10-24",
     "t3_1xdphi2": "2026-10-24",
-    "t3_1xdmb86": "2026-10-24",
+    "t3_1xdmb86": "2026-10-25",
     "t3_1xdjx88": "2026-10-24",
     "t3_1xdjqiz": "2026-10-24",
     "t3_1xdja3o": "2026-10-24",
-    "t3_1xdj85u": "2026-10-24"
+    "t3_1xdj85u": "2026-10-24",
+    "t3_1xf3rij": "2026-10-25",
+    "t3_1xf0wob": "2026-10-25",
+    "t3_1xeyfrs": "2026-10-25",
+    "t3_1xexkya": "2026-10-25",
+    "t3_1xeicw6": "2026-10-25",
+    "t3_1xeccbm": "2026-10-25",
+    "t3_1xeawwq": "2026-10-25",
+    "t3_1xe9by3": "2026-10-25"
   },
   "pending": {
-    "t3_1xcari6": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1xcari6/first_time_poster_denied_for_starter_cards/",
-      "title": "First time poster: Denied for \"starter\" cards despite $56k income and zero rent. Is waiting my only option?",
-      "posted": "2026-10-22",
-      "card_name": "Chase Freedom Unlimited",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Denied for both CFU and Amex Blue Cash Everyday on a 5-month file with $56k income. Third look, still no score.",
-      "firstSeen": "2026-10-22",
-      "attempts": 3,
-      "lastChecked": "2026-10-24"
-    },
-    "t3_1xbthc1": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1xbthc1/denied_strata_premier_downgrade_on_strata_elite/",
-      "title": "Denied Strata Premier Downgrade on Strata Elite – Locked Out of TYP Transfer Options? Need Advice!",
-      "posted": "2026-10-21",
-      "card_name": "Citi Strata Premier",
-      "result": "denied",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Applied for Strata Premier in August 2026 and was denied, approved for Double Cash instead. Third look, still no score.",
-      "firstSeen": "2026-10-22",
-      "attempts": 3,
-      "lastChecked": "2026-10-24"
-    },
     "t3_1xd2vsq": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1xd2vsq/jump_on_venture_x_targeted_offer_or_hope_its/",
       "title": "Jump on Venture X targeted offer or hope it's available next year?",
@@ -1716,11 +1696,11 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Applied for and got CFU in August 2026 (plus Citi Custom Cash in May). Body truncated, no score in what we have.",
-      "ask": "You mentioned applying for CFU in August. What was your credit score when you applied?",
+      "note": "Approved for CFU in August 2026 after a mailer offer (also opened Citi Custom Cash in May). Score never given in body or OP replies.",
+      "ask": "You mentioned getting approved for the Freedom Unlimited in August. What was your credit score when you applied?",
       "firstSeen": "2026-10-23",
-      "attempts": 2,
-      "lastChecked": "2026-10-24"
+      "attempts": 3,
+      "lastChecked": "2026-10-25"
     },
     "t3_1xdmb86": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1xdmb86/capital_one_datapoint_account_count_3_capital_one/",
@@ -1731,30 +1711,43 @@
         "credit_score",
         "card_name"
       ],
-      "note": "Denied for a Capital One Savor in Oct 2026, reason too many Capital One accounts (merged Discover cards counted toward the 5-card limit). No score, and unclear whether it was the current no-AF Savor or the legacy AF Savor.",
-      "ask": "Was the Savor you applied for the no-annual-fee version, and what was your credit score at the time?",
+      "note": "Denied for a Capital One Savor in Oct 2026, cited too many Capital One accounts (merged Discover cards count toward the 5-card limit). No score, and the Savor variant is unclear.",
+      "ask": "Which Savor did you apply for (the no-fee Savor or another version), and what was your credit score?",
       "firstSeen": "2026-10-24",
+      "attempts": 2,
+      "lastChecked": "2026-10-25"
+    },
+    "t3_1xeawwq": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xeawwq/new_navy_federal_flagship_premier_signature_visa/",
+      "title": "New Navy Federal Flagship Premier Signature Visa - 90K Points Targeted Welcome Offer",
+      "posted": "2026-10-24",
+      "card_name": "Navy Federal Flagship Premier Visa Signature",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "16-year NFCU member approved for the new Flagship Premier with a $7,200 limit in Oct 2026. No score given.",
+      "firstSeen": "2026-10-25",
       "attempts": 1,
-      "lastChecked": "2026-10-24"
+      "lastChecked": "2026-10-25"
+    },
+    "t3_1xe9by3": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xe9by3/app_income_mistake_need_advice/",
+      "title": "App Income Mistake Need advice",
+      "posted": "2026-10-24",
+      "card_name": "Chase Freedom Unlimited",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved for a Chase 'unlimited' card (Freedom Unlimited) in Oct 2026, income typo on the application. No score given.",
+      "ask": "Was the card you were approved for the Chase Freedom Unlimited, and what was your credit score?",
+      "firstSeen": "2026-10-25",
+      "attempts": 1,
+      "lastChecked": "2026-10-25"
     }
   },
   "runs": [
-    {
-      "id": "2026-08-23T15:28:34.842Z",
-      "date": "2026-08-23",
-      "candidates": 16,
-      "revisits": 4,
-      "sourcesOk": 2,
-      "sourcesFailed": 0,
-      "published": 0,
-      "pending": 17,
-      "unaccounted": 0,
-      "skipped": {
-        "no_score": 1,
-        "no_outcome": 7,
-        "pre_qual": 1
-      }
-    },
     {
       "id": "2026-08-24T16:04:33.917Z",
       "date": "2026-08-24",
@@ -2682,6 +2675,22 @@
       "skipped": {
         "no_outcome": 6,
         "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-10-25T17:06:56.798Z",
+      "date": "2026-10-25",
+      "candidates": 10,
+      "revisits": 2,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 4,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 4,
+        "pre_qual": 1,
+        "no_score": 1
       }
     }
   ]
