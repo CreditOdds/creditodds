@@ -1672,7 +1672,7 @@
     "t3_1xe18nh": "2026-10-24",
     "t3_1xdwt3h": "2026-10-24",
     "t3_1xdphi2": "2026-10-24",
-    "t3_1xdmb86": "2026-10-25",
+    "t3_1xdmb86": "2026-10-26",
     "t3_1xdjx88": "2026-10-24",
     "t3_1xdjqiz": "2026-10-24",
     "t3_1xdja3o": "2026-10-24",
@@ -1683,40 +1683,15 @@
     "t3_1xexkya": "2026-10-25",
     "t3_1xeicw6": "2026-10-25",
     "t3_1xeccbm": "2026-10-25",
-    "t3_1xeawwq": "2026-10-25",
-    "t3_1xe9by3": "2026-10-25"
+    "t3_1xeawwq": "2026-10-26",
+    "t3_1xe9by3": "2026-10-26",
+    "t3_1xfj44x": "2026-10-26",
+    "t3_1xfdref": "2026-10-26",
+    "t3_1xfbmoh": "2026-10-26",
+    "t3_1xfaxtu": "2026-10-26",
+    "t3_1xf9rqa": "2026-10-26"
   },
   "pending": {
-    "t3_1xd2vsq": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1xd2vsq/jump_on_venture_x_targeted_offer_or_hope_its/",
-      "title": "Jump on Venture X targeted offer or hope it's available next year?",
-      "posted": "2026-10-23",
-      "card_name": "Chase Freedom Unlimited",
-      "result": "approved",
-      "missing": [
-        "credit_score"
-      ],
-      "note": "Approved for CFU in August 2026 after a mailer offer (also opened Citi Custom Cash in May). Score never given in body or OP replies.",
-      "ask": "You mentioned getting approved for the Freedom Unlimited in August. What was your credit score when you applied?",
-      "firstSeen": "2026-10-23",
-      "attempts": 3,
-      "lastChecked": "2026-10-25"
-    },
-    "t3_1xdmb86": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1xdmb86/capital_one_datapoint_account_count_3_capital_one/",
-      "title": "Capital One Datapoint Account Count: 3 Capital One/ 2 Discover new denial",
-      "posted": "2026-10-23",
-      "result": "denied",
-      "missing": [
-        "credit_score",
-        "card_name"
-      ],
-      "note": "Denied for a Capital One Savor in Oct 2026, cited too many Capital One accounts (merged Discover cards count toward the 5-card limit). No score, and the Savor variant is unclear.",
-      "ask": "Which Savor did you apply for (the no-fee Savor or another version), and what was your credit score?",
-      "firstSeen": "2026-10-24",
-      "attempts": 2,
-      "lastChecked": "2026-10-25"
-    },
     "t3_1xeawwq": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1xeawwq/new_navy_federal_flagship_premier_signature_visa/",
       "title": "New Navy Federal Flagship Premier Signature Visa - 90K Points Targeted Welcome Offer",
@@ -1726,10 +1701,24 @@
       "missing": [
         "credit_score"
       ],
-      "note": "16-year NFCU member approved for the new Flagship Premier with a $7,200 limit in Oct 2026. No score given.",
+      "note": "16-year NFCU member approved for the new Flagship Premier with a $7,200 limit in Oct 2026. Still no score after re-read.",
       "firstSeen": "2026-10-25",
+      "attempts": 2,
+      "lastChecked": "2026-10-26"
+    },
+    "t3_1xfaxtu": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xfaxtu/chase_freedom_rise_denial/",
+      "title": "Chase Freedom Rise denial?",
+      "posted": "2026-10-25",
+      "card_name": "Chase Freedom Rise",
+      "missing": [
+        "result"
+      ],
+      "note": "Applied Oct 2026 with 725 Experian FICO, $49k income, no prior Chase relationship. Initial denial then ID-verification reconsideration, final decision due in 1-2 weeks.",
+      "ask": "Did Chase come back with a final decision on the Freedom Rise after you sent the documents?",
+      "firstSeen": "2026-10-26",
       "attempts": 1,
-      "lastChecked": "2026-10-25"
+      "lastChecked": "2026-10-26"
     },
     "t3_1xe9by3": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1xe9by3/app_income_mistake_need_advice/",
@@ -1740,32 +1729,27 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for a Chase 'unlimited' card (Freedom Unlimited) in Oct 2026, income typo on the application. No score given.",
-      "ask": "Was the card you were approved for the Chase Freedom Unlimited, and what was your credit score?",
+      "note": "Approved for a Chase 'unlimited' card (Freedom Unlimited) in Oct 2026, income typo on the application. Replies discuss the typo only, no score.",
       "firstSeen": "2026-10-25",
-      "attempts": 1,
-      "lastChecked": "2026-10-25"
+      "attempts": 2,
+      "lastChecked": "2026-10-26"
+    },
+    "t3_1xdmb86": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xdmb86/capital_one_datapoint_account_count_3_capital_one/",
+      "title": "Capital One Datapoint Account Count: 3 Capital One/ 2 Discover new denial",
+      "posted": "2026-10-23",
+      "result": "denied",
+      "missing": [
+        "credit_score",
+        "card_name"
+      ],
+      "note": "Denied for a Capital One Savor in Oct 2026 for too many Capital One accounts (merged Discover cards count toward the limit). Still no score, Savor variant unclear.",
+      "firstSeen": "2026-10-24",
+      "attempts": 3,
+      "lastChecked": "2026-10-26"
     }
   },
   "runs": [
-    {
-      "id": "2026-08-24T16:04:33.917Z",
-      "date": "2026-08-24",
-      "candidates": 21,
-      "revisits": 6,
-      "sourcesOk": 2,
-      "sourcesFailed": 0,
-      "published": 1,
-      "pending": 15,
-      "unaccounted": 1,
-      "skipped": {
-        "other": 1,
-        "no_score": 1,
-        "no_outcome": 9,
-        "score_too_vague": 1,
-        "pre_qual": 1
-      }
-    },
     {
       "id": "2026-08-24-unknown",
       "date": "2026-08-24",
@@ -2691,6 +2675,21 @@
         "no_outcome": 4,
         "pre_qual": 1,
         "no_score": 1
+      }
+    },
+    {
+      "id": "2026-10-26T13:25:49.505Z",
+      "date": "2026-10-26",
+      "candidates": 8,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 0,
+      "pending": 4,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 3,
+        "pre_qual": 1
       }
     }
   ]
