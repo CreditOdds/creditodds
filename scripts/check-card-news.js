@@ -112,7 +112,7 @@ const CAPS = {
   rssDescChars: 400,
   googleItemsPerQuery: 12,
   braveItemsPerQuery: 10,
-  totalCandidates: 260,
+  totalCandidates: 320,
 };
 
 // ── Shared loaders (same shapes as auto-news-from-reddit.js) ─────────────────
