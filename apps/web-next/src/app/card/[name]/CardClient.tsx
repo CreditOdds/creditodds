@@ -1524,7 +1524,7 @@ export default function CardClient({
                           yAxis="Income (USD)"
                           yPrefix="$"
                           series={[
-                            { name: "Accepted", color: "#6d3fe8", data: chartOne[0] || [] },
+                            { name: "Accepted", color: "#15803d", data: chartOne[0] || [] },
                             {
                               name: "Rejected",
                               color: "#d23a62",
@@ -1550,7 +1550,7 @@ export default function CardClient({
                           yAxis="Credit Score"
                           xSuffix=" yr"
                           series={[
-                            { name: "Accepted", color: "#6d3fe8", data: chartTwo[0] || [] },
+                            { name: "Accepted", color: "#15803d", data: chartTwo[0] || [] },
                             {
                               name: "Rejected",
                               color: "#d23a62",
@@ -1578,7 +1578,7 @@ export default function CardClient({
                           yPrefix="$"
                           trendline
                           series={[
-                            { name: "Accepted", color: "#6d3fe8", data: chartThree[0] || [] },
+                            { name: "Accepted", color: "#15803d", data: chartThree[0] || [] },
                           ]}
                         />
                       ),
