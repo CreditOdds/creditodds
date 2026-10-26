@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
-# Local driver for the daily referral check. This is the local counterpart to
-# .github/workflows/check-referrals.yml, whose cron is disabled. The
-# classification step in between is done by the Claude Code session running
-# the `referral-check-local` scheduled task, so no model API key is involved.
+# Local driver for the referral check, with a Claude Code session judging the
+# pages by hand. The daily run is .github/workflows/check-referrals.yml, which
+# classifies by phrase match; this is the manual escape hatch for checking
+# wordings that phrase list does not cover. No model API key is involved.
 #
 # Usage:
 #   scripts/check-referrals-local.sh fetch     # list Lambda -> batch.json -> fetch pages, write prompts
