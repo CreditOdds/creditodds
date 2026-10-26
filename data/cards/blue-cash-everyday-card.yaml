@@ -18,6 +18,13 @@ our_take: >
   the intro APR length at approval, and it can be as short as 6 months. The up
   to $7 monthly Disney streaming credit requires enrollment and is worth $84 a
   year only if you already pay for Disney+, Hulu, or ESPN+.
+# Amex targets the intro APR length per visitor, so card-page-check sees 15 or
+# 18 months depending on the fetch and has flip-flopped on seven runs since
+# 2026-10-03 (#2253/#2265/#2274/#2279/#2296/#2301/#2350). The "up to 18, set at
+# approval" note is the intentional model (#2301); ignore both intro lengths.
+check_ignore:
+  - apr.purchase_intro.months
+  - apr.balance_transfer_intro.months
 annual_fee: 0
 reward_type: "cashback"
 tags:
