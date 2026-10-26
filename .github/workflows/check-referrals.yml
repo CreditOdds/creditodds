@@ -3,28 +3,27 @@ name: Check Referrals
 # Daily validator for referral links.
 #
 # Pulls the next batch of approved, non-archived referrals from the
-# ReferralValidationListFunction Lambda, fetches each URL (Playwright +
-# model), and posts results back to ReferralValidationCompleteFunction.
+# ReferralValidationListFunction Lambda, fetches each URL (Playwright), and
+# posts results back to ReferralValidationCompleteFunction.
 #
-# Conservative detection: HTTP 404/410/timeout + explicit "expired"
-# language only. After 2 consecutive failed checks per referral, the
-# Complete Lambda auto-archives with archived_reason='auto: <status>'.
+# Conservative detection: HTTP 404/410/451 or an explicit dead-signal phrase
+# on the page ("this referral link has expired", "this offer has ended", ...)
+# is "expired"; everything else is "valid". No model and no API key: the phrase
+# list lives in scripts/check-referrals.js (DEAD_SIGNALS). Bot walls are left
+# out and re-checked next run. Only "expired" strikes; after 2 consecutive
+# strikes the Complete Lambda auto-archives with archived_reason='auto: <status>'.
 #
-# Off-peak schedule (12:00 UTC) so it doesn't collide with the daily
-# card-page check. Runs daily; the List Lambda's 7-day re-check cooldown
-# keeps healthy links from being re-hit, so daily only picks up
-# newly-approved or stale (>7d) referrals.
-
-# The daily cron is DISABLED. Scheduled runs happen locally through the
-# `referral-check-local` Claude Code scheduled task
-# (scripts/check-referrals-local.sh), which classifies pages in-session instead
-# of calling the OpenAI API. This workflow stays for manual dispatch, which
-# still needs OPENAI_API_KEY credits; without them every page that needs a
-# verdict is left out of the results (no failure strike), so a dispatch only
-# settles HTTP-status cases.
+# Daily at 12:00 UTC. The List Lambda's 7-day re-check cooldown keeps healthy
+# links from being re-hit, so a daily run only picks up newly-approved or
+# stale (>7d) referrals.
+#
+# History: from 2026-10-18 this ran as the local `referral-check-local` Claude
+# Code task (scripts/check-referrals-local.sh) because the OpenAI classifier's
+# credits ran out. The phrase matcher replaced the model, so it is back on a
+# GitHub cron. The local fetch/finish path still works for judging pages by hand.
 on:
-  # schedule:
-  #   - cron: '0 12 * * *'  # Daily 12:00 UTC
+  schedule:
+    - cron: '0 12 * * *'  # Daily 12:00 UTC
   workflow_dispatch:
     inputs:
       limit:
@@ -107,9 +106,10 @@ jobs:
             batch.json
           echo "Batch size: $(jq '.referrals | length' batch.json)"
 
+      - name: Test the phrase classifier
+        run: node scripts/check-referrals.test.js
+
       - name: Run validation checks
-        env:
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: node scripts/check-referrals.js
 
       - name: Post results to ReferralValidationCompleteFunction
@@ -133,6 +133,12 @@ jobs:
             --cli-binary-format raw-in-base64-out \
             --payload fileb://results.json \
             --cli-read-timeout 310 \
-            complete-response.json
+            complete-response.json > complete-invoke.json
           echo "Complete response:"
           cat complete-response.json
+          # aws lambda invoke exits 0 even when the handler throws; the error
+          # only shows up as FunctionError in the invoke metadata.
+          if jq -e '.FunctionError' complete-invoke.json >/dev/null; then
+            echo "::error::ReferralValidationComplete failed (see response above)"
+            exit 1
+          fi

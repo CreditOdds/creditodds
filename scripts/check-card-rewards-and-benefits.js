@@ -35,13 +35,20 @@
  *                   uses. No API key.
  *
  * The split exists so the weekly sweep can run from a local Claude Code session
- * (see the `card-rewards-benefits-local` scheduled task) where the extraction is
+ * (see the `card-page-check-local` scheduled task) where the extraction is
  * done in-session instead of by a paid gpt-4o call per card. That is ~148 gpt-4o
  * calls a week that no longer hit the API.
  *
  * Previously run via .github/workflows/check-card-rewards-and-benefits.yml,
  * whose weekly cron is now disabled in favour of the local routine. The
  * workflow remains dispatch-only as a manual escape hatch.
+ *
+ * Shared fetch: the local routine is now one weekly pass of the combined card
+ * sweep (`card-page-check-local`), which runs check-card-pages.js
+ * --phase=fetch first. Setting CARD_RB_PAGES_FROM to that script's work dir
+ * makes this fetch phase reuse the pages it just loaded instead of crawling
+ * the catalog a second time. See loadSharedPages for when a page is reused
+ * and when the card is still fetched live.
  */
 
 const fs = require('fs');
@@ -363,6 +370,56 @@ function hasRewardEvidence(text) {
     /\d+(?:\.\d+)?\s*(?:%|[xX]\b|(?:points?|miles?|cash\s*back)\s+(?:per|back|on|for))/g
   );
   return Boolean(matches && matches.length >= MIN_RATE_TOKENS);
+}
+
+// ─── Shared pages from the card-page check ──────────────────────────────────
+
+// Work dir of a check-card-pages.js --phase=fetch run to reuse pages from, or
+// null to fetch every page live.
+const SHARED_PAGES_FROM = process.env.CARD_RB_PAGES_FROM || null;
+// Only reuse a fetch from the same sweep. A day-old page would be checked as if
+// it were current.
+const SHARED_PAGES_MAX_AGE_MS = 12 * 60 * 60 * 1000;
+
+// Returns Map<slug, pageText> of pages this run can take from the card-page
+// check instead of fetching. A card is reused only when all of these hold:
+//   - the card-page fetch wrote a prompt for it, so the page is from this run
+//     and was not a skip;
+//   - that fetch is under SHARED_PAGES_MAX_AGE_MS old;
+//   - the card has no special_apply_link or page_check_url. For those 5-ish
+//     cards the card-page check loads a different URL than apply_link (an
+//     offer page or terms iframe) that need not carry the earn table;
+//   - the text clears the same bar a live fetch must (200 chars and
+//     hasRewardEvidence). The card-page fetch stops re-rendering once it sees
+//     offer language, so a JS-rendered earn table can be missing from its copy.
+// Every other card falls through to fetchPageContent, so reuse can only save
+// a fetch, never lose a card. Both scripts strip with the same rules and the
+// same 18000-char cap; the card-page stripper also marks class/style
+// strikethrough, which the rewards prompt already understands.
+function loadSharedPages(dir, cards, now = Date.now()) {
+  const shared = new Map();
+  if (!dir) return shared;
+  const statePath = path.join(dir, 'fetch-state.json');
+  if (!fs.existsSync(statePath)) {
+    console.warn(`CARD_RB_PAGES_FROM: ${statePath} not found; fetching every page live.`);
+    return shared;
+  }
+  const state = JSON.parse(fs.readFileSync(statePath, 'utf8'));
+  const age = now - Date.parse(state.fetched_at);
+  if (!(age >= 0 && age <= SHARED_PAGES_MAX_AGE_MS)) {
+    console.warn(`CARD_RB_PAGES_FROM: card-page fetch is from ${state.fetched_at}, too old to reuse; fetching every page live.`);
+    return shared;
+  }
+  const fetched = new Set(state.fetched || []);
+  for (const card of cards) {
+    if (!fetched.has(card.slug)) continue;
+    if (card.data.special_apply_link || card.data.page_check_url) continue;
+    const pagePath = path.join(dir, 'pages', `${card.slug}.txt`);
+    if (!fs.existsSync(pagePath)) continue;
+    const text = fs.readFileSync(pagePath, 'utf8').slice(0, MAX_CONTENT_CHARS);
+    if (text.length >= 200 && hasRewardEvidence(text)) shared.set(card.slug, text);
+  }
+  return shared;
 }
 
 async function fetchPageContent(url) {
@@ -2138,6 +2195,11 @@ async function main() {
   }
 
   console.log(`\nChecking ${cards.length} active card(s) with apply_link...`);
+  const sharedPages = PHASE === 'fetch' ? loadSharedPages(SHARED_PAGES_FROM, cards) : new Map();
+  if (SHARED_PAGES_FROM) {
+    console.log(`Reusing ${sharedPages.size} page(s) from the card-page check; fetching the rest live.`);
+  }
+  let reusedPages = 0;
   console.log('');
 
   const summary = {
@@ -2181,16 +2243,22 @@ async function main() {
 
     console.log(`[fetch] ${card.data.name}`);
     let pageResult;
-    try {
-      pageResult = await withTimeout(
-        fetchPageContent(card.data.apply_link),
-        PER_CARD_TIMEOUT_MS,
-        `fetch ${card.data.name}`
-      );
-    } catch (err) {
-      console.warn(`  Fetch failed: ${err.message}`);
-      summary.fetchFailed++;
-      continue;
+    if (sharedPages.has(card.slug)) {
+      console.log('  Reused page from the card-page check');
+      pageResult = { content: sharedPages.get(card.slug), usedBrowser: false, reused: true };
+      reusedPages++;
+    } else {
+      try {
+        pageResult = await withTimeout(
+          fetchPageContent(card.data.apply_link),
+          PER_CARD_TIMEOUT_MS,
+          `fetch ${card.data.name}`
+        );
+      } catch (err) {
+        console.warn(`  Fetch failed: ${err.message}`);
+        summary.fetchFailed++;
+        continue;
+      }
     }
     if (!pageResult) {
       summary.fetchFailed++;
@@ -2213,7 +2281,7 @@ async function main() {
       fs.writeFileSync(path.join(PAGES_DIR, `${card.slug}.txt`), pageResult.content);
       fetchedSlugs.push(card.slug);
       console.log('  Prompt written');
-      await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
+      if (!pageResult.reused) await new Promise(r => setTimeout(r, FETCH_DELAY_MS));
       continue;
     }
 
@@ -2255,8 +2323,10 @@ async function main() {
       fetched: fetchedSlugs,
       fetch_failed: summary.fetchFailed,
       not_reached: notReached,
+      reused_pages: reusedPages,
     }, null, 2));
     console.log(`\nWrote ${fetchedSlugs.length} prompt(s) to ${path.relative(process.cwd(), PROMPTS_DIR)}`);
+    if (SHARED_PAGES_FROM) console.log(`${reusedPages} of them reused a page from the card-page check.`);
     console.log(`${summary.fetchFailed} card(s) could not be fetched.`);
     if (notReached.length > 0) {
       // The work dir is wiped at the start of every fetch, so a recovery pass
@@ -2465,6 +2535,7 @@ if (require.main === module) {
 
 module.exports = {
   filterCardsForCheck,
+  loadSharedPages,
   isSpendGatedDollarValue,
   editRewardCapFields,
   findRewardBlock,

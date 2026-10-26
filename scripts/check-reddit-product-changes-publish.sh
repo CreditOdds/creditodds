@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Publish step for the daily Reddit product-change check. Runs AFTER
+# Publish step for the weekly Reddit product-change check. Runs AFTER
 # `node scripts/sweep-reddit-product-changes.js --phase=finish` has written the
 # accepted changes to data/reddit-product-changes/.
 #
@@ -13,9 +13,18 @@
 #   2. Open the auto-product-changes-* review PR from a branch based on
 #      origin/main.
 #
-# Usage: scripts/check-reddit-product-changes-publish.sh
+# Usage: scripts/check-reddit-product-changes-publish.sh [--state-only]
+#
+# --state-only does job 1 and stops, leaving the accepted files in the working
+# tree. That is how the routine runs: the product-change pass rides along with
+# Wednesday's data-point run, and check-reddit-datapoints-publish.sh opens one
+# PR carrying both. Without the flag this opens its own auto-product-changes-*
+# PR, for a standalone run.
 
 set -euo pipefail
+
+STATE_ONLY=0
+[ "${1:-}" = "--state-only" ] && STATE_ONLY=1
 
 cd "$(dirname "$0")/.."
 
@@ -41,6 +50,11 @@ fi
 # ── 2. Review PR ─────────────────────────────────────────────────────────────
 if [ -z "$(git status --porcelain data/reddit-product-changes/)" ]; then
   echo "No product changes to propose."
+  exit 0
+fi
+
+if [ "$STATE_ONLY" = 1 ]; then
+  echo "Product changes left in data/reddit-product-changes/ for the combined data-points PR."
   exit 0
 fi
 

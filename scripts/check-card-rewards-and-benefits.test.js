@@ -33,6 +33,7 @@ const {
   loadDeclined,
   rewardValueKey,
   filterCardsForCheck,
+  loadSharedPages,
 } = require('./check-card-rewards-and-benefits');
 
 const NOOP_POLICY = { exclude: [], borderline: [], exampleCards: [] };
@@ -1086,6 +1087,63 @@ test('a listed slug that is archived or link-less stays excluded', () => {
 test('unknown slugs are dropped rather than throwing', () => {
   const got = filterCardsForCheck(CATALOG, 'alpha,does-not-exist').map(c => c.slug);
   assert.deepEqual(got, ['alpha']);
+});
+
+console.log('\nloadSharedPages (reuse the card-page check fetch)');
+
+const os = require('node:os');
+const EARN_PAGE = 'Earn 5% cash back on travel, 3% on dining, 2% at grocery stores and 1% on everything else. '.repeat(5);
+
+function sharedDir({ fetchedAt = new Date().toISOString(), fetched, pages }) {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rb-shared-'));
+  fs.mkdirSync(path.join(dir, 'pages'));
+  fs.writeFileSync(path.join(dir, 'fetch-state.json'), JSON.stringify({ fetched_at: fetchedAt, fetched }));
+  for (const [slug, text] of Object.entries(pages)) {
+    fs.writeFileSync(path.join(dir, 'pages', `${slug}.txt`), text);
+  }
+  return dir;
+}
+
+test('reuses a fresh page with an earn table', () => {
+  const dir = sharedDir({ fetched: ['alpha'], pages: { alpha: EARN_PAGE } });
+  const got = loadSharedPages(dir, [card('alpha')]);
+  assert.deepEqual([...got.keys()], ['alpha']);
+});
+
+test('no dir means no reuse', () => {
+  assert.equal(loadSharedPages(null, [card('alpha')]).size, 0);
+});
+
+test('a page with no earn-rate text is fetched live instead', () => {
+  // The card-page fetch stops once it sees offer language, so a JS-rendered
+  // earn table can be missing from its copy.
+  const dir = sharedDir({ fetched: ['alpha'], pages: { alpha: 'Get a $200 bonus after you spend $500. '.repeat(10) } });
+  assert.equal(loadSharedPages(dir, [card('alpha')]).size, 0);
+});
+
+test('a card with special_apply_link or page_check_url is fetched live', () => {
+  const dir = sharedDir({ fetched: ['alpha', 'bravo'], pages: { alpha: EARN_PAGE, bravo: EARN_PAGE } });
+  const cards = [
+    card('alpha', { special_apply_link: 'https://example.com/offer' }),
+    card('bravo', { page_check_url: 'https://example.com/terms' }),
+  ];
+  assert.equal(loadSharedPages(dir, cards).size, 0);
+});
+
+test('a page the card-page fetch skipped is not reused, even if a file is left over', () => {
+  const dir = sharedDir({ fetched: [], pages: { alpha: EARN_PAGE } });
+  assert.equal(loadSharedPages(dir, [card('alpha')]).size, 0);
+});
+
+test('a stale card-page fetch is ignored entirely', () => {
+  const old = new Date(Date.now() - 13 * 60 * 60 * 1000).toISOString();
+  const dir = sharedDir({ fetchedAt: old, fetched: ['alpha'], pages: { alpha: EARN_PAGE } });
+  assert.equal(loadSharedPages(dir, [card('alpha')]).size, 0);
+});
+
+test('a missing fetch-state.json means no reuse', () => {
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'rb-shared-'));
+  assert.equal(loadSharedPages(dir, [card('alpha')]).size, 0);
 });
 
 console.log('\nDone.\n');

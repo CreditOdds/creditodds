@@ -5,41 +5,45 @@
  *
  * Reads a list of referrals due for validation from `batch.json`, fetches
  * each referral URL with Playwright (falling back from a simple fetch),
- * and asks a model whether the link still serves a working referral.
+ * and decides whether the link still serves a working referral.
  * Writes per-referral results to `results.json`.
  *
  * Conservative detection only (per project_referral_validation_roadmap.md):
- *   - HTTP 4xx/410/timeout/DNS-fail short-circuit to expired/unreachable
- *     (no model call needed).
- *   - HTTP 200 → the model looks for explicit dead signals (e.g. "this
- *     referral has expired", "no longer available", "this offer has ended").
- *     Anything else returns "valid".
- *   - A check that never happened is LEFT OUT of results.json and simply
- *     re-checked next run: a model API error, a missing verdict, Playwright
- *     not being installed, or this script's own per-referral timeout. Those
- *     are failures of the checker, not of the link. (The Complete Lambda no
- *     longer strikes on "unreachable" either, but a left-out result also
- *     keeps last_validated_at unchanged, so the retry comes the next day
- *     instead of 7 days later.)
+ *   - HTTP 4xx/410/timeout/DNS-fail short-circuit to expired/unreachable.
+ *   - HTTP 200 → the page text is matched against a fixed list of explicit
+ *     dead-signal phrases (DEAD_SIGNALS: "this referral link has expired",
+ *     "no longer accepting referrals", "this offer has ended", ...). A match
+ *     is "expired", quoting the phrase; anything else is "valid".
+ *   - A bot wall or captcha page (BOT_WALLS) is not a verdict on the link, so
+ *     it is LEFT OUT of results.json and re-checked next run, the same as a
+ *     check that never happened: Playwright not being installed, or this
+ *     script's own per-referral timeout. Those are failures of the checker,
+ *     not of the link. (The Complete Lambda no longer strikes on
+ *     "unreachable" either, but a left-out result also keeps
+ *     last_validated_at unchanged, so the retry comes the next day instead of
+ *     7 days later.)
+ *
+ * No model is involved. The rule was always "expired ONLY on an explicit
+ * dead-signal phrase, otherwise valid", which is a phrase match. A wording the
+ * list misses reads as "valid": a missed expiry costs nothing, while a wrong
+ * "expired" auto-archives a working link and emails its owner.
  *
  * Phases (--phase=...):
- *   all    (default) one pass, classifying via the OpenAI API. What the
- *          `Check Referrals` workflow_dispatch runs.
+ *   all    (default) one pass, classifying by phrase match. What the daily
+ *          `Check Referrals` workflow runs.
  *   fetch  fetch every page; status-decided results go to
  *          <work>/prefetched.json, and each page that needs a verdict gets a
  *          self-contained prompt at <work>/prompts/<referral_id>.txt.
- *          No API key needed.
  *   finish merge prefetched.json with <work>/verdicts.json
  *          ({ "<referral_id>": { status, reason } }) into results.json.
- * The fetch/finish split is driven by the local `referral-check-local`
- * scheduled task (scripts/check-referrals-local.sh), where the Claude Code
- * session writes verdicts.json itself.
+ * The fetch/finish split is the manual escape hatch for having a Claude Code
+ * session judge pages by hand (scripts/check-referrals-local.sh), e.g. to
+ * check a wording the phrase list does not cover yet.
  *
  * Inputs (env / files):
  *   BATCH_FILE        : path to batch JSON              (default ./batch.json)
  *   RESULTS_FILE      : path to results JSON            (default ./results.json)
  *   REFERRAL_WORK_DIR : fetch/finish work dir           (default ./.referral-check-work)
- *   OPENAI_API_KEY    : required for --phase=all only
  *
  * batch.json shape : { referrals: [{ referral_id, card_id, card_name, referral_link }] }
  * results.json shape : { results: [{ referral_id, status, reason }] }
@@ -223,56 +227,74 @@ Rules:
 - When unsure, return "valid". A missed expiry is cheap; a wrong "expired" auto-archives a working link after two runs.`;
 }
 
-// Clamp to the two values a model may produce. unreachable comes only from
-// the network layer; the model never emits it.
+// Clamp to the two values a verdict may carry. unreachable comes only from
+// the network layer; a verdict never emits it.
 function clampVerdict(parsed) {
   const status = parsed && parsed.status === 'expired' ? 'expired' : 'valid';
   return { status, reason: String((parsed && parsed.reason) || '').slice(0, 200) };
 }
 
-async function classifyWithOpenAI(cardName, referralUrl, finalUrl, pageContent) {
-  const apiKey = process.env.OPENAI_API_KEY;
-  if (!apiKey) throw new Error('OPENAI_API_KEY required');
+// Explicit dead-signal phrases. Matched against the stripped page text after
+// whitespace is collapsed, case-insensitively. Each one says the referral
+// itself is gone, not merely that some offer on the page has terms: generic
+// apply pages, a missing referrer name, or a different bonus are all "valid".
+const DEAD_SIGNALS = [
+  /\b(?:this|the|your)\s+(?:referral|invitation|invite)(?:\s+(?:link|offer|code|url))?(?:\s+you\s+(?:used|followed|clicked))?\s+(?:has|have)\s+expired\b/i,
+  /\b(?:this|the|your)\s+(?:referral|invitation|invite)(?:\s+(?:link|offer|code|url))?(?:\s+you\s+(?:used|followed|clicked))?\s+is\s+(?:no\s+longer\s+(?:valid|active|available)|expired|invalid)\b/i,
+  /\bno\s+longer\s+accepting\s+referrals\b/i,
+  /\b(?:this|the)\s+(?:referral\s+)?offer\s+is\s+no\s+longer\s+available\b/i,
+  /\b(?:this|the)\s+(?:referral\s+)?offer\s+has\s+(?:ended|expired)\b/i,
+  /\breferral\s+program\s+(?:has\s+(?:ended|been\s+discontinued)|is\s+no\s+longer\s+(?:active|available))\b/i,
+  /\b(?:this|the)\s+link(?:\s+you\s+(?:used|followed|clicked))?\s+(?:is\s+no\s+longer\s+(?:valid|active)|has\s+expired)\b/i,
+];
 
-  const response = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${apiKey}`,
-    },
-    body: JSON.stringify({
-      model: 'gpt-4o-mini',
-      max_tokens: 256,
-      messages: [{ role: 'user', content: buildPrompt(cardName, referralUrl, finalUrl, pageContent) }],
-      response_format: { type: 'json_object' },
-    }),
-  });
+// A dead-signal phrase inside a condition ("if this offer has ended, ...") is
+// boilerplate about some future state, not a statement about this page.
+const CONDITIONAL_LEAD_IN = /\b(?:if|when|once|after|unless|until)\b[^.!?]{0,40}$/i;
 
-  if (!response.ok) {
-    const errText = await response.text();
-    throw new Error(`OpenAI API error: ${response.status} — ${errText}`);
+// Bot walls and captcha pages. Short by nature, so a long real page that
+// happens to mention one of these words is not thrown away.
+const BOT_WALL_MAX_CHARS = 3000;
+const BOT_WALLS = [
+  /\bcaptcha\b/i,
+  /\baccess\s+denied\b/i,
+  /\bare\s+you\s+a\s+(?:robot|human)\b/i,
+  /\bnot\s+a\s+robot\b/i,
+  /\bverify\s+(?:you\s+are|that\s+you're|you're)\s+(?:a\s+)?human\b/i,
+  /\bunusual\s+(?:traffic|activity)\b/i,
+  /\bpardon\s+our\s+interruption\b/i,
+  /\brequest\s+unsuccessful\b/i,
+  /\bjust\s+a\s+moment\b/i,
+  /\bclick\s+the\s+button\s+below\s+to\s+continue\s+shopping\b/i,
+];
+
+// Returns { status, reason } for a fetched page, or null when the page is a
+// bot wall and says nothing about the link (left out, re-checked next run).
+function classifyByPhrases(pageContent) {
+  const text = String(pageContent || '').replace(/\s+/g, ' ');
+
+  for (const re of DEAD_SIGNALS) {
+    const global = new RegExp(re.source, 'gi');
+    let m;
+    while ((m = global.exec(text)) !== null) {
+      const before = text.slice(Math.max(0, m.index - 60), m.index);
+      if (CONDITIONAL_LEAD_IN.test(before)) continue;
+      return { status: 'expired', reason: `page says "${m[0]}"` };
+    }
   }
 
-  const data = await response.json();
-  const text = (data.choices[0]?.message?.content || '{}')
-    .replace(/^```json?\n?/, '')
-    .replace(/\n?```$/, '')
-    .trim();
-
-  let parsed;
-  try {
-    parsed = JSON.parse(text);
-  } catch (err) {
-    console.warn(`  Could not parse OpenAI response: ${err.message}`);
-    return { status: 'valid', reason: 'unparseable model response; defaulting to valid' };
+  if (text.length <= BOT_WALL_MAX_CHARS) {
+    const wall = BOT_WALLS.find((re) => re.test(text));
+    if (wall) return null;
   }
-  return clampVerdict(parsed);
+
+  return { status: 'valid', reason: 'no dead-signal phrase on the page' };
 }
 
 // ─── Fetch loop (shared by --phase=all and --phase=fetch) ───────────────────
 
 // Fetches every referral and settles the ones the network layer can decide
-// alone. Each page that needs a model verdict goes to onNeedsVerdict, which
+// alone. Each page that needs a verdict goes to onNeedsVerdict, which
 // returns a verdict ({ status, reason }) or null when none was produced. A
 // null is left out of the results, so the referral is simply checked again
 // next run instead of earning a failure strike it did not deserve. The same
@@ -323,7 +345,7 @@ async function fetchAll(referrals, onNeedsVerdict) {
             return;
           }
 
-          // HTTP 200 with content → needs a model verdict.
+          // HTTP 200 with content → needs a verdict.
           const verdict = await onNeedsVerdict(ref, fetched);
           if (!verdict) {
             noVerdict++;
@@ -371,22 +393,15 @@ function writeResults(results) {
 // ─── Phases ──────────────────────────────────────────────────────────────────
 
 async function runAll() {
-  if (!process.env.OPENAI_API_KEY) {
-    console.error('Error: OPENAI_API_KEY environment variable is required');
-    process.exit(1);
-  }
   const referrals = loadBatch();
   const { results, noVerdict } = await fetchAll(referrals, async (ref, fetched) => {
-    try {
-      return await classifyWithOpenAI(ref.card_name, ref.referral_link, fetched.finalUrl, fetched.content);
-    } catch (err) {
-      console.warn(`  Classifier error: ${err.message.slice(0, 200)} — leaving out of results`);
-      return null;
-    }
+    const verdict = classifyByPhrases(fetched.content);
+    if (!verdict) console.warn('  Bot wall or captcha page; left out of results');
+    return verdict;
   });
   writeResults(results);
   if (noVerdict > 0) {
-    console.warn(`::warning::${noVerdict} referral(s) got no verdict (classifier errors) and were left out; they will be re-checked next run.`);
+    console.warn(`::warning::${noVerdict} referral(s) hit a bot wall and were left out; they will be re-checked next run.`);
   }
 }
 
@@ -444,8 +459,12 @@ async function main() {
   process.exit(1);
 }
 
-main().catch(async (err) => {
-  console.error('Fatal error:', err);
-  await closeBrowser();
-  process.exit(1);
-});
+module.exports = { classifyByPhrases };
+
+if (require.main === module) {
+  main().catch(async (err) => {
+    console.error('Fatal error:', err);
+    await closeBrowser();
+    process.exit(1);
+  });
+}

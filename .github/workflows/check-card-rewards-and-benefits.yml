@@ -6,10 +6,11 @@ name: Check Card Rewards and Benefits
 # (newer, more complex) benefits flow can't take down the working SUB flow.
 
 # SCHEDULE DISABLED 2026-07-21. The weekly sweep now runs from a local Claude
-# Code session (`card-rewards-benefits-local` scheduled task, Sundays), which
-# answers the extraction prompts in-session instead of spending ~148 gpt-4o
-# calls a week on the API. The script grew --phase=fetch/--phase=finish for
-# exactly this; see its header.
+# Code session, which answers the extraction prompts in-session instead of
+# spending ~148 gpt-4o calls a week on the API. The script grew
+# --phase=fetch/--phase=finish for exactly this; see its header. Since
+# 2026-10-26 it is the weekly rewards pass of the combined card sweep
+# (`card-page-check-local`), reusing that sweep's page fetch.
 #
 # This workflow is kept as a manual escape hatch: dispatching it still runs the
 # full single pass, which needs OPENAI_API_KEY. Re-enable the cron below only if

@@ -7,9 +7,9 @@
 # This is the local counterpart to everything
 # .github/workflows/check-card-rewards-and-benefits.yml does around the script:
 # validate, open one PR per modified card, and file the weekly review issue.
-# The check itself is driven by the Claude Code session (see the
-# `card-rewards-benefits-local` scheduled task), because the extraction happens
-# there rather than through a paid gpt-4o call per card.
+# The check itself is driven by the Claude Code session (the weekly rewards
+# pass of the `card-page-check-local` scheduled task), because the extraction
+# happens there rather than through a paid gpt-4o call per card.
 #
 # Usage:  scripts/check-card-rewards-benefits-publish.sh
 
@@ -79,7 +79,7 @@ else
     {
       printf 'The weekly rewards-and-benefits check picked up changes on the apply page for **%s**.\n\n' "$CARD_NAME"
       printf '**Apply link (verify against this):** %s\n\n' "$APPLY_LINK"
-      printf 'Opened by `scripts/check-card-rewards-and-benefits.js` via the local `card-rewards-benefits-local` routine. Only changes that passed the editorial filter in `data/benefit-policy.yaml` are here; borderline items were routed to the weekly review issue instead, and benefits previously removed from this card were skipped.\n\n'
+      printf 'Opened by `scripts/check-card-rewards-and-benefits.js` via the weekly rewards pass of the local `card-page-check-local` routine. Only changes that passed the editorial filter in `data/benefit-policy.yaml` are here; borderline items were routed to the weekly review issue instead, and benefits previously removed from this card were skipped.\n\n'
       printf 'Review against the live apply page before merging.\n'
     } > "$BODY_FILE"
 
@@ -96,7 +96,7 @@ fi
 if [ -s "$REVIEW_FILE" ]; then
   echo "=== Opening weekly review issue ==="
   ISSUE_BODY=$(printf '%s\n\n%s' \
-    "Weekly review queue from the local \`card-rewards-benefits-local\` routine. Two kinds of items show up here: (a) **stale rotating-category periods** — quarterly cards (Discover It, Freedom Flex, etc.) whose \`current_period\` doesn't match this quarter, and (b) **borderline benefits** the checker spotted on apply pages but couldn't auto-PR (generic travel insurance, secondary CDW, purchase protection, and similar). Triage each manually." \
+    "Weekly review queue from the rewards pass of the local \`card-page-check-local\` routine. Two kinds of items show up here: (a) **stale rotating-category periods** — quarterly cards (Discover It, Freedom Flex, etc.) whose \`current_period\` doesn't match this quarter, and (b) **borderline benefits** the checker spotted on apply pages but couldn't auto-PR (generic travel insurance, secondary CDW, purchase protection, and similar). Triage each manually." \
     "$(cat "$REVIEW_FILE")")
   gh issue create \
     --title "Card benefits review — ${DATE}" \

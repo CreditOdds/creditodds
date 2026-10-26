@@ -227,8 +227,8 @@ const CAPS = {
   // exercises the retry or the request loop would sit through the real waits.
   //
   // Raised 8s → 15s on 2026-09-09. 8s was cheap per request but not actually
-  // cheaper per run: three unauthenticated local routines share this IP
-  // (card-news-local and reddit-product-changes-local are the other two), and
+  // cheaper per run: three unauthenticated local fetches share this IP
+  // (card-news-local and the Wednesday product-change pass are the other two), and
   // on 2026-09-09 the fetch phase took five 61s backoffs, lost /new page 2 and
   // the megathread outright, and reached only 2 of 5 pending revisits. A
   // backoff costs 61s, so trading ~7s of spacing to avoid even one of them wins
