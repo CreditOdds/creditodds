@@ -1000,7 +1000,9 @@ function pagedFetch(pages) {
   let call = 0;
   global.fetch = async (url) => {
     cursors.push(new URL(url).searchParams.get('after'));
-    const page = pages[call++];
+    // Past the last fixture page, serve an empty listing: that is what Reddit
+    // returns at the end of /new, and it ends the crawl.
+    const page = pages[call++] || [];
     if (page instanceof Error) throw page;
     return { ok: true, status: 200, text: async () => newFeedPage(page) };
   };
@@ -1020,7 +1022,8 @@ testAsync('the crawl walks several pages back with an after cursor', async () =>
     assert.equal(candidates.length, 8, 'every page of unseen posts should reach the session');
     // Page 1 has no cursor; each later page resumes after the previous page's
     // last post, which is what actually moves the window back.
-    assert.deepEqual(cursors, [null, 't3_a2', 't3_b2', 't3_c2']);
+    // The fifth request is the empty end-of-listing page that stops the crawl.
+    assert.deepEqual(cursors, [null, 't3_a2', 't3_b2', 't3_c2', 't3_d2']);
     assert.match(label, /4 page\(s\), 8 unseen/);
   } finally {
     global.fetch = original;
