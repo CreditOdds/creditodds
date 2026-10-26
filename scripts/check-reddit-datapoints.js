@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Check Reddit Data Points — local, daily approval/denial data-point discovery.
+ * Check Reddit Data Points — local, weekly approval/denial data-point discovery.
  *
  * Sibling of check-card-news.js (same fetch/finish split, same Reddit access
  * constraints): everything exact (feed fetching, seen-state dedupe, schema
@@ -167,7 +167,7 @@ const RUN_LOG_LIMIT = 60;
 /**
  * How many pages of /new to walk, and why this exists.
  *
- * The routine reads `/new` once a day and used to stop at the first 100 posts.
+ * The routine used to read `/new` once a day and stop at the first 100 posts.
  * r/CreditCards posts well past 100 a day, so a single page could not cover a
  * day of the sub no matter how good the extractor was: everything below the
  * newest 100 was never fetched, never a candidate, and never counted as a miss.
@@ -176,26 +176,29 @@ const RUN_LOG_LIMIT = 60;
  *
  * Reddit's listing endpoints take an `after` cursor, and .rss honours it like
  * any other listing renderer, so one run can walk several pages back instead of
- * sampling the top. Four pages covers ~400 posts, comfortably more than a day.
- * The cost is 3 extra requests at CAPS.requestSpacingMs apart, which is far
- * cheaper than the comment expansion the same run already does.
+ * sampling the top.
  *
- * Paging stops early (see fetchNewPosts) once a page yields nothing we have not
- * already seen, so on a normal day the seen-state cuts this short by itself and
- * only a backlog actually pays for all four pages.
+ * The routine went weekly on 2026-10-26, so one run has to cover seven days of
+ * posts, not one. At 100+ posts a day that is ~700-1,000 posts, and Reddit
+ * stops serving a listing at about 1,000 items (10 pages), so this is set to
+ * that ceiling. The cost is up to 9 extra requests at CAPS.requestSpacingMs
+ * apart; a throttled page keeps the pages already read (see fetchNewPosts).
+ *
+ * Paging stops early once a page yields nothing we have not already seen, so
+ * the seen-state cuts this short by itself when last week's run is reached.
  */
-const NEW_FEED_PAGES = 4;
+const NEW_FEED_PAGES = 10;
 
 const CAPS = {
-  // Raised from 40/60 when /new started paging (NEW_FEED_PAGES). One page could
-  // never produce more than a handful of signal-matching posts, so the old caps
-  // were slack that never bound; against four pages they would silently become
-  // the new ceiling, which is the exact failure this change exists to remove.
-  // Both are reported when they truncate — see phaseFetch.
-  newPosts: 60,
-  threadComments: 60,
+  // Raised from 40/60 when /new started paging (NEW_FEED_PAGES), then to a
+  // week's worth when the routine went weekly (2026-10-26). Daily runs saw 5 to
+  // 25 candidates, so a week is ~100; the old daily caps would silently become
+  // the ceiling and drop most of the week. Both are reported when they
+  // truncate — see phaseFetch.
+  newPosts: 150,
+  threadComments: 100,
   bodyChars: 2500,
-  totalCandidates: 80,
+  totalCandidates: 180,
   // OP-reply expansion. Each expanded post costs one extra Reddit request at 8s
   // spacing, so the cap is what bounds the fetch phase's runtime (and our rate
   // of unauthenticated requests) more than anything else.
@@ -539,7 +542,7 @@ async function fetchNewPosts(seenIds) {
   if (matched.length > kept.length) {
     console.warn(
       `  /new: ${matched.length} signal-matching post(s) found, keeping ${kept.length} (CAPS.newPosts). ` +
-        `${matched.length - kept.length} dropped unread and marked unseen — they will resurface tomorrow.`
+        `${matched.length - kept.length} dropped unread and marked unseen — they will resurface next run.`
     );
   }
   return {
@@ -890,7 +893,7 @@ date_applied: "2026-07"
 evidence: "Poster reports approval with a 742 score, $85k income, and a $10k starting limit."
 \`\`\`
 
-Omit unknown optional fields entirely (no nulls). One candidate reporting several applications ("approved for CSP, denied for Amex Gold") produces several files with #2/#3 suffixes on the same source_id. Hard cap: 25 data points per run — keep the clearest ones if a megathread overflows.
+Omit unknown optional fields entirely (no nulls). One candidate reporting several applications ("approved for CSP, denied for Amex Gold") produces several files with #2/#3 suffixes on the same source_id. Hard cap: 40 data points per run (a week of posts) — keep the clearest ones if it overflows.
 
 ## Near-misses: the pending bucket
 
@@ -1281,7 +1284,7 @@ function buildPrBody(written, pending, dispositions) {
 
   return `## Proposed Reddit data points — ${TODAY}
 
-Extracted from public r/CreditCards posts by the daily \`reddit-datapoints-local\` task. Each row below is one file in \`data/reddit-datapoints/\`; the \`evidence\` line inside each file says what the post reports.
+Extracted from public r/CreditCards posts by the weekly \`reddit-datapoints-local\` task. Each row below is one file in \`data/reddit-datapoints/\`; the \`evidence\` line inside each file says what the post reports.
 
 | Source | Card | Result | Score | Income | Limit | History (yrs) | Applied | File |
 |---|---|---|---|---|---|---|---|---|
@@ -1719,7 +1722,7 @@ async function phaseFetch() {
 
   // Stage the seen-state update: every candidate presented this run counts as
   // seen. The publish script pushes this to main only after a successful run,
-  // so a run that dies mid-extraction re-presents its candidates tomorrow.
+  // so a run that dies mid-extraction re-presents its candidates next run.
   const cutoff = new Date(Date.now() - STATE_RETENTION_DAYS * 86400000).toISOString().slice(0, 10);
   const seen = {};
   for (const [id, date] of Object.entries(state.seen)) {

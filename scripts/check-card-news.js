@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Check Card News — local, twice-daily news discovery.
+ * Check Card News — local, weekly news discovery.
  *
  * Successor to the deleted auto-news-update.js (PR #1688), rebuilt for the
  * local scheduled-task pattern (see check-card-pages.js --phase=fetch/finish):
@@ -11,8 +11,9 @@
  * No LLM API keys are used anywhere in this script.
  *
  * Phases:
- *   --phase=fetch   Pull candidates from r/churning (News & Updates thread),
- *                   r/CreditCards (top of day), Doctor of Credit (RSS), and
+ *   --phase=fetch   Pull candidates from r/churning (the week's News & Updates
+ *                   threads), r/CreditCards (top of the week), Doctor of
+ *                   Credit (RSS, paged back a week), and
  *                   Google News RSS (+ Brave web search when
  *                   BRAVE_SEARCH_API_KEY is set). Assemble the dedup context
  *                   (existing news, rejected news, items sitting in open
@@ -87,17 +88,31 @@ const MAJOR_BANKS = [
   'Wells Fargo', 'Discover', 'Barclays', 'U.S. Bank',
 ];
 
-// Per-source caps keep the triage prompt bounded no matter how noisy a day is.
+// The routine runs once a week (Mondays), so every source reaches back a full
+// week plus a day of slack: the scheduler adds a few minutes of jitter, and a
+// run that slips must not leave a gap between this week's window and last
+// week's. The triage prompt's "Recent" rule uses the same number.
+const LOOKBACK_DAYS = 8;
+
+// Per-source caps keep the triage prompt bounded no matter how noisy a week is.
+// Sized for a week of sources, not a day: the daily routine's caps (40 churning
+// comments, 25 posts, 25 DoC items, 140 total) were a day's worth each.
 const CAPS = {
-  churningComments: 40,
+  // r/churning posts one "News and Updates Thread" a day; read the week's.
+  churningThreads: 7,
+  churningCommentsPerThread: 15,
+  churningComments: 100,
   churningBodyChars: 1500,
-  redditPosts: 25,
+  redditPosts: 50,
   redditBodyChars: 1200,
-  docItems: 25,
+  // The DoC credit-cards feed carries 15 items, about 5 days; page back to
+  // cover LOOKBACK_DAYS.
+  docFeedPages: 4,
+  docItems: 60,
   rssDescChars: 400,
   googleItemsPerQuery: 12,
   braveItemsPerQuery: 10,
-  totalCandidates: 140,
+  totalCandidates: 320,
 };
 
 // ── Shared loaders (same shapes as auto-news-from-reddit.js) ─────────────────
@@ -237,8 +252,12 @@ const REDDIT_RESET_BUFFER_MS = 3000;
 const REDDIT_MAX_SLEEP_MS = 90000;
 const REDDIT_MAX_RETRIES = 2;
 // Total time this run may spend waiting on Reddit. Once spent, remaining Reddit
-// requests fail fast and the other four sources carry the run.
-const REDDIT_TOTAL_WAIT_BUDGET_MS = 5 * 60 * 1000;
+// requests fail fast and the other four sources carry the run. A weekly run
+// makes ~9 Reddit requests (r/CreditCards, the r/churning listing, one per
+// day's thread) at roughly one per minute, so this was raised 5 → 12 min when
+// the routine went weekly; 5 min dropped two churning days and r/CreditCards
+// in the first weekly-window test (2026-10-26).
+const REDDIT_TOTAL_WAIT_BUDGET_MS = 12 * 60 * 1000;
 
 const redditLimit = { remaining: null, resetAt: 0, waitedMs: 0 };
 
@@ -357,8 +376,10 @@ function withinDays(pubDate, days) {
 }
 
 async function fetchChurningCandidates() {
-  const listing = parseAtom(await redditRss('https://www.reddit.com/r/churning/new/.rss'));
-  const threads = listing.filter((e) => /^news and updates thread\b/i.test(e.title));
+  const listing = parseAtom(await redditRss('https://www.reddit.com/r/churning/new/.rss?limit=100'));
+  const threads = listing
+    .filter((e) => /^news and updates thread\b/i.test(e.title))
+    .slice(0, CAPS.churningThreads);
   if (!threads.length) throw new Error('no "News and Updates Thread" in r/churning/new feed');
 
   const readThread = async (thread) => {
@@ -367,7 +388,8 @@ async function fetchChurningCandidates() {
     const entries = parseAtom(await redditRss(`${threadUrl}/.rss?sort=top&limit=100`));
     // First entry is the post itself; the rest are comments. The Atom feed
     // carries no scores, so the old score>=2 filter is gone — the triage
-    // prompt is the quality gate now.
+    // prompt is the quality gate now. sort=top puts the most-upvoted first,
+    // so the per-thread cap keeps each day's strongest comments.
     return entries
       .slice(1)
       .filter((c) => {
@@ -377,6 +399,7 @@ async function fetchChurningCandidates() {
         if (/self[\s-]?promotion/i.test(c.content)) return false;
         return true;
       })
+      .slice(0, CAPS.churningCommentsPerThread)
       .map((c) => ({
         source: 'r/churning',
         title: truncate(c.content, 120),
@@ -385,23 +408,31 @@ async function fetchChurningCandidates() {
       }));
   };
 
-  // The newest thread is nearly empty for hours after it posts (the old JSON
-  // script mined yesterday's settled thread for this reason). If it is still
-  // sparse, mine the previous day's thread too.
-  let candidates = await readThread(threads[0]);
-  let label = `r/churning "${threads[0].title}"`;
-  if (candidates.length < 5 && threads[1]) {
-    candidates = candidates.concat(await readThread(threads[1]));
-    label += ` + "${threads[1].title}"`;
+  // One thread per day, newest first. A thread that fails to load costs only
+  // its own day, as long as at least one thread came back.
+  let candidates = [];
+  let read = 0;
+  let lastError = null;
+  for (const thread of threads) {
+    try {
+      candidates = candidates.concat(await readThread(thread));
+      read++;
+    } catch (err) {
+      lastError = err;
+      console.warn(`  r/churning "${thread.title}" failed (${err.message.split('\n')[0]}); skipping that day`);
+    }
   }
+  if (read === 0) throw lastError;
 
-  return { label, candidates: candidates.slice(0, CAPS.churningComments) };
+  return {
+    label: `r/churning News and Updates threads (${read} of ${threads.length} read)`,
+    candidates: candidates.slice(0, CAPS.churningComments),
+  };
 }
 
 async function fetchCreditCardsSubreddit() {
-  // No manual spacing here either: the churning fetcher runs first and leaves
-  // the shared budget state behind, so redditRss already knows to hold off.
-  const entries = parseAtom(await redditRss('https://www.reddit.com/r/CreditCards/top/.rss?t=day&limit=50'));
+  // No manual spacing here: redditRss paces itself off the rate-limit headers.
+  const entries = parseAtom(await redditRss('https://www.reddit.com/r/CreditCards/top/.rss?t=week&limit=100'));
   const kept = entries
     .filter((p) => {
       const t = (p.title || '').toLowerCase();
@@ -413,7 +444,7 @@ async function fetchCreditCardsSubreddit() {
     .slice(0, CAPS.redditPosts);
 
   return {
-    label: 'r/CreditCards top (day)',
+    label: 'r/CreditCards top (week)',
     candidates: kept.map((p) => ({
       source: 'r/CreditCards',
       title: truncate(p.title, 200),
@@ -424,12 +455,27 @@ async function fetchCreditCardsSubreddit() {
 }
 
 async function fetchDoctorOfCredit() {
-  const res = await fetchWithTimeout('https://www.doctorofcredit.com/category/credit-cards/feed/', {
-    headers: { 'User-Agent': 'CreditOdds-NewsBot/1.0' },
-  });
-  if (!res.ok) throw new Error(`Doctor of Credit feed -> ${res.status}`);
-  const items = parseRss(await res.text())
-    .filter((i) => withinDays(i.pubDate, 4))
+  // WordPress feeds page with ?paged=N. Stop at the first page that reaches
+  // past the lookback window; only page 1 is allowed to fail the source.
+  const all = [];
+  for (let page = 1; page <= CAPS.docFeedPages; page++) {
+    const url = `https://www.doctorofcredit.com/category/credit-cards/feed/${page > 1 ? `?paged=${page}` : ''}`;
+    let items;
+    try {
+      const res = await fetchWithTimeout(url, { headers: { 'User-Agent': 'CreditOdds-NewsBot/1.0' } });
+      if (!res.ok) throw new Error(`Doctor of Credit feed page ${page} -> ${res.status}`);
+      items = parseRss(await res.text());
+    } catch (err) {
+      if (page === 1) throw err;
+      console.warn(`  ${err.message}; keeping ${page - 1} page(s)`);
+      break;
+    }
+    if (items.length === 0) break;
+    all.push(...items);
+    if (items.some((i) => !withinDays(i.pubDate, LOOKBACK_DAYS))) break;
+  }
+  const items = all
+    .filter((i) => withinDays(i.pubDate, LOOKBACK_DAYS))
     .slice(0, CAPS.docItems);
 
   return {
@@ -473,7 +519,7 @@ async function fetchGoogleNews() {
       });
       if (!res.ok) throw new Error(`-> ${res.status}`);
       const items = parseRss(await res.text())
-        .filter((i) => withinDays(i.pubDate, 7))
+        .filter((i) => withinDays(i.pubDate, LOOKBACK_DAYS))
         .slice(0, CAPS.googleItemsPerQuery);
       for (const i of items) {
         candidates.push({
@@ -580,7 +626,7 @@ You are a highly selective credit card news editor for CreditOdds. Identify ONLY
 ## STRICT selection criteria (a story must meet ALL of these)
 1. **High impact**: significantly affects cardholders — major fee changes, significant benefit additions/removals, card launches or discontinuations from major issuers, transfer-partner or policy changes.
 2. **Confirmed**: officially announced or independently verifiable. You MUST verify every story against a primary source (issuer page, official press release) or a reliable secondary source (Doctor of Credit, The Points Guy, NerdWallet) by fetching it before writing. A story that only exists as a Reddit comment and cannot be corroborated is not publishable — unless it is high-impact and widely reported, in which case it MAY run with the \`rumor\` tag and explicit "unconfirmed" framing (use sparingly).
-3. **Recent**: the underlying EVENT happened within the last 7 days. An old change covered by a new article is not news — check the event date, not the article date.
+3. **Recent**: the underlying EVENT happened within the last ${LOOKBACK_DAYS} days (this runs once a week). An old change covered by a new article is not news — check the event date, not the article date.
 4. **Relevant to our catalog**: involves a card in the card database below, a major-issuer launch/discontinuation, or a network/issuer policy change that affects our users. Obscure cards we do not track are not news for us.
 5. **Unique**: not already covered by existing news, rejected news, or an open PR (lists below) — compare topics, not just IDs.
 
@@ -611,7 +657,7 @@ ${openPr || 'None.'}
 ${numbered}
 
 ## Your job
-1. Triage the candidates against the criteria. Expect 0–2 keepers on a normal run; hard cap 3.
+1. Triage the candidates against the criteria. This is a week of sources: expect 0–5 keepers on a normal run; hard cap 6.
 2. For each keeper, FETCH the best available source and verify the concrete facts (numbers, dates, which card). Candidates whose URL is marked "(long — entry N in .card-news-work/candidates.json)" have their full URL in that file — look it up only for stories you selected. Prefer official issuer pages/press releases, then Doctor of Credit / The Points Guy / NerdWallet, then Reddit as a last resort. If verification fails or facts stay fuzzy, drop the story or downgrade the claim to only what the source supports (no "increased/reduced" framing unless the change itself is confirmed).
 3. Write each survivor as ONE YAML file at \`.card-news-work/proposed/<id>.yaml\` in exactly this schema:
 
@@ -764,8 +810,11 @@ async function phaseFetch() {
   // against a one-per-minute ceiling is a hard ~3 minute floor.
   const REDDIT_LANE = 'reddit';
   const fetchers = [
-    ['r/churning', fetchChurningCandidates, REDDIT_LANE],
+    // r/CreditCards first: it is one request for the whole week, while
+    // r/churning spends one per day's thread. If the wait budget runs out, it
+    // should cost the oldest churning days, not the subreddit.
     ['r/CreditCards', fetchCreditCardsSubreddit, REDDIT_LANE],
+    ['r/churning', fetchChurningCandidates, REDDIT_LANE],
     ['Doctor of Credit', fetchDoctorOfCredit],
     ['Google News', fetchGoogleNews],
     ['Brave', fetchBrave],
