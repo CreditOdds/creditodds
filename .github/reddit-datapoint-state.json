@@ -1683,13 +1683,29 @@
     "t3_1xexkya": "2026-10-25",
     "t3_1xeicw6": "2026-10-25",
     "t3_1xeccbm": "2026-10-25",
-    "t3_1xeawwq": "2026-10-26",
-    "t3_1xe9by3": "2026-10-26",
+    "t3_1xeawwq": "2026-10-28",
+    "t3_1xe9by3": "2026-10-28",
     "t3_1xfj44x": "2026-10-26",
     "t3_1xfdref": "2026-10-26",
     "t3_1xfbmoh": "2026-10-26",
-    "t3_1xfaxtu": "2026-10-26",
-    "t3_1xf9rqa": "2026-10-26"
+    "t3_1xfaxtu": "2026-10-28",
+    "t3_1xf9rqa": "2026-10-26",
+    "t3_1xhscz0": "2026-10-28",
+    "t3_1xhplzr": "2026-10-28",
+    "t3_1xhehab": "2026-10-28",
+    "t3_1xhe9u1": "2026-10-28",
+    "t3_1xh5qfo": "2026-10-28",
+    "t3_1xh4spr": "2026-10-28",
+    "t3_1xgy5n7": "2026-10-28",
+    "t3_1xgwzyy": "2026-10-28",
+    "t3_1xgvqrw": "2026-10-28",
+    "t3_1xgsva6": "2026-10-28",
+    "t3_1xgru59": "2026-10-28",
+    "t3_1xgghlw": "2026-10-28",
+    "t3_1xgf331": "2026-10-28",
+    "t3_1xg4t3a": "2026-10-28",
+    "t3_1xfzjo4": "2026-10-28",
+    "t3_1xfx280": "2026-10-28"
   },
   "pending": {
     "t3_1xeawwq": {
@@ -1701,24 +1717,10 @@
       "missing": [
         "credit_score"
       ],
-      "note": "16-year NFCU member approved for the new Flagship Premier with a $7,200 limit in Oct 2026. Still no score after re-read.",
+      "note": "16-year NFCU member approved for the new Flagship Premier with a $7,200 limit in Oct 2026. Still no score after three reads.",
       "firstSeen": "2026-10-25",
-      "attempts": 2,
-      "lastChecked": "2026-10-26"
-    },
-    "t3_1xfaxtu": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1xfaxtu/chase_freedom_rise_denial/",
-      "title": "Chase Freedom Rise denial?",
-      "posted": "2026-10-25",
-      "card_name": "Chase Freedom Rise",
-      "missing": [
-        "result"
-      ],
-      "note": "Applied Oct 2026 with 725 Experian FICO, $49k income, no prior Chase relationship. Initial denial then ID-verification reconsideration, final decision due in 1-2 weeks.",
-      "ask": "Did Chase come back with a final decision on the Freedom Rise after you sent the documents?",
-      "firstSeen": "2026-10-26",
-      "attempts": 1,
-      "lastChecked": "2026-10-26"
+      "attempts": 3,
+      "lastChecked": "2026-10-28"
     },
     "t3_1xe9by3": {
       "url": "https://www.reddit.com/r/CreditCards/comments/1xe9by3/app_income_mistake_need_advice/",
@@ -1729,45 +1731,56 @@
       "missing": [
         "credit_score"
       ],
-      "note": "Approved for a Chase 'unlimited' card (Freedom Unlimited) in Oct 2026, income typo on the application. Replies discuss the typo only, no score.",
+      "note": "Approved for Chase Freedom Unlimited in Oct 2026, income typo on the application. Replies only discuss the typo, no score.",
       "firstSeen": "2026-10-25",
-      "attempts": 2,
-      "lastChecked": "2026-10-26"
-    },
-    "t3_1xdmb86": {
-      "url": "https://www.reddit.com/r/CreditCards/comments/1xdmb86/capital_one_datapoint_account_count_3_capital_one/",
-      "title": "Capital One Datapoint Account Count: 3 Capital One/ 2 Discover new denial",
-      "posted": "2026-10-23",
-      "result": "denied",
-      "missing": [
-        "credit_score",
-        "card_name"
-      ],
-      "note": "Denied for a Capital One Savor in Oct 2026 for too many Capital One accounts (merged Discover cards count toward the limit). Still no score, Savor variant unclear.",
-      "firstSeen": "2026-10-24",
       "attempts": 3,
-      "lastChecked": "2026-10-26"
+      "lastChecked": "2026-10-28"
+    },
+    "t3_1xfaxtu": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xfaxtu/chase_freedom_rise_denial/",
+      "title": "Chase Freedom Rise denial?",
+      "posted": "2026-10-25",
+      "card_name": "Chase Freedom Rise",
+      "missing": [
+        "result"
+      ],
+      "note": "Applied Oct 2026 with 725 Experian FICO, $49k income, no prior Chase relationship. Sent to ID-verification review, final decision still pending.",
+      "ask": "Did Chase send the final decision on your Freedom Rise application yet?",
+      "firstSeen": "2026-10-26",
+      "attempts": 2,
+      "lastChecked": "2026-10-28"
+    },
+    "t3_1xhe9u1": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xhe9u1/wells_fargo_autograph_journey_approval/",
+      "title": "Wells Fargo Autograph Journey Approval",
+      "posted": "2026-10-28",
+      "card_name": "Wells Fargo Autograph Journey",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved Oct 2026 after income verification, no prior WF relationship, Experian pull, 4 new cards in 24 months. Said only strong scores.",
+      "ask": "You mentioned strong scores, what was your Experian score when you applied?",
+      "firstSeen": "2026-10-28",
+      "attempts": 1,
+      "lastChecked": "2026-10-28"
+    },
+    "t3_1xgf331": {
+      "url": "https://www.reddit.com/r/CreditCards/comments/1xgf331/at_524_but_i_want_the_amazon_visa/",
+      "title": "At 5/24 but I want the Amazon Visa",
+      "posted": "2026-10-27",
+      "card_name": "Amazon Prime Rewards Visa Signature",
+      "result": "approved",
+      "missing": [
+        "credit_score"
+      ],
+      "note": "Approved on reconsideration call in Oct 2026 at 5/24 with $160k stated income. No score given.",
+      "firstSeen": "2026-10-28",
+      "attempts": 1,
+      "lastChecked": "2026-10-28"
     }
   },
   "runs": [
-    {
-      "id": "2026-08-24-unknown",
-      "date": "2026-08-24",
-      "candidates": 0,
-      "revisits": 0,
-      "sourcesOk": 0,
-      "sourcesFailed": 0,
-      "published": 1,
-      "pending": 15,
-      "unaccounted": 0,
-      "skipped": {
-        "other": 2,
-        "no_score": 1,
-        "no_outcome": 9,
-        "score_too_vague": 1,
-        "pre_qual": 1
-      }
-    },
     {
       "id": "2026-08-25T15:26:37.755Z",
       "date": "2026-08-25",
@@ -2689,6 +2702,23 @@
       "unaccounted": 0,
       "skipped": {
         "no_outcome": 3,
+        "pre_qual": 1
+      }
+    },
+    {
+      "id": "2026-10-28T17:06:34.032Z",
+      "date": "2026-10-28",
+      "candidates": 19,
+      "revisits": 3,
+      "sourcesOk": 2,
+      "sourcesFailed": 0,
+      "published": 2,
+      "pending": 5,
+      "unaccounted": 0,
+      "skipped": {
+        "no_outcome": 6,
+        "card_unclear": 1,
+        "no_score": 4,
         "pre_qual": 1
       }
     }
