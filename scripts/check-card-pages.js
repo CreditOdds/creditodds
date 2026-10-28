@@ -422,8 +422,21 @@ function stripHtml(html) {
 // credit after $30 in club purchases in 30 days, purchase APR 20.15%/28.15%,
 // no intro APR) and all four matched. The welcome offer amount is the field that
 // rotates, so that is the one to watch. Drop this entry if the bot wall eases.
+//
+// amazon.com came back on 2026-10-26 (issue #2341). From 2026-10-18 on, the
+// plain fetch that BROWSER_BLOCKED_HOSTS relies on started getting the same
+// "Continue shopping" interstitial (151 chars) that Playwright gets, so neither
+// path can read the Amazon Store page and the card was skipped 8 runs running.
+// The page is fine in an ordinary browser. Its stored values were checked that
+// way on 2026-10-26 and all matched: 5% back with an eligible Prime membership
+// only, 0% equal monthly payments over 6/12/24 months ($50-$299.99 / $300+ /
+// select purchases), 29.49% APR, no annual fee, approval gift card amount shown
+// only after sign-in. Only Amazon Store is affected: Amazon Prime's
+// page_check_url points at Chase. Drop this entry once a plain fetch of the
+// Amazon Store apply_link returns the real product page again.
 const KNOWN_BLOCKED_HOSTS = new Map([
   ['samsclub.com', 'samsclub.com serves a JS-only shell to automated clients and answers direct GraphQL calls with a bot interstitial; headed mode does not help (navigator.webdriver is true either way)'],
+  ['amazon.com', 'amazon.com answers both plain fetch and headless Chromium with a "Continue shopping" bot interstitial (since 2026-10-18); verify the Amazon Store page by hand in an ordinary browser'],
 ]);
 
 // Hosts that answer headless Chromium with a bot interstitial but serve a plain
@@ -438,6 +451,10 @@ const KNOWN_BLOCKED_HOSTS = new Map([
 // as a failed fetch: it would REPLACE good simple-fetch content and set the
 // card's browser_first flag, which sends every later run straight to Playwright
 // and makes the damage permanent.
+//
+// amazon.com is also in KNOWN_BLOCKED_HOSTS for now, which skips it before any
+// fetch. Its entry stays here so that dropping the known block later restores
+// fetch-but-never-Playwright instead of letting the interstitial back in.
 const BROWSER_BLOCKED_HOSTS = new Map([
   ['amazon.com', 'amazon.com answers headless Chromium with a "Continue shopping" interstitial; its plain fetch usually is fine'],
 ]);
@@ -488,6 +505,8 @@ function knownBlockedReason(url) {
     // 10.5k-12.7k chars of real product page, verified per card before removal.
     // Re-add it if the check ever moves back into CI.
 
+    // (Re-added on 2026-10-26, see the KNOWN_BLOCKED_HOSTS comment. The note
+    // below explains why it was removed in July and still holds for Prime.)
     // amazon.com was listed here until 2026-07-26, on the theory that the host
     // serves an automation interstitial ("Click the button below to continue
     // shopping") instead of card terms. That attribution was wrong: the
