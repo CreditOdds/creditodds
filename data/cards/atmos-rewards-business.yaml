@@ -14,19 +14,20 @@ check_ignore:
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Atmos Rewards Business is built for companies that fly Alaska or
-  Hawaiian Airlines: it earns 3 points per dollar on those two airlines, 2
-  points on gas, EV charging, transit, and shipping, and comes with a first
-  checked bag free and priority boarding on Alaska flights paid with the card.
-  The welcome offer was recently cut from 80,000 to 70,000 points, still
-  paired with a $99 Companion Fare (plus taxes and fees from $23) after $4,000
-  in purchases within 90 days. The bigger catch is that the ongoing Companion
-  Fare requires $6,000 in annual spend, and everything outside the bonus
-  categories earns just 1 point per dollar, so the $95 annual fee only makes
-  sense if your business actually books on Alaska or Hawaiian. Activity does
-  not report to your personal credit bureaus, which helps keep personal
-  utilization clean. The $100 discount on Alaska Lounge+ and 20% back on
-  inflight purchases are minor extras.
+  The Atmos Rewards Business is built for companies that already fly Alaska or
+  Hawaiian Airlines: 3 points per dollar on those airlines, 2 points on gas,
+  EV charging, transit, and shipping, and a welcome offer of 70,000 points
+  plus a $99 Companion Fare (plus taxes and fees from $23) after $4,000 in
+  purchases within 90 days. The $95 annual fee is easier to justify once you
+  add the free first checked bag and priority boarding for the cardmember on
+  Alaska flights, and the Companion Fare comes back every year you spend at
+  least $6,000 on the card. Activity also stays off your personal credit
+  reports, which helps keep personal utilization clean. The catch is that the
+  3x rate applies only to Alaska and Hawaiian purchases, and everything
+  outside the 2x categories earns just 1 point per dollar, so it is a weak
+  card for general business spend. Carry it if your team flies these airlines
+  often enough to use the bags and the annual companion fare; otherwise a
+  flat-rate business card will likely earn more.
 tags:
   - travel
   - airline

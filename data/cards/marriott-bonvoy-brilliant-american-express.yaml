@@ -7,18 +7,19 @@ apply_link: https://www.americanexpress.com/us/credit-cards/card/marriott-bonvoy
 foreign_transaction_fee: false
 network: "amex"
 our_take: >
-  The Brilliant is Marriott's premium card, and its strongest reason to exist
-  is complimentary Platinum Elite status plus an annual Free Night Award worth
-  up to 85,000 points. Around that it stacks 6x at Marriott Bonvoy hotels, 3x
-  at restaurants worldwide and on flights booked directly with airlines, 2x on
-  everything else, Priority Pass Select lounge access and 25 Elite Night
-  Credits a year. The catch is a $650 annual fee, and getting your money back
-  means using the $25 monthly dining credit, the $100 property credit on 2+
-  night stays and the free night every year. The 150,000-point welcome bonus
-  after $6,000 in 6 months helps the first year, and cell phone protection and
-  a Global Entry or TSA PreCheck credit round things out. It fits a frequent
-  Marriott traveler who values Platinum perks, but anyone who stays only a few
-  nights a year will be better served by a cheaper Marriott card.
+  The Brilliant is Marriott's premium card, and its strongest case is status:
+  complimentary Platinum Elite plus 25 Elite Night Credits a year, along with
+  an annual Free Night Award valued up to 85,000 points. The catch is a $650
+  annual fee, and recovering it depends on actually using the perks, including
+  $25 a month in dining credits, a $100 property credit on stays of two or
+  more nights, Priority Pass Select lounge access, and a Global Entry or TSA
+  PreCheck credit every four years. Earning is 6 points per dollar at Marriott
+  hotels, 3 points at restaurants worldwide and on flights booked directly
+  with airlines, and 2 points on everything else. The 150,000-point welcome
+  bonus requires $6,000 in spend over 6 months, and cell phone protection up
+  to $800 per claim adds some everyday value. It fits frequent Marriott guests
+  who will use the monthly dining credit and value Platinum perks; anyone else
+  is paying a premium fee for benefits they will leave on the table.
 annual_fee: 650
 reward_type: "points"
 rewards:

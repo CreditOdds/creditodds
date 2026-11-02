@@ -46,19 +46,17 @@ apr:
     min: 19.24
     max: 29.99
 our_take: >
-  For a $95 annual fee, the Wyndham Rewards Earner Plus gives back 15,000
-  bonus points every anniversary, which Wyndham says covers up to two free
-  award nights, so regular Wyndham guests can come out ahead on that alone.
-  Earning is solid too: 6x at Hotels by Wyndham and 4x on dining, groceries,
-  and travel, with 1x on everything else. The 100,000-point signup bonus is
-  split, with 45,000 points after $1,000 in spend within 90 days and 55,000
-  more after $500 at Hotels by Wyndham within 180 days, so you need to book a
-  stay to earn the full amount. You also get Diamond status in your first
-  year, dropping to Platinum after that, a free night worth up to 15,000
-  points after five nights in a calendar year, and 10% off the points cost of
-  free nights. The catch is that all of this value is tied to Wyndham, so if
-  you rarely stay with the brand, the 4x categories alone do not justify the
-  fee.
+  The Wyndham Rewards Earner Plus is the sweet spot of the lineup for regular
+  Wyndham guests: for a $95 annual fee you get 15,000 bonus points each
+  anniversary year, and 4 points per dollar on dining, groceries, and travel
+  plus 6x at Hotels by Wyndham. The 100,000-point signup bonus requires only
+  $1,500 in total spend, though 55,000 of those points depend on spending $500
+  at Hotels by Wyndham within 180 days. Staying five or more nights in a
+  calendar year also unlocks a free night worth up to 15,000 points, and you
+  get Diamond status in your first year before it drops to Platinum. The catch
+  is that the value is entirely tied to Wyndham redemptions and everything
+  outside the bonus categories earns just 1x. If you stay at the chain a few
+  times a year, the anniversary points alone can justify the fee.
 benefits:
   - name: "Anniversary Points Bonus"
     value: 15000

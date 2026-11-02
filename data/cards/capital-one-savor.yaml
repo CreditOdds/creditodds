@@ -49,17 +49,15 @@ apr:
 apply_link: https://www.capitalone.com/credit-cards/savor/
 foreign_transaction_fee: false
 our_take: >
-  The Savor earns 3% cash back across a broad set of everyday categories,
-  dining, entertainment, streaming, and groceries, with no annual fee, plus 5%
-  on hotels and rental cars booked through Capital One Travel and 8% on
-  Capital One Entertainment purchases. That combination makes it a strong
-  primary card for households whose spending centers on food and going out.
-  Capital One recently trimmed the signup bonus from $250 to $200, still
-  earned after a manageable $500 in the first 3 months, and a 12-month 0%
-  intro APR on purchases and balance transfers adds some flexibility. The
-  catch is the 1% base rate on everything else, so non-category spending is
-  better routed to a flat-rate card. No foreign transaction fees is a useful
-  extra for travel.
+  The Savor earns 3% cash back across dining, entertainment, streaming, and
+  groceries with no annual fee, which covers a big share of most household
+  budgets in one card. Entertainment bookings through Capital One
+  Entertainment earn 8%, and hotels and rental cars through Capital One Travel
+  earn 5%. The signup bonus was recently trimmed from $250 to $200 after $500
+  in spending within 3 months, still a low bar, and a 12-month 0% intro APR on
+  purchases and balance transfers is a useful extra. The tradeoff is the 1%
+  rate on everything else, so pair it with a strong flat-rate card for
+  non-category spending. No foreign transaction fee rounds it out for travel.
 benefits:
   - name: "Price Drop Protection"
     value: 0
