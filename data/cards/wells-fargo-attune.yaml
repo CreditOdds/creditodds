@@ -68,17 +68,17 @@ apr:
 apply_link: https://creditcards.wellsfargo.com/attune-credit-card
 network: "mastercard"
 our_take: >
-  The Attune is no longer accepting applications, so this take is for people
-  who already carry it. Its appeal is 4% cash back on an unusual set of
-  lifestyle categories: gyms and self-care, entertainment and recreation,
+  Wells Fargo no longer accepts applications for the Attune, so this take is
+  mainly for existing cardholders. Its strength was 4% cash back across a
+  lifestyle mix: gyms and self-care, entertainment and sporting events,
   streaming, pet supplies, gardening, public transit, EV charging, and
   secondhand stores, all with no annual fee. If your spending lines up with
-  those categories it is worth keeping in the rotation, but everything else
-  earns just 1%, so it needs a flat-rate card next to it. Note that rideshare
-  like Uber and Lyft does not count toward the transit rate. Cell phone
-  protection of up to $600 per claim is a minor extra. If you are shopping for
-  a new card, the Autograph or Active Cash are Wells Fargo's open
-  alternatives.
+  those buckets, it is still worth keeping and using there. The tradeoff is
+  that everything outside those categories earns only 1%, so it works best
+  paired with a flat-rate card. If you are shopping for something new, Wells
+  Fargo points former applicants toward the Autograph for 3x on dining,
+  travel, gas, transit, streaming, and phone plans, or the Active Cash for a
+  flat 2% on everything.
 benefits:
   - name: "Cellular Telephone Protection"
     value: 0

@@ -8,16 +8,18 @@ foreign_transaction_fee: true
 network: "amex"
 card_referral_link: "https://americanexpress.com/en-us/referral/blue-cash-everyday-credit-card?ref="
 our_take: >
-  The Blue Cash Everyday earns 3% cash back at U.S. supermarkets, U.S. gas
-  stations, and U.S. online retail purchases with no annual fee, which covers
-  a large share of most household budgets. Pair that with a $200 bonus after
-  $2,000 in spend over six months and up to 18 months of 0% intro APR on
-  purchases and balance transfers, and it is easy to see the appeal. The catch
-  is the caps: each 3% category tops out at $6,000 in spending a year before
-  dropping to 1%, and everything else earns just 1%. Note too that Amex sets
-  the intro APR length at approval, and it can be as short as 6 months. The up
-  to $7 monthly Disney streaming credit requires enrollment and is worth $84 a
-  year only if you already pay for Disney+, Hulu, or ESPN+.
+  The Blue Cash Everyday earns 3% cash back on three common categories, U.S.
+  supermarkets, U.S. gas stations, and U.S. online retail purchases, with no
+  annual fee. That makes it a solid everyday card for households that want
+  category rewards without paying for them, and it ranks #4 on our Best Cash
+  Back Credit Cards list. The catch is the caps: each 3% category is limited
+  to $6,000 in spending per year before dropping to 1%, which is also the rate
+  on everything else. The 0% intro APR on purchases and balance transfers runs
+  up to 18 months, but Amex sets the actual length at approval and it can be
+  as short as 6 months, so do not count on the full window. The $200 welcome
+  bonus after $2,000 in six months and up to $7 a month toward Disney+, Hulu,
+  or ESPN+ (enrollment required) are nice extras, though the foreign
+  transaction fee rules it out for travel abroad.
 # Amex targets the intro APR length per visitor, so card-page-check sees 15 or
 # 18 months depending on the fetch and has flip-flopped on seven runs since
 # 2026-10-03 (#2253/#2265/#2274/#2279/#2296/#2301/#2350). The "up to 18, set at

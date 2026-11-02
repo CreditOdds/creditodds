@@ -6,20 +6,21 @@ image: "atlas.png"
 apply_link: https://atlascard.com/
 foreign_transaction_fee: false
 our_take: >
-  Atlas is an ultra-premium travel card with a $3,000 annual fee, and it only
-  makes sense if you already spend on private and semi-private aviation. Its
-  headline credits are designed to cover that fee: $3,000 a year toward
-  private charter flights booked through Atlas Travel, $1,000 for semi-private
-  flights with BLADE, JSX, Aero, and Slate, $1,000 toward business class
-  bookings of $5,000 or more, and $1,000 for ticketed experiences like
-  concerts and sporting events. Bookings through Atlas Travel earn 5x points,
-  and the card adds an AI text concierge, restaurant reservation access in
-  four major cities, a $200 Erewhon credit, and Visa Infinite protections. The
-  catch is that nearly all of that value depends on narrow luxury spending,
-  several credits come with minimum booking sizes or six-figure spend
-  thresholds, and everyday purchases earn just 1x. For most people, even
-  frequent travelers, a mainstream premium card will deliver far more value
-  per dollar of annual fee.
+  Atlas is an ultra-premium card aimed at very high spenders, and its $3,000
+  annual fee only makes sense if you will use a good share of the large annual
+  credits that come with it: $3,000 toward private charter flights, $1,000 for
+  semi-private flights with BLADE, JSX, Aero, and Slate, $1,000 toward
+  business class bookings of $5,000 or more, $1,000 for ticketed experiences
+  like concerts and games, and $200 at Erewhon. On top of that it earns 5
+  points per dollar on everything booked through Atlas Travel, has no foreign
+  transaction fees, and adds Visa Infinite protections and up to $50,000 a
+  year in purchase protection. Additional credits unlock only at very large
+  annual spend levels, starting at $100,000. The real catch is that most of
+  the value is tied to private and semi-private aviation and a handful of
+  big-city dining and lifestyle perks, while ordinary purchases outside Atlas
+  Travel earn just 1 point per dollar. For most people, even frequent
+  travelers, a mainstream premium travel card will deliver more value for far
+  less money.
 annual_fee: 3000
 category: "travel"
 reward_type: "points"

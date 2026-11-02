@@ -18,12 +18,12 @@ apr:
 foreign_transaction_fee: false
 network: "visa"
 our_take: >
-  The Rate Advantage is built for carrying a balance: it offers 0% intro APR
-  on balance transfers through the March 2028 billing cycle for transfers
-  posted by November 30, 2026, plus a regular APR that starts as low as 10.4%.
-  That low ongoing rate is the real differentiator, since it keeps the card
-  useful even after the intro window ends. There is no annual fee and no
-  foreign transaction fee. The tradeoffs are a 5% balance transfer fee, which
-  you should factor into your payoff math, and a firm deadline to get
-  transfers posted. The card also earns no rewards, so it is a debt-management
-  tool first and a spending card not at all.
+  The Rate Advantage is a balance transfer card first and foremost: 0% intro
+  APR on transfers through the March 2028 billing cycle, with no annual fee.
+  The deadline matters, though, because transfers must post by November 30,
+  2026 to get the full window, and each one carries a 5% transfer fee. Once
+  the intro period ends, the regular APR starts as low as 10.4% (up to 24.4%),
+  which is a reasonable fallback if you still carry a balance. The catch is
+  that it earns no rewards at all, so there is little reason to swipe it for
+  everyday purchases. Open it to pay down existing debt at a low cost, and use
+  a rewards card for your regular spending.

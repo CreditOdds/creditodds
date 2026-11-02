@@ -10,18 +10,19 @@ annual_fee: 0
 reward_type: "points"
 release_date: "2025-01-15"
 our_take: >
-  The Bilt Blue's reason to exist is rent: it earns up to 1.25x points on rent
-  and mortgage payments with no transaction fee and no annual fee, something
-  few cards allow at all. It adds 3x on hotels and 2x on flights booked
-  through Bilt Travel, 3x on Lyft rides once you link your account, and a $100
-  Bilt Cash welcome bonus. The catch is that everyday spending earns just 1x,
-  and the rent multiplier is not fixed: Bilt sets it each billing cycle based
-  on how much you spend relative to your housing payment, so light users may
-  see less than 1.25x. You also have to pick a track, since the 4% Bilt Cash
-  option on everyday spend replaces the rent points rather than stacking with
-  them. The 10% intro rate for 12 billing cycles is lower than the regular
-  26.74% to 34.74% APR but is not a 0% offer, so don't treat it as a financing
-  tool.
+  The Bilt Blue's main reason to exist is rent: you can pay rent or a mortgage
+  on the card with no transaction fee and earn up to 1.25x points on it, all
+  for no annual fee and no foreign transaction fees. That makes it a sensible
+  starter card for renters who want their largest monthly bill to earn
+  something. The catch is that the housing multiplier is not fixed: Bilt sets
+  it each billing cycle based on how much everyday spending you put on the
+  card relative to your rent, and choosing the 4% Bilt Cash track on everyday
+  spend drops housing to up to 1x instead. Outside of rent, the earn is
+  modest, with 3x on hotels and 2x on flights booked through Bilt Travel, 3x
+  on Lyft rides once you link your account, and a 1x base rate on everything
+  else. The $100 welcome bonus arrives as Bilt Cash for use inside the Bilt
+  ecosystem rather than as cash back, and the 10% intro rate on purchases for
+  12 billing cycles is lower than the regular APR but is not a 0% offer.
 benefits:
   - name: "Rent Payment Without Fees"
     value: 0

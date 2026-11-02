@@ -8,20 +8,21 @@ foreign_transaction_fee: false
 network: "amex"
 card_referral_link: "https://americanexpress.com/en-us/referral/platinum-card?ref="
 our_take: >
-  The Platinum Card is built for frequent travelers who want lounge access and
-  premium hotel perks: Centurion Lounges, Priority Pass Select, 10 Delta Sky
-  Club visits a year on eligible Delta flights, plus Marriott Bonvoy Gold and
-  Hilton Honors Gold status. It earns 5x on flights booked directly with
-  airlines or through Amex Travel, up to $500,000 a year, and 5x on prepaid
-  Amex Travel hotels, and its 175,000 point welcome offer after $12,000 in
-  spend within six months ranks among the best premium bonuses on our signup
-  bonus list. The catch is the $895 annual fee and the effort needed to
-  justify it. Much of the value sits in a long list of enrollment-based
-  credits, such as monthly Uber Cash, Resy, digital entertainment, Walmart+,
-  Equinox, Lululemon, Oura, and up to $600 in Fine Hotels + Resorts or Hotel
-  Collection credits, that only pay off if you would spend at those merchants
-  anyway. Outside travel, everything earns just 1x, so this is a card to pair
-  with an everyday earner, not to carry alone.
+  The Platinum Card's case rests on premium travel perks and one of the
+  stronger welcome offers around, 175,000 points after $12,000 in spending
+  over six months, which earns it the Best Premium spot on our signup bonus
+  rankings. It earns 5x on flights booked directly with airlines or through
+  Amex Travel (up to $500,000 a year) and 5x on prepaid hotels through
+  AmexTravel.com, and it backs that with Centurion Lounge, Priority Pass, and
+  10 Delta Sky Club visits a year, plus Marriott Gold and Hilton Gold status.
+  The real catch is the $895 annual fee, which you only recoup by working
+  through a long menu of credits: up to $600 in Fine Hotels + Resorts or Hotel
+  Collection credits, $400 at Resy restaurants, $300 each for digital
+  entertainment, Equinox, and Lululemon, $200 in Uber Cash, $200 in airline
+  fees, $200 for Oura, plus CLEAR Plus, Walmart+, and Uber One. Most of these
+  are monthly or quarterly and require enrollment, so the value depends on
+  whether they match what you already buy. Everything outside flights and Amex
+  Travel hotels earns just 1x, so pair it with a stronger everyday card.
 annual_fee: 895
 reward_type: "points"
 rewards:
