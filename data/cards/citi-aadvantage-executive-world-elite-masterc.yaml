@@ -92,10 +92,10 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 125000
+  value: 80000
   type: "miles"
-  spend_requirement: 15000
-  timeframe_months: 5
+  spend_requirement: 8000
+  timeframe_months: 3
   note: "Limited time offer as advertised on Citi's card page."
 apr:
   regular:

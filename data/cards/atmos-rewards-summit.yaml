@@ -46,11 +46,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 70000
+  value: 80000
   type: "points"
-  spend_requirement: 3000
+  spend_requirement: 4000
   timeframe_months: 3
-  note: "Welcome offer also includes a 25,000-point Global Companion Award."
+  note: "80,000 bonus points plus a 25,000-point Global Companion Award after spending $4,000 on purchases within the first 90 days"
 apr:
   regular:
     min: 19.49
