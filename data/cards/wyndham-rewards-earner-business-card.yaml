@@ -50,11 +50,11 @@ rewards:
     unit: points_per_dollar
     note: "Also earns 5x on marketing, advertising, and Wyndham Vacation Club purchases"
 signup_bonus:
-  value: 100000
+  value: 45000
   type: "points"
-  spend_requirement: 3500
-  timeframe_months: 6
-  note: "Earn 45,000 bonus points after spending $3,000 on purchases in the first 90 days and also earn 55,000 bonus points after spending $500 at Hotels by Wyndham in the first 180 days."
+  spend_requirement: 3000
+  timeframe_months: 3
+  note: "Earn 45,000 bonus points after spending $3,000 on qualifying purchases and paying the annual fee in full in the first 90 days."
 apr:
   regular:
     min: 19.49

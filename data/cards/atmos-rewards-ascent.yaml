@@ -34,11 +34,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 50000
+  value: 70000
   type: "points"
-  spend_requirement: 1500
+  spend_requirement: 2500
   timeframe_months: 3
-  note: "Welcome offer also includes a $99 Companion Fare (plus taxes and fees from $23)."
+  note: "70,000 bonus points plus a $99 Companion Fare (plus taxes and fees from $23) after spending $2,500 on purchases within the first 90 days"
 apr:
   regular:
     min: 19.49
