@@ -1,6 +1,5 @@
 const NextResponse = Response;
-import { getAllCards } from '../lib/ranker/data-loaders';
-import mysql from '../db';
+import { getAllCards } from '../lib/public-card-catalog';
 import {
   rankNextCards,
   nextCardBlurb,
@@ -156,8 +155,6 @@ export async function BestCardForMeHandler(event: { httpMethod: string; body?: s
   if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: '' };
   const body = event.isBase64Encoded ? Buffer.from(event.body || '', 'base64').toString() : event.body || '';
   if (Buffer.byteLength(body) > 16384) return { statusCode: 413, headers, body: '' };
-  try {
-    const response = await POST(new Request('https://api.creditodds.com/best-card-for-me', { method: 'POST', body }));
-    return { statusCode: response.status, headers, body: await response.text() };
-  } finally { await mysql.end(); }
+  const response = await POST(new Request('https://api.creditodds.com/best-card-for-me', { method: 'POST', body }));
+  return { statusCode: response.status, headers, body: await response.text() };
 }
