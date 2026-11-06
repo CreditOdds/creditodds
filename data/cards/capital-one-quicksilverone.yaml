@@ -30,3 +30,10 @@ our_take: >
   limits your options and you will put steady spending on it while paying in
   full. Once your credit improves, look to move to a no-fee card with the same
   earn rate.
+benefits:
+  - name: "Price Match Guarantee"
+    value: 0
+    description: "Travel credit for the difference if you find a cheaper eligible flight, hotel or rental car within 24 hours of booking through Capital One Travel."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
