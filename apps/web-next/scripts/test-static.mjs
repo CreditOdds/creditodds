@@ -17,6 +17,8 @@ await Promise.all(Array.from({ length: 8 }, async () => {
     assert.match(html, /<h1[\s>]/, `No heading: ${url}`);
     assert.match(html, /rel="canonical"/, `No canonical: ${url}`);
     assert(!html.includes('/_next/image?'), `Runtime image optimizer: ${url}`);
+    const slashUrl = url.endsWith('/') ? url : url + '/';
+    assert.equal((await fetch(origin + slashUrl)).status, 200, `Trailing slash: ${url}`);
     checked++;
   }
 }));

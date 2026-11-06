@@ -80,6 +80,56 @@
     "status": "200"
   },
   {
+    "source": "/api/news/",
+    "target": "/api/news.json",
+    "status": "200"
+  },
+  {
+    "source": "/api/articles/",
+    "target": "/api/articles.json",
+    "status": "200"
+  },
+  {
+    "source": "/api/best/",
+    "target": "/api/best.json",
+    "status": "200"
+  },
+  {
+    "source": "/api/og/compare/",
+    "target": "/api/og/compare.png",
+    "status": "200"
+  },
+  {
+    "source": "/opengraph-image/",
+    "target": "/opengraph-image.png",
+    "status": "200"
+  },
+  {
+    "source": "/<section>/opengraph-image/",
+    "target": "/<section>/opengraph-image.png",
+    "status": "200"
+  },
+  {
+    "source": "/<section>/<slug>/opengraph-image/",
+    "target": "/<section>/<slug>/opengraph-image.png",
+    "status": "200"
+  },
+  {
+    "source": "/twitter-image/",
+    "target": "/twitter-image.png",
+    "status": "200"
+  },
+  {
+    "source": "/<section>/twitter-image/",
+    "target": "/<section>/twitter-image.png",
+    "status": "200"
+  },
+  {
+    "source": "/<section>/<slug>/twitter-image/",
+    "target": "/<section>/<slug>/twitter-image.png",
+    "status": "200"
+  },
+  {
     "source": "/bank/<bank>",
     "target": "/bank/<bank>.html",
     "status": "200"

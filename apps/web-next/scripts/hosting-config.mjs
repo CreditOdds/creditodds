@@ -17,6 +17,13 @@ const rules = [
   ...['opengraph-image', 'twitter-image'].flatMap(image => ['', '/<section>', '/<section>/<slug>'].map(prefix => ({
     source: `${prefix}/${image}`, target: `${prefix}/${image}.png`, status: '200',
   }))),
+  // Explicit aliases also handle cached clean-URL redirects from the first
+  // rollout and old links with trailing slashes, without redirect loops.
+  ...['news', 'articles', 'best'].map(name => ({ source: `/api/${name}/`, target: `/api/${name}.json`, status: '200' })),
+  { source: '/api/og/compare/', target: '/api/og/compare.png', status: '200' },
+  ...['opengraph-image', 'twitter-image'].flatMap(image => ['', '/<section>', '/<section>/<slug>'].map(prefix => ({
+    source: `${prefix}/${image}/`, target: `${prefix}/${image}.png`, status: '200',
+  }))),
   // A period in U.S. Bank prevents Amplify's implicit .html resolution.
   { source: '/bank/<bank>', target: '/bank/<bank>.html', status: '200' },
   // 404 is a redirect in Amplify; 404-200 serves the custom body with HTTP 404.
