@@ -9,7 +9,7 @@ export const size = {
 
 export const contentType = 'image/png';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 const VALID_TAGS: ArticleTag[] = ['strategy', 'guide', 'analysis', 'news-analysis', 'beginner'];
 
@@ -124,3 +124,7 @@ export default async function CategoryOGImage({ params }: Props) {
     { ...size, fonts, headers: OG_CACHE_HEADERS }
   );
 }
+
+export const dynamic = 'force-static';
+export { generateStaticParams } from './page';
+export const dynamicParams = false;

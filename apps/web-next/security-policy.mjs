@@ -33,6 +33,6 @@ export function buildContentSecurityPolicy(env = process.env) {
     "worker-src 'self' blob:",
     "manifest-src 'self'",
     // report-uri remains supported by more browsers than Reporting-Endpoints.
-    'report-uri /api/csp-report',
+    `report-uri ${api}/csp-report`,
   ].join('; ');
 }

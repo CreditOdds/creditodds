@@ -4,7 +4,7 @@ import { BreadcrumbSchema } from "@/components/seo/JsonLd";
 import ExploreV2Client from "./ExploreV2Client";
 
 // Revalidate every 5 minutes
-export const revalidate = 300;
+export const revalidate = false;
 
 // Trim each card to only the fields ExploreV2Client actually reads before it
 // goes into the RSC/HTML payload. Drops benefits, apr, referrals, our_take,

@@ -8,7 +8,7 @@ export const size = {
 
 export const contentType = 'image/png';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export default async function OGImage() {
   const fonts = await loadInterFonts();
@@ -88,3 +88,5 @@ export default async function OGImage() {
     { ...size, fonts, headers: OG_CACHE_HEADERS }
   );
 }
+
+export const dynamic = 'force-static';

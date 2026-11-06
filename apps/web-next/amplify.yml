@@ -12,28 +12,27 @@ applications:
             # Install dependencies from repo root (monorepo with workspaces)
             # Use subshell to preserve working directory
             - (cd ../.. && npm ci)
-            # data/cards.json is gitignored (generated, not committed), so build
-            # it here — card/[name]/page.tsx reads it at build time for the
-            # benefits fallback. Regenerating also keeps it fresh vs. the old
-            # stale committed copy.
-            - (cd ../.. && npm run build:cards)
         build:
           commands:
             - env | grep -e NEXT_PUBLIC_ >> .env.production || true
             - npm run build
-            # Amplify caps the SSR build output at 220 MB and we hit it from
-            # content growth. sharp ships a 9 MB wasm32 build that it only
-            # loads if the native linux-x64 binary fails, so drop it after the
-            # build, before Amplify traces node_modules into the compute bundle.
-            # Safe for caching: preBuild runs a fresh `npm ci` every time.
-            - rm -rf ../../node_modules/@img/sharp-wasm32
+            # Inject chunk ids, ship browser source maps to PostHog, then
+            # delete every .map before the artifact is packaged. Has to run
+            # here rather than in Actions: only this build produces the chunk
+            # hashes that are actually deployed. Non-fatal by design, and the
+            # maps are deleted on every exit path so the artifact can never
+            # grow past the 220 MB ceiling.
+            - if [ -f scripts/upload-sourcemaps.sh ]; then bash scripts/upload-sourcemaps.sh; fi
+            - cp -R .next/static/. out/_next/static/
+            - find out -name "*.map" -delete
       artifacts:
-        baseDirectory: .next
+        baseDirectory: out
         files:
           - '**/*'
       cache:
         paths:
           - node_modules/**/*
           - .next/cache/**/*
+          - .static-cache/**/*
           - ../../node_modules/**/*
     appRoot: apps/web-next

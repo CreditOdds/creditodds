@@ -6,7 +6,7 @@ import CompareClient from './CompareClient';
 import { V2Footer } from '@/components/landing-v2/Chrome';
 import '../landing.css';
 
-export const revalidate = 300;
+export const revalidate = false;
 
 // CompareClient receives the full catalog (for the picker) and renders the
 // comparison table from whichever cards are selected, so rewards/benefits/apr/
@@ -32,70 +32,12 @@ function slimForCompare(c: Card): Card {
   };
 }
 
-export async function generateMetadata({
-  searchParams,
-}: {
-  searchParams: Promise<{ cards?: string }>;
-}): Promise<Metadata> {
-  const params = await searchParams;
-  const baseTitle = 'Compare Credit Cards | CreditOdds';
-  const baseDescription = 'Compare up to 3 credit cards side-by-side. See rewards, signup bonuses, APR, annual fees, and approval odds all in one place.';
-  const baseCanonical = 'https://creditodds.com/compare';
-
-  if (!params.cards) {
-    return {
-      title: baseTitle,
-      description: baseDescription,
-      alternates: { canonical: baseCanonical },
-    };
-  }
-  const slugs = params.cards.split(',').filter(Boolean).slice(0, 3);
-  if (slugs.length === 0) {
-    return {
-      title: baseTitle,
-      description: baseDescription,
-      alternates: { canonical: baseCanonical },
-    };
-  }
-
-  const allCards = await getAllCards();
-  const matchedCards = slugs
-    .map((slug) => allCards.find((c) => c.slug === slug))
-    .filter(Boolean);
-  if (matchedCards.length === 0) {
-    return {
-      title: baseTitle,
-      description: baseDescription,
-      alternates: { canonical: baseCanonical },
-    };
-  }
-
-  const cardNames = matchedCards.map((c) => c!.card_name);
-  const title = `Compare ${cardNames.join(' vs ')} | CreditOdds`;
-  const sortedSlugs = [...slugs].sort();
-  const canonical = `${baseCanonical}?cards=${sortedSlugs.join(',')}`;
-
-  return {
-    title,
-    description: baseDescription,
-    openGraph: {
-      title,
-      description: baseDescription,
-      url: canonical,
-      type: "website",
-      images: [`/api/og/compare?cards=${slugs.join(',')}`],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title,
-      description: baseDescription,
-      images: [`/api/og/compare?cards=${slugs.join(',')}`],
-    },
-    alternates: {
-      canonical,
-    },
-  };
-}
+// Query-selected comparisons still run in the browser. Crawlers see one canonical page.
+export const metadata: Metadata = {
+  title: 'Compare Credit Cards | CreditOdds',
+  description: 'Compare up to 3 credit cards side-by-side. See rewards, signup bonuses, APR, annual fees, and approval odds all in one place.',
+  alternates: { canonical: 'https://creditodds.com/compare' },
+};
 
 export default async function ComparePage() {
   const cards = await getAllCards();
@@ -115,7 +57,7 @@ export default async function ComparePage() {
         </nav>
         <span className="cj-spacer" />
         <div className="cj-term-actions">
-          <span><span className="cj-status-dot" />{cards.length.toLocaleString()} cards · live</span>
+          <span><span className="cj-status-dot" />{cards.length.toLocaleString()} cards</span>
         </div>
       </div>
 

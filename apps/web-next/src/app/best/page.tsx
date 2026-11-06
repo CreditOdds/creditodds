@@ -27,7 +27,7 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export const revalidate = 300;
+export const revalidate = false;
 
 export default async function BestIndexPage() {
   const [pages, cards] = await Promise.all([getBestPages(), getAllCards()]);

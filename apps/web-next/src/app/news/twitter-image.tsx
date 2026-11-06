@@ -2,4 +2,6 @@
 export { default, size, contentType } from './opengraph-image';
 
 // Runtime must be defined directly, not re-exported
-export const runtime = 'edge';
+export const runtime = 'nodejs';
+
+export const dynamic = 'force-static';

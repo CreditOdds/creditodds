@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 300;
+export const revalidate = false;
 
 export default async function CardWirePage() {
   const [entries, cards] = await Promise.all([

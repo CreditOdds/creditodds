@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
-import { getAllCards } from '@/lib/api';
+const NextResponse = Response;
+import { getAllCards } from '../lib/ranker/data-loaders';
+import mysql from '../db';
 import {
   rankNextCards,
   nextCardBlurb,
@@ -8,14 +9,14 @@ import {
   type NextCardInput,
   type RewardTypePref,
   type WalletTier,
-} from '@/lib/nextCardRanking';
+} from '../lib/ranker/recommendations';
 
 // POST /api/best-card-for-me
 // Body: { spend: Record<bucket, number>, walletSlugs: string[],
 //         rewardType: 'cashback'|'points'|null, allegiance?: string|null }
 // Returns the top-5 marginal-value recommendations for the given spend profile.
 
-export const dynamic = 'force-dynamic'; // personalized; never cache the response
+
 
 interface RequestBody {
   spend?: Record<string, unknown>;
@@ -46,6 +47,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Invalid JSON body' }, { status: 400 });
   }
 
+  if (!body || typeof body !== 'object' || Array.isArray(body)) return Response.json({ error: 'Invalid body' }, { status: 400 });
   const spend = sanitizeSpend(body.spend);
   if (Object.keys(spend).length === 0) {
     return NextResponse.json(
@@ -146,4 +148,16 @@ export async function POST(request: Request) {
     console.error('best-card-for-me ranking failed:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
+}
+
+export async function BestCardForMeHandler(event: { httpMethod: string; body?: string; isBase64Encoded?: boolean }) {
+  const headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'POST,OPTIONS', 'Cache-Control': 'no-store', 'Content-Type': 'application/json' };
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers, body: '' };
+  if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: '' };
+  const body = event.isBase64Encoded ? Buffer.from(event.body || '', 'base64').toString() : event.body || '';
+  if (Buffer.byteLength(body) > 16384) return { statusCode: 413, headers, body: '' };
+  try {
+    const response = await POST(new Request('https://api.creditodds.com/best-card-for-me', { method: 'POST', body }));
+    return { statusCode: response.status, headers, body: await response.text() };
+  } finally { await mysql.end(); }
 }

@@ -74,7 +74,7 @@ export async function generateStaticParams() {
   return articles.map((article) => ({ slug: article.slug }));
 }
 
-export const revalidate = 300;
+export const revalidate = false;
 
 export default async function ArticlePage({ params }: Props) {
   const { slug } = await params;
@@ -259,3 +259,5 @@ export default async function ArticlePage({ params }: Props) {
     </>
   );
 }
+
+export const dynamicParams = false;

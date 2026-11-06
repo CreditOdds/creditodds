@@ -112,3 +112,5 @@ export default async function BestCardForIndexOGImage() {
     { ...size, fonts, headers: OG_CACHE_HEADERS }
   );
 }
+
+export const dynamic = 'force-static';

@@ -1,0 +1,38 @@
+version: 1
+applications:
+  - frontend:
+      phases:
+        preBuild:
+          commands:
+            # Keep the build runtime aligned with local development and CI.
+            # Amplify defaults include unrelated global tools (e.g. Cypress).
+            - nvm install --skip-default-packages "$(cat ../../.nvmrc)"
+            - nvm use "$(cat ../../.nvmrc)"
+            - node --version
+            # Install dependencies from repo root (monorepo with workspaces)
+            # Use subshell to preserve working directory
+            - (cd ../.. && npm ci)
+        build:
+          commands:
+            - env | grep -e NEXT_PUBLIC_ >> .env.production || true
+            - npm run build
+            # Inject chunk ids, ship browser source maps to PostHog, then
+            # delete every .map before the artifact is packaged. Has to run
+            # here rather than in Actions: only this build produces the chunk
+            # hashes that are actually deployed. Non-fatal by design, and the
+            # maps are deleted on every exit path so the artifact can never
+            # grow past the 220 MB ceiling.
+            - if [ -f scripts/upload-sourcemaps.sh ]; then bash scripts/upload-sourcemaps.sh; fi
+            - cp -R .next/static/. out/_next/static/
+            - find out -name "*.map" -delete
+      artifacts:
+        baseDirectory: out
+        files:
+          - '**/*'
+      cache:
+        paths:
+          - node_modules/**/*
+          - .next/cache/**/*
+          - .static-cache/**/*
+          - ../../node_modules/**/*
+    appRoot: apps/web-next

@@ -217,6 +217,11 @@ interface LocalCard extends Omit<Card, 'card_id' | 'card_name'> {
 }
 
 export async function getAllCards(signal?: AbortSignal): Promise<Card[]> {
+  if (!isBrowser && process.env.NODE_ENV === 'production') {
+    const fs = await import('fs/promises');
+    const path = await import('path');
+    return JSON.parse(await fs.readFile(path.join(process.cwd(), '.static-cache/cards.json'), 'utf8'));
+  }
   if (!isBrowser && process.env.NODE_ENV === 'development') {
     try {
       const fs = await import('fs/promises');

@@ -1,168 +1,22 @@
 import { withSentryConfig } from '@sentry/nextjs/config';
 import bundleAnalyzer from '@next/bundle-analyzer';
 
-const withBundleAnalyzer = bundleAnalyzer({
-  enabled: process.env.ANALYZE === 'true',
-});
-
-import { buildContentSecurityPolicy } from './security-policy.mjs';
-
-const contentSecurityPolicy = buildContentSecurityPolicy();
-
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    // Turbopack (the default builder in Next 16) generates ~37 MB of server
-    // source maps by default. They ship in the .next output and pushed the
-    // Amplify deploy artifact past its 220 MB limit. The Amplify build has no
-    // SENTRY_AUTH_TOKEN, so these maps are never uploaded — pure dead weight.
-    // Disable them. (To get readable server stack traces in Sentry later,
-    // re-enable + upload + delete them in a dedicated CI step rather than
-    // shipping the .map files in the deploy artifact.)
-    turbopackSourceMaps: false,
-  },
-
-  // Rewrite /_admin to /admin (underscore folders are private in App Router).
-  async rewrites() {
-    return [
-      {
-        source: '/_admin',
-        destination: '/admin',
-      },
-    ];
-  },
-
+const withBundleAnalyzer = bundleAnalyzer({ enabled: process.env.ANALYZE === 'true' });
+export default withSentryConfig(withBundleAnalyzer({
+  output: 'export',
   skipTrailingSlashRedirect: true,
-
-  // The Wyndham Earner Premier launch coverage was first published under
-  // /articles, then moved to /news. Redirect the old URL so shared links and the
-  // auto-posted social link keep resolving instead of 404ing.
-  async redirects() {
-    return [
-      {
-        source: '/articles/wyndham-rewards-earner-premier',
-        destination: '/news/wyndham-rewards-earner-premier',
-        permanent: true,
-      },
-      // budget-car-rental was a duplicate of the budget store page (same
-      // merchant, two slugs); merged into /best-card-for/budget.
-      {
-        source: '/best-card-for/budget-car-rental',
-        destination: '/best-card-for/budget',
-        permanent: true,
-      },
-      // Retired news item: the 2026-02-18 interest-rate-cap story was framed
-      // around a political figure, which our news rules exclude, so it was
-      // pulled from data/news/. The page was indexed, so send it to the news
-      // index rather than 404ing the inbound links.
-      {
-        source: '/news/trump-credit-card-interest-rate-cap-proposal',
-        destination: '/news',
-        permanent: true,
-      },
-    ];
-  },
-
-  images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: 'd3ay3etzd1512y.cloudfront.net',
-        pathname: '/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'credit-card-data-site.s3.us-east-2.amazonaws.com',
-        pathname: '/**',
-      },
-    ],
-    // Optimize image formats
-    formats: ['image/avif', 'image/webp'],
-    // How long an optimized variant stays cached. The effective TTL is
-    // max(minimumCacheTTL, upstream max-age), and S3 served card art with
-    // max-age=86400, so every variant (card x width x format) expired daily —
-    // meaning most real visitors paid the full cold transform of a multi-MB
-    // PNG. 30 days instead. Changed art must use a versioned URL: source CDN
-    // invalidation does not invalidate the separately cached Next variant.
-    minimumCacheTTL: 2592000,
-  },
-
-  // Enable compression
-  compress: true,
-
-  // Powered by header removal for security
   poweredByHeader: false,
-
-  // Security and caching headers
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on',
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'Referrer-Policy',
-            value: 'origin-when-cross-origin',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'DENY',
-          },
-          {
-            // Force HTTPS for two years. Site is HTTPS-only, so this is safe now.
-            // `preload` is intentionally omitted — it's a hard-to-reverse commitment
-            // (submit to hstspreload.org separately once confident).
-            key: 'Strict-Transport-Security',
-            value: 'max-age=63072000; includeSubDomains',
-          },
-          {
-            key: 'Content-Security-Policy',
-            value: contentSecurityPolicy,
-          },
-          {
-            key: 'Permissions-Policy',
-            value: 'geolocation=(self), microphone=(), camera=()',
-          },
-        ],
-      },
-      {
-        // Cache static assets
-        source: '/assets/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-    ];
+  experimental: { turbopackSourceMaps: false, cpus: 4 },
+  images: {
+    loader: 'custom',
+    loaderFile: './src/lib/staticImageLoader.ts',
+    deviceSizes: [640, 1200],
+    imageSizes: [32, 96, 256],
   },
-};
-
-export default withSentryConfig(withBundleAnalyzer(nextConfig), {
-  // Sentry org/project for source-map upload (build-time only).
-  org: 'creditodds',
-  project: 'javascript-nextjs',
-
-  // Source maps are uploaded only when SENTRY_AUTH_TOKEN is present (set it as a
-  // secret in CI). Without it, the build still succeeds — just without readable
-  // stack traces in Sentry.
+}), {
+  org: 'creditodds', project: 'javascript-nextjs',
   authToken: process.env.SENTRY_AUTH_TOKEN,
-
-  // Only print upload logs in CI.
   silent: !process.env.CI,
-
-  // Upload a wider set of source maps for clearer stack traces.
   widenClientFileUpload: true,
-
-  // Route Sentry browser requests through this same-origin path to dodge
-  // ad-blockers (and keep CSP connect-src simple). Next.js proxies it to Sentry.
-  tunnelRoute: '/monitoring',
+  // Browser reporting goes directly to Sentry; a tunnel requires a Next server.
 });

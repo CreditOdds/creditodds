@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 
 // Personalized tool: the ranking is computed per-request, but the catalog the
 // quiz searches is fetched with ISR like the rest of the site.
-export const revalidate = 300;
+export const revalidate = false;
 
 export default async function BestCardForMePage() {
   const cards = await getAllCards();

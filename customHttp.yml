@@ -1,0 +1,77 @@
+applications:
+  - appRoot: apps/web-next
+    customHeaders:
+      - pattern: '**'
+        headers:
+          - key: X-DNS-Prefetch-Control
+            value: 'on'
+          - key: X-Content-Type-Options
+            value: nosniff
+          - key: Referrer-Policy
+            value: origin-when-cross-origin
+          - key: X-Frame-Options
+            value: DENY
+          - key: Strict-Transport-Security
+            value: max-age=63072000; includeSubDomains
+          - key: Content-Security-Policy
+            value: >-
+              default-src 'self'; base-uri 'self'; object-src 'none';
+              frame-ancestors 'none'; form-action 'self'; script-src 'self'
+              'unsafe-inline' https://apis.google.com https://www.gstatic.com
+              https://relay.creditodds.com https://www.googletagmanager.com;
+              style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src
+              'self' data: blob: https://d3ay3etzd1512y.cloudfront.net
+              https://credit-card-data-site.s3.us-east-2.amazonaws.com
+              https://*.googleusercontent.com https://*.google-analytics.com
+              https://www.googletagmanager.com https://a.impactradius-go.com
+              https://console.partnerize.com https://*.pntra.com
+              https://*.pntrs.com https://*.pjtra.com https://*.pjatr.com
+              https://*.gopjn.com https://*.pntrac.com
+              https://media.pepperjamnetwork.com https://content.flexlinks.com
+              https://*.awin1.com https://www.opmpros.com
+              https://www.lduhtrp.net https://www.ftjcfx.com
+              https://www.tqlkg.com https://www.awltovhc.com
+              https://www.yceml.net https://cj.dotomi.com https://www.emjcd.com;
+              connect-src 'self' https://api.creditodds.com
+              https://creditodds.firebaseapp.com https://*.googleapis.com
+              https://relay.creditodds.com https://*.sentry.io
+              https://*.ingest.sentry.io https://*.ingest.us.sentry.io
+              https://*.google-analytics.com https://www.googletagmanager.com;
+              frame-src 'self' https://creditodds.firebaseapp.com
+              https://accounts.google.com https://apis.google.com; worker-src
+              'self' blob:; manifest-src 'self'; report-uri
+              https://api.creditodds.com/csp-report
+          - key: Permissions-Policy
+            value: geolocation=(self), microphone=(), camera=()
+      - pattern: '**/opengraph-image'
+        headers:
+          - key: Content-Type
+            value: image/png
+      - pattern: '**/twitter-image'
+        headers:
+          - key: Content-Type
+            value: image/png
+      - pattern: /api/og/compare
+        headers:
+          - key: Content-Type
+            value: image/png
+      - pattern: /api/news
+        headers:
+          - key: Content-Type
+            value: application/json; charset=utf-8
+      - pattern: /api/articles
+        headers:
+          - key: Content-Type
+            value: application/json; charset=utf-8
+      - pattern: /api/best
+        headers:
+          - key: Content-Type
+            value: application/json; charset=utf-8
+      - pattern: /_images/**
+        headers:
+          - key: Cache-Control
+            value: public, max-age=31536000, immutable
+      - pattern: /_next/static/**
+        headers:
+          - key: Cache-Control
+            value: public, max-age=31536000, immutable

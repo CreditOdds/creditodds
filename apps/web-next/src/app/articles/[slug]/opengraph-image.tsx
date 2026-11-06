@@ -183,3 +183,7 @@ export default async function OGImage({ params }: Props) {
     { ...size, fonts, headers: OG_CACHE_HEADERS }
   );
 }
+
+export const dynamic = 'force-static';
+export { generateStaticParams } from './page';
+export const dynamicParams = false;

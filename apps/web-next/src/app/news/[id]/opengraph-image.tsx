@@ -389,3 +389,7 @@ function BrandMark({ size = 22, accent = '#b794ff' }: { size?: number; accent?: 
     </svg>
   );
 }
+
+export const dynamic = 'force-static';
+export { generateStaticParams } from './page';
+export const dynamicParams = false;

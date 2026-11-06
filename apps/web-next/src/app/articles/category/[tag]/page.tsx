@@ -44,7 +44,7 @@ export async function generateStaticParams() {
   return VALID_TAGS.map((tag) => ({ tag }));
 }
 
-export const revalidate = 300;
+export const revalidate = false;
 
 export default async function CategoryPage({ params }: Props) {
   const { tag } = await params;
@@ -137,3 +137,5 @@ export default async function CategoryPage({ params }: Props) {
     </div>
   );
 }
+
+export const dynamicParams = false;

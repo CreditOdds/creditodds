@@ -14,12 +14,8 @@ interface BankPageProps {
 }
 
 export async function generateStaticParams() {
-  try {
-    const banks = await getAllBanks();
-    return banks.map((bank) => ({ name: bank }));
-  } catch {
-    return [];
-  }
+  const banks = await getAllBanks();
+  return banks.map((bank) => ({ name: bank }));
 }
 
 export async function generateMetadata({ params }: BankPageProps): Promise<Metadata> {
@@ -195,3 +191,5 @@ export default async function BankPage({ params }: BankPageProps) {
     </div>
   );
 }
+
+export const dynamicParams = false;

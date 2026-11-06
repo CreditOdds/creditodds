@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 300;
+export const revalidate = false;
 
 export default async function ArticlesPage() {
   const [articles, viewCounts] = await Promise.all([
