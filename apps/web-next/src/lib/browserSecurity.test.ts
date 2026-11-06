@@ -1,6 +1,6 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { serializeJsonLd } from './serializeJsonLd';
-import { POST } from '../../../api/src/handlers/csp-report';
+import { POST } from '../../../api/src/handlers/csp-report-core';
 import { buildContentSecurityPolicy } from '../../security-policy.mjs';
 import storesData from '../../../../data/stores.json';
 

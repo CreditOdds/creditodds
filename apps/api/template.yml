@@ -2084,7 +2084,7 @@ Resources:
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
-        EntryPoints: [src/handlers/best-card-for-me.ts]
+        EntryPoints: [src/handlers/best-card-for-me.js]
         Target: node22
         Sourcemap: false
     Properties:
@@ -2120,7 +2120,7 @@ Resources:
     Metadata:
       BuildMethod: esbuild
       BuildProperties:
-        EntryPoints: [src/handlers/csp-report.ts]
+        EntryPoints: [src/handlers/csp-report.js]
         Target: node22
         Sourcemap: false
     Properties:
