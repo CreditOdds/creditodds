@@ -1,9 +1,8 @@
 import { beforeEach, expect, it, vi } from 'vitest';
 import { BestCardForMeHandler } from '../../../api/src/handlers/best-card-for-me-core';
 import { CspReportHandler } from '../../../api/src/handlers/csp-report-core';
-import { getAllCards } from '../../../api/src/lib/ranker/data-loaders';
-vi.mock('../../../api/src/lib/ranker/data-loaders', () => ({ getAllCards: vi.fn() }));
-vi.mock('../../../api/src/db', () => ({ default: { end: vi.fn() } }));
+import { getAllCards } from '../../../api/src/lib/public-card-catalog';
+vi.mock('../../../api/src/lib/public-card-catalog', () => ({ getAllCards: vi.fn() }));
 beforeEach(() => vi.clearAllMocks());
 it('serves CORS preflight and rejects malformed or oversized recommendations before reading cards', async () => {
   for (const [event, status] of [
@@ -23,7 +22,7 @@ it('serves CORS preflight and rejects malformed or oversized recommendations bef
 it('preserves anonymous personalized rankings and only loads the catalog once', async () => {
   vi.mocked(getAllCards).mockResolvedValue([
     { slug: 'flat', card_name: 'Flat', bank: 'Test', annual_fee: 0, reward_type: 'cashback', rewards: [{ category: 'everything_else', value: 2, unit: 'percent' }] },
-  ]);
+  ] as Awaited<ReturnType<typeof getAllCards>>);
   const result = await BestCardForMeHandler({ httpMethod: 'POST', body: JSON.stringify({ spend: { groceries: 12000 }, walletSlugs: [] }) });
   expect(result.statusCode).toBe(200);
   const data = JSON.parse(result.body);
