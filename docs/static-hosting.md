@@ -1,6 +1,6 @@
 # Static Amplify hosting migration
 
-Status: implemented and validated locally on `codex/static-amplify-hosting`; **not deployed**. Production remains unchanged. Deployment, backend deployment, merging to main, workflow dispatches, and AWS configuration changes require explicit approval for this migration.
+Status: **deployed and verified November 6, 2026**. Amplify job 1907 completed at 22:49:25 UTC. Production uses `WEB` / `Web` and static `out` artifacts; no SSR log events were observed after the first static cutover at 22:10:08 UTC. Production rollout results and fixes are recorded in `docs/static-hosting-validation.md`. Future publishes use the workflow below.
 
 ## Design and audit
 
@@ -12,14 +12,14 @@ Keep Next.js 16 and the existing Amplify app `d172gkg36enjcy` in `us-east-2`. Ex
 | Store directory | All 1,127 stores; removed the 100-page cap and request-time fallback. Personalized wallet picks still use authenticated backend endpoints. |
 | News, articles, best lists, banks, author/category directories | Generated from complete catalogs; new slugs require a successful rebuild. Existing canonicals, structured data and useful HTML remain. |
 | `/api/news`, `/api/articles`, `/api/best` | Static GET JSON files, generated from the same source revision as the pages; no proxy or runtime Lambda. |
-| Recommendations | `/best-card-for-me` POST on the existing SAM API, sharing the original ranking, preferences, explanations and response shape. Anonymous use remains supported; response is `no-store`. Body bounded to 16 KiB. One catalog load, warm-instance five-minute backend cache. |
+| Recommendations | `/best-card-for-me` POST on the existing SAM API, sharing the original ranking, preferences, explanations and response shape. Anonymous use remains supported; response is `no-store`. Body bounded to 16 KiB. One catalog load from the existing public cards API/CDN, deduplicated with a five-minute warm-instance cache and eight-second timeout; no new database connection or credentials. |
 | CSP reports | `/csp-report` POST on the existing SAM API. Preserves bounded bodies, scrubbed log fields, and per-instance log budget; no database use. CSP points directly to the API. |
 | Social images | All route-specific Open Graph/Twitter images generated at build time. `/api/og/compare` serves a static comparison image. |
 | Comparison query links | `?cards=a,b` still selects cards in the browser and survives refresh. Metadata now uses one `/compare` canonical and generic comparison preview; query-specific titles/images are intentionally no longer server-rendered. |
 | Login, account, wallet, admin, submissions, check-odds | Existing Firebase browser authentication and bearer-token API calls retained. No privileged credentials moved to the browser; existing Lambda authorizers remain in place. |
 | Images | Custom Next loader uses 32/96/256/640/1200px WebP files, also for Markdown body images. SVGs stay vectors. No `/_next/image` runtime. Unknown/new API image filenames display the existing generic card until a rebuild, never a large original download. Affiliate creatives retain their existing external delivery. |
 | Sentry/PostHog | Browser reporting retained. Removed Next's `/monitoring` Sentry tunnel; browser sends directly to Sentry under the existing CSP allowlist. Existing uncommitted PostHog source-map uploader is preserved and runs when present, with its processed chunks copied into `out`. A checkout without that unrelated untracked script still builds; all exported source maps are removed. |
-| Hosting rules | Existing three content redirects plus `/_admin` → `/admin`; compatibility reverse proxies for old recommendation/CSP URLs; genuine `/404.html` response, no SPA homepage fallback. |
+| Hosting rules | Existing three content redirects plus `/_admin` → `/admin`; compatibility reverse proxies for old recommendation/CSP URLs; custom `/404.html` response with HTTP 404 (Amplify first adds a trailing slash to unknown extensionless paths), no SPA homepage fallback. |
 
 Route-level five-minute ISR is removed. Remaining `next.revalidate` hints on shared public data helpers are build-time fetch deduplication only: there is no server to execute them after export. The build clears Next's public fetch cache so a later publish refreshes data. Browser fetching, retries and polling were not increased. The catalog is fetched once before the build and shared across all page and social-image workers; client catalog consumers retain their existing in-flight deduplication.
 
@@ -38,6 +38,7 @@ npm test -w @creditodds/web-next
 npm test -w @creditodds/api -- --runInBand
 sam validate --lint --template-file apps/api/template.yml
 sam build --template-file apps/api/template.yml --build-dir /tmp/creditodds-static-sam
+node apps/api/scripts/verify-bundled-handlers.js /tmp/creditodds-static-sam
 ```
 
 For the static-site check, run these in separate terminals:
@@ -75,7 +76,7 @@ Do not simply deploy this output to the existing `WEB_COMPUTE` configuration. Re
 - Console build specification publishes `.next`.
 - Current fallback `/<*>` → `/index.html`, status `404-200`.
 
-AWS's automatic Next 14+ SSG integration still uses `WEB_COMPUTE` and `.next`. This migration instead publishes a **generic static Web artifact**: platform `WEB`, branch framework `Web`, explicit `out` build specification. The exporter has no compute bundle. The deployment gate below is necessary: a successful `next build` alone does not prove that Amplify stopped compute billing.
+AWS's automatic Next 14+ SSG integration still uses `WEB_COMPUTE` and `.next`. This migration instead publishes a **generic static Web artifact**: platform `WEB`, branch framework `Web`, explicit `out` build specification. The exporter has no compute bundle. Postbuild gives extensionless JSON/social-image route handlers `.json`/`.png` backing files and hosting rewrites retain their public URLs, including slash aliases for cached redirects. Exported HTML also gets directory `index.html` copies to preserve trailing-slash navigation without wildcard rewrite loops. Bank routes explicitly rewrite to `.html` because dots in `U.S. Bank` disable Amplify’s implicit HTML lookup. Use status `404-200` for the custom error rewrite: live validation showed `404` redirects to `/404.html` with 302, while `404-200` returns HTTP 404. The deployment gate below is necessary: a successful `next build` alone does not prove that Amplify stopped compute billing.
 
 1. Record the approved commit and existing production commit/job. Save rollback settings privately before any mutation. Commands below run from the repository root. The selected AWS fields exclude environment variables/secrets:
 
@@ -103,6 +104,8 @@ AWS's automatic Next 14+ SSG integration still uses `WEB_COMPUTE` and `.next`. T
      --region us-east-1 --capabilities CAPABILITY_IAM --confirm-changeset
    ```
 
+   The new handlers use CommonJS entry wrappers so the existing Sentry layer can wrap their exports. Keep the bundled-handler check in Deploy API; direct bundled TypeScript exports are non-configurable and fail during Lambda initialization.
+
    Inspect the changeset: expect two new functions/routes plus the normal API deployment; no database deletion/migration. Existing NoEcho parameters must be reused. Verify the regional custom-domain routes work. If testing the legacy CloudFront hostname too, its distribution already forwards POST/OPTIONS, query strings and Content-Type and does not cache those methods. Do not enable caching of personalized responses. Before frontend rollout:
 
    ```sh
@@ -128,7 +131,7 @@ AWS's automatic Next 14+ SSG integration still uses `WEB_COMPUTE` and `.next`. T
    aws amplify start-job --app-id d172gkg36enjcy --branch-name main --region us-east-2 --job-type RELEASE
    ```
 
-   Root `customHttp.yml` supplies security, cache and extensionless JSON/image content-type headers on redeploy. The build uploads `out` only. Keep `.next/server`, `.env*`, `node_modules`, `.static-cache` and source maps out of the published artifact. Allow time for the platform change and redeploy; an in-place platform change may interrupt service, so use a quiet window.
+   Root `customHttp.yml` supplies security, cache and extensionless JSON/image content-type headers on redeploy. The build uploads `out` only. Whenever the generated custom rules change, apply them with `update-app`; publishing repository JSON alone does not change Amplify rules. Keep `.next/server`, `.env*`, `node_modules`, `.static-cache` and source maps out of the published artifact. Allow time for the platform change and redeploy; an in-place platform change may interrupt service, so use a quiet window.
 
 5. Check the returned job ID until `SUCCEED` with `aws amplify get-job --app-id d172gkg36enjcy --branch-name main --job-id JOB_ID --region us-east-2`. Inspect build/deploy logs: static artifacts must come from `out`, with no Next SSR adapter or compute packaging. Read `get-app`/`get-branch` again: platform must remain `WEB`, framework `Web`. **If Amplify reclassifies the app or provisions compute, stop and roll back; do not claim SSR savings.** No hosting-provider migration is authorized or necessary to this plan.
 
@@ -136,18 +139,27 @@ AWS's automatic Next 14+ SSG integration still uses `WEB_COMPUTE` and `.next`. T
 
 ## Rollback
 
+For this rollout, the durable private backup is `/Users/maxwellmelcher/.codex/deployment-backups/creditodds-static-20261106/`; `restore-app.json` is the saved app input with null fields removed. The pre-migration source commit is `8d73186ba56268a48e526986f98af89beb9a3454`. Job 1904 is the last prior SSR release, but its recorded revision is `HEAD`, so do not rely on retrying it to restore old source.
+
 1. Pause the same frontend triggers. Do not remove the new backend routes: they are additive and safe for the former frontend, and removing them could break cached new clients.
-2. Revert the migration changes on main (or release the saved pre-migration commit) without reverting unrelated changes. Restore the original source-map integration. Root `amplify.yml` and `customHttp.yml` added by this migration must be removed/reverted too; otherwise they override restored console settings.
-3. Restore the saved app configuration using `aws amplify update-app --region us-east-2 --cli-input-json file:///tmp/creditodds-static-rollback/app.json`. If an optional saved field is null, omit that field before passing the JSON. Restore branch framework `Next.js - SSR` and the saved auto-build setting (observed false) with `update-branch`.
-4. Start one RELEASE job of the restored main revision, or retry the saved successful SSR job only after platform `WEB_COMPUTE` is restored. Verify original routes, Sentry reporting, redirects and authentication. Re-enable the recorded workflows. Rendering charges resume; retain backend data and all unrelated infrastructure.
+2. Create a rollback branch from current main and reverse only the frontend migration changes under `apps/web-next`, plus the root hosting files. For an immediate rollback before any later frontend changes, restoring `apps/web-next` from the saved pre-migration commit is equivalent. Keep `apps/api` and the backend deployment checks at their current revision so a later API deploy does not remove the additive routes. Review the diff and preserve unrelated/later edits before merging to main. Restore the original source-map integration. Root `amplify.yml` and `customHttp.yml` added by this migration must be removed/reverted too; otherwise they override restored console settings.
+3. Restore the saved hosting configuration after the source rollback is merged:
+
+   ```sh
+   aws amplify update-app --region us-east-2 \
+     --cli-input-json file:///Users/maxwellmelcher/.codex/deployment-backups/creditodds-static-20261106/restore-app.json
+   aws amplify update-branch --app-id d172gkg36enjcy --branch-name main --region us-east-2 \
+     --framework 'Next.js - SSR' --no-enable-auto-build
+   ```
+4. Start one RELEASE job of the restored main revision only after platform `WEB_COMPUTE` is restored: `aws amplify start-job --app-id d172gkg36enjcy --branch-name main --region us-east-2 --job-type RELEASE`. Verify original routes, Sentry reporting, redirects and authentication. Re-enable the recorded workflows. Rendering charges resume; retain backend data and all unrelated infrastructure.
 
 ## Cost estimate and verification
 
 The supplied November allocation (~$41/month) and rendering share (~$30–$33/month) are estimates, not measured savings. With confirmed `WEB` hosting, frontend render requests/duration should stop. The previous ~$8–$11/month non-rendering allocation remains a starting estimate, not a cap.
 
-At published standard-instance rates, 100 additional build minutes cost ~$1; 10 extra GB served cost ~$1.50. Static storage is ~$0.023/GB-month. Exporting all pages grows the artifact, but visitors download individual files, not the whole export. The optimized image set is about 7.7 MiB of actual WebP bytes across all sizes (roughly 11 MiB filesystem allocation), rather than original images per visitor. The full artifact size and build timing are in the validation report. Build duration on Amplify will differ from this laptop.
+At published standard-instance rates, 100 additional build minutes cost ~$1; 10 extra GB served cost ~$1.50. Static storage is ~$0.023/GB-month. Exporting all pages grows the artifact, but visitors download individual files, not the whole export. The optimized image set is about 7.7 MiB of actual WebP bytes across all sizes (roughly 11 MiB filesystem allocation), rather than original images per visitor. The full artifact size and build timing are in the validation report. The first Amplify build took about 11 minutes including installation/cache/artifact work (seven minutes generating pages): roughly $0.11 per publish at the standard build rate, before free-tier credits. Ten similar publishes would be roughly $1.10 in build charges; total monthly cost depends on actual publish frequency.
 
-Budget **$30–$33/month gross rendering savings**. Illustratively, if incremental builds/backend/bandwidth total $0–$2/month, net savings would be **$28–$33/month**, leaving roughly **$8–$13/month** of this allocation. This is conditional, not a guarantee. Existing API Gateway/Lambda/database, Firebase, content/image CDN and analytics charges remain outside or alongside that allocation. Recommendations and CSP processing move to the backend, so frontend savings must be compared against backend deltas. No fixed infrastructure is added by this change.
+Budget **$30–$33/month gross rendering savings**. The deployment audit found 10 pre-migration publishes in the preceding seven days, averaging 4.13 build minutes. At that same cadence (~43/month), an 11–14 minute static build adds approximately **$3–$4/month** versus the prior builds (observed static builds ranged from about 11 to 14 minutes). If additional storage/backend/bandwidth costs total another $0–$2/month, revised net savings would be approximately **$24–$30/month**, leaving roughly **$11–$17/month** of the supplied $41 allocation. This estimate uses observed build timing and recent cadence, not billed post-cutover usage; reducing or batching publishes improves it. This is conditional, not a guarantee. Existing API Gateway/Lambda/database, Firebase, content/image CDN and analytics charges remain outside or alongside that allocation. Recommendations and CSP processing move to the backend, so frontend savings must be compared against backend deltas. No fixed infrastructure is added by this change.
 
 Post-deployment plan:
 
