@@ -1,6 +1,6 @@
 import { beforeEach, expect, it, vi } from 'vitest';
-import { BestCardForMeHandler } from '../../../api/src/handlers/best-card-for-me';
-import { CspReportHandler } from '../../../api/src/handlers/csp-report';
+import { BestCardForMeHandler } from '../../../api/src/handlers/best-card-for-me-core';
+import { CspReportHandler } from '../../../api/src/handlers/csp-report-core';
 import { getAllCards } from '../../../api/src/lib/ranker/data-loaders';
 vi.mock('../../../api/src/lib/ranker/data-loaders', () => ({ getAllCards: vi.fn() }));
 vi.mock('../../../api/src/db', () => ({ default: { end: vi.fn() } }));

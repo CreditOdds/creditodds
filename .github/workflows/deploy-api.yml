@@ -66,6 +66,10 @@ jobs:
         working-directory: apps/api
         run: sam build
 
+      - name: Verify instrumentable Lambda entrypoints
+        working-directory: apps/api
+        run: node scripts/verify-bundled-handlers.js .aws-sam/build
+
       - name: SAM deploy
         working-directory: apps/api
         # apps/api/samconfig.toml is gitignored, so the runner has no saved
