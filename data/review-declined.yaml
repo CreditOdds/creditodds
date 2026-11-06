@@ -70,6 +70,8 @@ rewards_added:
       why: "alias of the existing phone 4x row (issues #2154, #2205)" }
   - { slug: marriott-bonvoy-bold-credit-card, category: cell_phone_providers,
       why: "alias of the existing phone 2x row (issue #2154)" }
+  - { slug: citibusiness-aadvantage-platinum-select-maste, category: cell_phone_providers,
+      why: "alias of the existing phone 2x row, telecommunications merchants (issue #2353)" }
   - { slug: marriott-bonvoy-bold-credit-card, category: ground_transportation,
       why: "rideshare is already the transit 2x row (issues #2154, #2205)" }
   - { slug: marriott-bonvoy-bold-credit-card, category: dining,
