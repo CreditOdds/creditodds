@@ -33,6 +33,21 @@ async function copySocialImages(dir) {
   }
 }
 await copySocialImages('out');
+// Both /card/slug and /card/slug/ existed under Next. Amplify serves the
+// former from slug.html and the latter from slug/index.html. Physical indexes
+// preserve both forms without wildcard rewrites that loop on missing files.
+async function addDirectoryIndexes(dir) {
+  for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
+    const file = path.join(dir, entry.name);
+    if (entry.isDirectory()) await addDirectoryIndexes(file);
+    else if (entry.name.endsWith('.html') && !['index.html', '404.html', '_not-found.html'].includes(entry.name)) {
+      const folder = file.slice(0, -5);
+      await fs.mkdir(folder, { recursive: true });
+      await fs.copyFile(file, path.join(folder, 'index.html'));
+    }
+  }
+}
+await addDirectoryIndexes('out');
 const manifest = JSON.parse(await fs.readFile('src/lib/static-images.json'));
 for (const key of new Set(Object.values(manifest))) for (const size of [32,96,256,640,1200]) await fs.access(`out/_images/${key}-${size}.webp`);
 async function inspect(dir) {
