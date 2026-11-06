@@ -90,6 +90,14 @@ rewards_added:
       why: "alias of the existing merchant-specific playstation 5x row (issue #2286)" }
   - { slug: bilt-palladium, category: dining,
       why: "the up-to-5x is Bilt Dining partner restaurants only, a program perk; same call as bilt-blue (issue #2262)" }
+  - { slug: ihg-rewards-premier-business, category: selected_categories,
+      why: "5x social media/search advertising has no category id; selected_categories would misrepresent it (issue #2379)" }
+  - { slug: intuit-business, category: selected_categories,
+      why: "5% on Intuit's own products is a single-merchant rate with no clean category shape (issue #2379)" }
+  - { slug: the-business-platinum-card-from-american-express, category: selected_categories,
+      why: "the 2x key-business-categories rate is already modeled as the specific category rows (issue #2379)" }
+  - { slug: citibusiness-aadvantage-platinum-select-maste, category: cell_phone_providers,
+      why: "duplicate of the existing `phone` row (Telecommunications merchants) (issue #2353)" }
 
 # Reward categories flagged as present in YAML but not on the apply page.
 # Every entry below was verified still live on the issuer's page; the
