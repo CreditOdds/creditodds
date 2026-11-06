@@ -13,6 +13,11 @@ rewards:
   - category: hotels_car_portal
     value: 5
     unit: points_per_dollar
+  - category: entertainment_portal
+    value: 5
+    unit: points_per_dollar
+    note: "Capital One Entertainment platform purchases only"
+    merchant_specific: true
   - category: everything_else
     value: 1.25
     unit: points_per_dollar

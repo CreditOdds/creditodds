@@ -24,6 +24,9 @@ rewards:
   - category: groceries
     value: 3
     unit: percent
+  - category: hotels_car_portal
+    value: 5
+    unit: percent
   - category: everything_else
     value: 1
     unit: percent
