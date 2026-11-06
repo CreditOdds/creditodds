@@ -33,3 +33,10 @@ our_take: >
   There is no signup bonus or intro APR here either. Pay in full each month
   and it is one of the more rewarding ways to establish a credit history, with
   no foreign transaction fee as a bonus abroad.
+benefits:
+  - name: "Price Match Guarantee"
+    value: 0
+    description: "Travel credit for the difference if you find a cheaper eligible flight, hotel or rental car within 24 hours of booking through Capital One Travel."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
