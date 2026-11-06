@@ -85,3 +85,9 @@ benefits:
     frequency: "per_purchase"
     category: "rewards"
     enrollment_required: false
+  - name: "Meal Delivery Credit"
+    value: 50
+    description: "Up to $25 in statement credits every 6 months on eligible meal delivery purchases, up to $50 each calendar year"
+    frequency: "semi_annual"
+    category: "dining"
+    enrollment_required: false
