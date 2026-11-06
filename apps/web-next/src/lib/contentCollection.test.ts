@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { fetchWithRetry } from './fetchWithRetry';
 import { getArticle, getArticles } from './articles';
 import { getNews, getNewsItem } from './news';
@@ -7,7 +7,8 @@ import { getCard } from './api';
 import { CardNotFoundError } from './cardNotFound';
 vi.mock('./fetchWithRetry', () => ({ fetchWithRetry: vi.fn() }));
 const fetchMock = vi.mocked(fetchWithRetry);
-beforeEach(() => vi.resetAllMocks());
+beforeEach(() => { vi.resetAllMocks(); vi.stubGlobal('window', {}); });
+afterEach(() => vi.unstubAllGlobals());
 
 describe.each([
   ['articles', 'slug', getArticles, getArticle],

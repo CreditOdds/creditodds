@@ -108,26 +108,13 @@ function getSimilarCards(
     .map(s => s.card);
 }
 
-// Revalidate every 5 minutes for fresh data while enabling caching
-export const revalidate = 300;
+// Every supported slug is exported; new cards become public on the next build.
+export const revalidate = false;
 export const dynamic = 'force-static';
-export const dynamicParams = true;
-
-interface CardPageProps {
-  params: Promise<{ name: string }>;
-}
-
-// Keep Amplify's 220 MiB artifact bounded as the catalog grows. Prebuild
-// 80 active/high-data cards; other slugs render on first request and use the
-// same ISR cache. All cards remain in the sitemap and catalog.
+export const dynamicParams = false;
+interface CardPageProps { params: Promise<{ name: string }>; }
 export async function generateStaticParams() {
-  const cards = await getAllCards();
-  return [...cards]
-    .sort((a, b) => Number(a.active === false) - Number(b.active === false)
-      || (b.total_records ?? 0) - (a.total_records ?? 0)
-      || a.slug.localeCompare(b.slug))
-    .slice(0, 80)
-    .map(card => ({ name: card.slug }));
+  return (await getAllCards()).map(card => ({ name: card.slug }));
 }
 
 async function getCardOrNotFound(slug: string): Promise<Card> {

@@ -29,7 +29,7 @@ export async function getContentCollection<T>(
   signal?: AbortSignal,
 ): Promise<T[]> {
   const isBrowser = typeof window !== 'undefined';
-  if (!isBrowser && process.env.NODE_ENV === 'development') {
+  if (!isBrowser) {
     const fs = await import('fs/promises');
     const path = await import('path');
     return parseCatalog<T>(await fs.readFile(path.join(process.cwd(), '..', '..', 'data', `${name}.json`), 'utf8'), name, key, identifier);

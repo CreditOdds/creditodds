@@ -9,7 +9,7 @@ export const size = {
 
 export const contentType = 'image/png';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 interface Props {
   params: Promise<{ name: string }>;
@@ -224,3 +224,7 @@ export default async function OGImage({ params }: Props) {
     { ...size, fonts, headers: OG_CACHE_HEADERS }
   );
 }
+
+export const dynamic = 'force-static';
+export { generateStaticParams } from './page';
+export const dynamicParams = false;

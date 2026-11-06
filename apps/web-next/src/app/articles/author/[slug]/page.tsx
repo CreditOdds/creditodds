@@ -41,7 +41,7 @@ export async function generateStaticParams() {
   return authors.map((author) => ({ slug: author.slug }));
 }
 
-export const revalidate = 300;
+export const revalidate = false;
 
 export default async function AuthorPage({ params }: Props) {
   const { slug } = await params;
@@ -143,3 +143,5 @@ export default async function AuthorPage({ params }: Props) {
     </div>
   );
 }
+
+export const dynamicParams = false;

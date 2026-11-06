@@ -2,7 +2,7 @@
 
 The CreditOdds frontend: a [Next.js 16](https://nextjs.org) App Router app in
 TypeScript, styled with Tailwind CSS and the editorial "v2" design system
-(Inter Tight headlines, Inter body). It uses SSR/SSG with ISR for SEO, Firebase
+(Inter Tight headlines, Inter body). It exports static HTML for SEO, uses Firebase
 Authentication (Google sign-in + email magic links), and Highcharts for the
 approval-odds visualizations. It's deployed on AWS Amplify.
 
@@ -37,8 +37,9 @@ NEXT_PUBLIC_FIREBASE_APP_ID=...
 | Script | Description |
 |--------|-------------|
 | `npm run dev` | Start the dev server |
-| `npm run build` | Production build (runs the SEO check first via `prebuild`) |
-| `npm start` | Serve the production build |
+| `npm run build` | Prepare content/image snapshots and export the production site to `out` |
+| `npm start` | Serve `out` on port 4173 without a Next runtime |
+| `npm run test:static` | Check all sitemap URLs and browser flows against that static server |
 | `npm test` | Run the Vitest suite |
 | `npm run lint` | ESLint (`--max-warnings=0`) |
 | `npm run check:seo` | Run the SEO check (`scripts/check-seo.mjs`) on its own |
@@ -54,3 +55,5 @@ Pushed to `main` and deployed via AWS Amplify. Native auto-build is disabled
 through `.github/workflows/deploy-frontend.yml` (code) or the relevant
 `build-*.yml` workflow (data). See the
 [root README](../../README.md#deployment) for details.
+
+Static hosting migration, deployment gate, publishing, costs and rollback: [runbook](../../docs/static-hosting.md). Do not deploy the migration before explicit approval.

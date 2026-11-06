@@ -48,13 +48,13 @@ it('starts ratings, wire and product changes together and bounds a stalled secti
   expect(vi.getTimerCount()).toBe(0);
 });
 
-it('bounds prebuilt card pages without disabling on-demand ISR routes', async () => {
+it('exports every card without an on-demand runtime', async () => {
   const cards = Array.from({ length: 120 }, (_, i) => ({ slug: `card-${i}`, total_records: i, active: true })) as Awaited<ReturnType<typeof getAllCards>>;
   vi.mocked(getAllCards).mockResolvedValueOnce(cards);
   const params = await generateStaticParams();
-  expect(params).toHaveLength(80);
-  expect(params[0]).toEqual({ name: 'card-119' });
+  expect(params).toHaveLength(120);
+  expect(params[0]).toEqual({ name: 'card-0' });
   expect(cards[0].slug).toBe('card-0');
-  expect(dynamicParams).toBe(true);
+  expect(dynamicParams).toBe(false);
   expect(dynamic).toBe('force-static');
 });

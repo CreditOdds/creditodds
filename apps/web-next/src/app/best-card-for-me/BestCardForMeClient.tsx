@@ -467,7 +467,7 @@ export default function BestCardForMeClient({ allCards }: { allCards: Card[] }) 
       for (const [bucket, monthly] of Object.entries(state.monthlySpend)) {
         if (monthly > 0) annualSpend[bucket] = monthly * 12;
       }
-      const res = await fetch('/api/best-card-for-me', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'https://d2ojrhbh2dincr.cloudfront.net'}/best-card-for-me`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

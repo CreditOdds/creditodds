@@ -59,12 +59,7 @@ interface StoresFile {
   stores: Store[];
 }
 
-// stores.json is imported statically so its contents are bundled straight
-// into the build output. The long-tail /best-card-for/[slug] pages render
-// on demand on Amplify's SSR runtime, which only ships files traced from
-// apps/web-next — a process.cwd()-relative fs.readFile of the repo-root
-// data/ dir there throws ENOENT and 500s the page. A static import
-// sidesteps file tracing entirely: the data lives in the JS bundle.
+// Build-time directory data is shared by HTML, sitemaps, and social images.
 const data = storesData as unknown as StoresFile;
 const stores: Store[] = data.stores || [];
 const generatedAt: string = data.generated_at ?? '';

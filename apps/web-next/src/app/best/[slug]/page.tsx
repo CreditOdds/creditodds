@@ -50,7 +50,7 @@ export async function generateStaticParams() {
   return pages.map((page) => ({ slug: page.slug }));
 }
 
-export const revalidate = 300;
+export const revalidate = false;
 
 export default async function BestDetailPage({ params }: Props) {
   const { slug } = await params;
@@ -164,3 +164,5 @@ export default async function BestDetailPage({ params }: Props) {
     </div>
   );
 }
+
+export const dynamicParams = false;

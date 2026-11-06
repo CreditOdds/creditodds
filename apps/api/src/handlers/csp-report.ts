@@ -57,3 +57,12 @@ export async function POST(request: Request): Promise<Response> {
     void reader.cancel().catch(() => {});
   }
 }
+
+export async function CspReportHandler(event: { httpMethod: string; headers?: Record<string,string>; body?: string; isBase64Encoded?: boolean }) {
+  const headers = { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': 'Content-Type', 'Access-Control-Allow-Methods': 'POST,OPTIONS', 'Cache-Control': 'no-store' };
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 204, headers, body: '' };
+  if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: '' };
+  const body = event.isBase64Encoded ? Buffer.from(event.body || '', 'base64').toString() : event.body || '';
+  const response = await POST(new Request('https://api.creditodds.com/csp-report', { method: 'POST', headers: event.headers, body }));
+  return { statusCode: response.status, headers, body: '' };
+}

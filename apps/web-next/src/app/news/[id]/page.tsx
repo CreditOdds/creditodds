@@ -25,11 +25,11 @@ interface NewsDetailPageProps {
   params: Promise<{ id: string }>;
 }
 
-export const revalidate = 300;
+export const revalidate = false;
 
 export async function generateStaticParams() {
   const items = await getNews();
-  return items.filter(item => item.body).map(item => ({ id: item.id }));
+  return items.map(item => ({ id: item.id }));
 }
 
 export async function generateMetadata({ params }: NewsDetailPageProps): Promise<Metadata> {
@@ -270,3 +270,5 @@ export default async function NewsDetailPage({ params }: NewsDetailPageProps) {
     </>
   );
 }
+
+export const dynamicParams = false;

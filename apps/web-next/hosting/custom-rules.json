@@ -1,0 +1,37 @@
+[
+  {
+    "source": "/articles/wyndham-rewards-earner-premier",
+    "target": "/news/wyndham-rewards-earner-premier",
+    "status": "301"
+  },
+  {
+    "source": "/best-card-for/budget-car-rental",
+    "target": "/best-card-for/budget",
+    "status": "301"
+  },
+  {
+    "source": "/news/trump-credit-card-interest-rate-cap-proposal",
+    "target": "/news",
+    "status": "301"
+  },
+  {
+    "source": "/_admin",
+    "target": "/admin",
+    "status": "301"
+  },
+  {
+    "source": "/api/best-card-for-me",
+    "target": "https://api.creditodds.com/best-card-for-me",
+    "status": "200"
+  },
+  {
+    "source": "/api/csp-report",
+    "target": "https://api.creditodds.com/csp-report",
+    "status": "200"
+  },
+  {
+    "source": "/<*>",
+    "target": "/404.html",
+    "status": "404"
+  }
+]

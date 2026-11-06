@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import staticImageLoader from "@/lib/staticImageLoader";
 
 interface ArticleContentProps {
   content: string;
@@ -27,7 +28,7 @@ function sanitizeUrl(rawUrl: string): string | null {
 // Widths the image optimizer will accept (its default deviceSizes). Article
 // body images render at most ~768 CSS px, so this spans 1x to 2x without
 // generating variants nothing asks for.
-const BODY_IMAGE_WIDTHS = [640, 828, 1080, 1200, 1920];
+const BODY_IMAGE_WIDTHS = [640, 1200];
 
 // Hosts allowlisted in next.config.mjs `images.remotePatterns`. The optimizer
 // 400s on anything else, so other URLs are left pointing at their origin.
@@ -51,15 +52,13 @@ function canOptimize(url: string): boolean {
   }
 }
 
-// Body images used to point straight at the CDN, so a reader downloaded the
-// full multi-megabyte source PNG. Route them through /_next/image — the same
-// optimizer next/image uses everywhere else — for a resized AVIF/WebP.
+// Body images use the same build-time WebP variants as next/image.
 function optimizedImageAttrs(url: string): string {
   // escapeHtml() has already turned any "&" into "&amp;"; undo that before
   // percent-encoding, then use "&amp;" for the separators we add ourselves.
   const raw = url.replace(/&amp;/g, '&');
   const variant = (w: number) =>
-    `/_next/image?url=${encodeURIComponent(raw)}&amp;w=${w}&amp;q=75`;
+    staticImageLoader({ src: raw, width: w });
   const srcSet = BODY_IMAGE_WIDTHS.map((w) => `${variant(w)} ${w}w`).join(', ');
   return (
     `src="${variant(1200)}" srcset="${srcSet}" ` +

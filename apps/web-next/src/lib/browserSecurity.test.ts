@@ -1,6 +1,6 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import { serializeJsonLd } from './serializeJsonLd';
-import { POST } from '../app/api/csp-report/route';
+import { POST } from '../../../api/src/handlers/csp-report';
 import { buildContentSecurityPolicy } from '../../security-policy.mjs';
 import storesData from '../../../../data/stores.json';
 
@@ -18,7 +18,7 @@ it('enforces production origins without eval, allowing development HMR', () => {
   expect(prod).toContain('https://api.example.com');
   expect(prod).not.toContain('/Prod');
   expect(prod).toContain('https://auth.example.com');
-  expect(prod).toContain('report-uri /api/csp-report');
+  expect(prod).toContain('report-uri https://api.example.com/csp-report');
   expect(buildContentSecurityPolicy({ NODE_ENV: 'development' })).toContain("'unsafe-eval'");
 });
 it('allows every affiliate banner host in img-src', () => {

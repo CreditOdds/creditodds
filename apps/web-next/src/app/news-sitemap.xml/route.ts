@@ -1,7 +1,7 @@
 import { getNews } from '@/lib/news';
 
 export const dynamic = 'force-static';
-export const revalidate = 3600;
+export const revalidate = false;
 
 const BASE_URL = 'https://creditodds.com';
 const PUBLICATION_NAME = 'CreditOdds';

@@ -8,7 +8,7 @@ export const size = {
 
 export const contentType = 'image/png';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export default async function ContactOGImage() {
   const fonts = await loadInterFonts();
@@ -110,3 +110,5 @@ export default async function ContactOGImage() {
     { ...size, fonts, headers: OG_CACHE_HEADERS }
   );
 }
+
+export const dynamic = 'force-static';

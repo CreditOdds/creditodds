@@ -3,7 +3,7 @@ import { OGBackground, OGLogo, loadInterFonts, OG_CACHE_HEADERS } from '@/compon
 
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export default async function OGImage() {
   const fonts = await loadInterFonts();
@@ -34,3 +34,5 @@ export default async function OGImage() {
     { ...size, fonts, headers: OG_CACHE_HEADERS }
   );
 }
+
+export const dynamic = 'force-static';
