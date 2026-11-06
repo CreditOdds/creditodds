@@ -10,7 +10,17 @@ const rules = [
   // Compatibility for existing clients during rollout. New clients call the backend directly.
   { source: '/api/best-card-for-me', target: `${api}/best-card-for-me`, status: '200' },
   { source: '/api/csp-report', target: `${api}/csp-report`, status: '200' },
-  { source: '/<*>', target: '/404.html', status: '404' },
+  // Amplify treats extensionless files as clean HTML URLs. Give static route
+  // handlers typed backing files while keeping their public URLs unchanged.
+  ...['news', 'articles', 'best'].map(name => ({ source: `/api/${name}`, target: `/api/${name}.json`, status: '200' })),
+  { source: '/api/og/compare', target: '/api/og/compare.png', status: '200' },
+  ...['opengraph-image', 'twitter-image'].flatMap(image => ['', '/<section>', '/<section>/<slug>'].map(prefix => ({
+    source: `${prefix}/${image}`, target: `${prefix}/${image}.png`, status: '200',
+  }))),
+  // A period in U.S. Bank prevents Amplify's implicit .html resolution.
+  { source: '/bank/<bank>', target: '/bank/<bank>.html', status: '200' },
+  // 404 is a redirect in Amplify; 404-200 serves the custom body with HTTP 404.
+  { source: '/<*>', target: '/404.html', status: '404-200' },
 ];
 await fs.mkdir('hosting', { recursive: true });
 await fs.writeFile('hosting/custom-rules.json', JSON.stringify(rules, null, 2) + '\n');

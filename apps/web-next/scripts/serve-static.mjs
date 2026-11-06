@@ -21,11 +21,11 @@ http.createServer(async (req,res) => {
     if (rule?.status === '301') { res.writeHead(301, { Location: rule.target + url.search }); return res.end(); }
     // Backend routes deliberately require the separately deployed API. Proxying
     // them here would hide a frontend runtime dependency from the smoke test.
-    if (rule?.status === '200') { res.writeHead(501); return res.end('Backend endpoint: ' + rule.target); }
-    const requested = path.resolve(root, '.' + pathname);
+    if (rule?.status === '200' && rule.target.startsWith('https://')) { res.writeHead(501); return res.end('Backend endpoint: ' + rule.target); }
+    const requested = path.resolve(root, '.' + (rule?.status === '200' ? rule.target : pathname));
     if (!requested.startsWith(root + '/') && requested !== root) { res.writeHead(400); return res.end(); }
     let filename;
-    for (const candidate of [requested, requested.replace(/\/$/,'')+'.html', path.join(requested,'index.html')]) {
+    for (const candidate of [requested, requested.replace(/\/$/,'')+'.html', requested+'.png', requested+'.json', path.join(requested,'index.html')]) {
       try { if ((await fs.stat(candidate)).isFile()) { filename=candidate; break; } } catch { /* try clean URL */ }
     }
     const status = filename ? 200 : 404;

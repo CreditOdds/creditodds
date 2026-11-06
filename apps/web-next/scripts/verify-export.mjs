@@ -16,7 +16,23 @@ const paths = [
   ...content.stores.stores.map(x => `/best-card-for/${x.slug}`),
 ];
 for (const url of paths) await fs.access(path.join('out', `${url}.html`));
-for (const asset of ['404.html', 'sitemap.xml', 'robots.txt', 'news-sitemap.xml', 'api/news', 'api/articles', 'api/best', 'api/og/compare']) await fs.access(path.join('out',asset));
+for (const asset of ['404.html', 'sitemap.xml', 'robots.txt', 'news-sitemap.xml']) await fs.access(path.join('out',asset));
+// Amplify cannot directly serve extensionless route-handler files. Keep
+// the same public URLs through rewrites without duplicating image storage.
+async function typedFile(source, target) {
+  try { await fs.rename(source, target); } catch (error) { if (error.code !== 'ENOENT') throw error; }
+  await fs.access(target);
+}
+for (const name of ['news', 'articles', 'best']) await typedFile(`out/api/${name}`, `out/api/${name}.json`);
+await typedFile('out/api/og/compare', 'out/api/og/compare.png');
+async function copySocialImages(dir) {
+  for (const entry of await fs.readdir(dir, { withFileTypes: true })) {
+    const file = path.join(dir, entry.name);
+    if (entry.isDirectory()) await copySocialImages(file);
+    else if (['opengraph-image', 'twitter-image'].includes(entry.name)) await typedFile(file, `${file}.png`);
+  }
+}
+await copySocialImages('out');
 const manifest = JSON.parse(await fs.readFile('src/lib/static-images.json'));
 for (const key of new Set(Object.values(manifest))) for (const size of [32,96,256,640,1200]) await fs.access(`out/_images/${key}-${size}.webp`);
 async function inspect(dir) {
