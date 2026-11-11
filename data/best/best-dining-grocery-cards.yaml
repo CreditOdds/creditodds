@@ -1,77 +1,75 @@
 # ============================================================
-# Best Credit Cards for Dining and Groceries — Ranking Reasoning (2026-10-20)
+# Best Credit Cards for Dining and Groceries — Ranking Reasoning (2026-11-01)
 # Consensus of: GPT, Gemini, Claude (borda count)
 # ============================================================
 #
 # #1 blue-cash-preferred-card (Best Overall)  [GPT #1, Gemini #2, Claude #1]
 #   The Blue Cash Preferred stands out for its high cash back rate on grocery
 #   purchases, making it ideal for families and frequent shoppers. Its
-#   substantial signup bonus and 0% intro APR for 18 months on purchases add
-#   to its appeal, solidifying its top position.
+#   substantial signup bonus and introductory 0% APR for 12 months on
+#   purchases further enhance its value.
 #
-# #2 american-express-gold-card (Best Premium)  [GPT #2, Gemini #1, Claude #2]
-#   The American Express Gold Card excels with its generous rewards structure
-#   for dining and groceries, making it a favorite among food enthusiasts. The
-#   high signup bonus and premium benefits justify the annual fee, placing it
-#   securely in second place.
+# #2 american-express-gold-card (Best Premium)  [GPT #2, Gemini #1, Claude #3]
+#   The American Express Gold Card excels in dining and grocery rewards,
+#   appealing to food enthusiasts and travelers alike. Its generous signup
+#   bonus and points on dining make it a strong contender for those willing to
+#   pay a higher annual fee.
 #
-# #3 citi-strata-premier  [GPT #3, Gemini #4, Claude #4]
-#   The Citi Strata Premier offers a balanced rewards program that appeals to
-#   both dining and travel enthusiasts. Its competitive signup bonus and
-#   versatile earning potential make it a strong contender in the rankings.
+# #3 citi-strata-premier  [GPT #3, Gemini #3, Claude #4]
+#   The Citi Strata Premier Card offers a balanced rewards structure, making
+#   it a solid choice for those who dine out frequently and shop for
+#   groceries. Its competitive signup bonus and low annual fee enhance its
+#   appeal.
 #
-# #4 capital-one-savorone  [GPT #4, Gemini #3, Claude #5]
-#   The Capital One SavorOne provides solid cash back rewards without an
-#   annual fee, making it accessible for a wide range of consumers. Its
-#   straightforward rewards structure and introductory APR offer enhance its
-#   value.
+# #4 chase-sapphire-preferred  [GPT #4, Gemini #7, Claude #2]
+#   The Chase Sapphire Preferred is well-regarded for its travel rewards and
+#   flexible points redemption options. Its strong dining rewards and
+#   attractive signup bonus make it a versatile choice for both foodies and
+#   travelers.
 #
-# #5 chase-sapphire-preferred  [GPT #5, Gemini #8, Claude #3]
-#   The Chase Sapphire Preferred is a versatile card that combines dining
-#   rewards with travel benefits, appealing to those who enjoy both. Its
-#   attractive signup bonus and strong rewards on travel purchases contribute
-#   to its solid ranking.
+# #5 capital-one-savorone  [GPT #5, Gemini #4, Claude #7]
+#   The Capital One SavorOne Cash Rewards Card is an excellent option for
+#   those seeking a straightforward rewards structure without an annual fee.
+#   Its solid cash back rates on dining and groceries make it appealing for
+#   everyday spending.
 #
 # #6 us-bank-altitude-go-visa-signature (Best No-Fee)  [GPT #7, Gemini #5, Claude #6]
-#   The US Bank Altitude Go offers a compelling rewards structure for dining
-#   without an annual fee, making it an excellent choice for budget-conscious
-#   consumers. Its points on dining and groceries, combined with a reasonable
-#   signup bonus, enhance its appeal.
+#   The US Bank Altitude Go Visa Signature Card offers strong rewards on
+#   dining without an annual fee, making it a great choice for
+#   budget-conscious consumers. Its introductory bonus and points on dining
+#   enhance its overall value.
 #
-# #7 blue-cash-everyday-card  [GPT #6, Gemini #6, Claude #8]
-#   The Blue Cash Everyday Card provides a solid cash back rate on groceries
-#   without an annual fee, making it a practical option for everyday spending.
-#   Its signup bonus and introductory APR offer further increase its
-#   attractiveness.
+# #7 blue-cash-everyday-card  [GPT #8, Gemini #6, Claude #8]
+#   The Blue Cash Everyday Card provides a solid cash back rate on grocery
+#   purchases without an annual fee, making it accessible for many consumers.
+#   Its signup bonus and introductory offers add to its attractiveness.
 #
-# #8 chase-freedom-flex  [GPT #8, Gemini #7, Claude #7]
-#   The Chase Freedom Flex offers a dynamic rewards structure with rotating
-#   categories, making it ideal for those who can maximize the bonus
-#   categories. Its no annual fee and attractive signup bonus further enhance
-#   its ranking.
+# #8 chase-freedom-flex  [GPT #6, Gemini #8, Claude #9]
+#   The Chase Freedom Flex Card is ideal for those who can maximize its
+#   rotating categories for cash back. Its no-annual-fee structure and
+#   attractive signup bonus make it a flexible option for savvy spenders.
 #
-# #9 wells-fargo-autograph  [GPT #9, Gemini #9, Claude #10]
-#   The Wells Fargo Autograph Card provides a broad range of rewards across
-#   multiple categories without an annual fee, appealing to diverse spending
-#   habits. Its signup bonus and versatile earning potential contribute to its
-#   solid position.
-#
-# #10 chase-freedom-unlimited  [GPT #10, Gemini #10, Claude #9]
-#   The Chase Freedom Unlimited is a straightforward cash back card that
-#   rewards dining and travel purchases effectively. Its no annual fee and
-#   attractive signup bonus make it a practical choice for everyday spenders.
-#
-# #11 chase-sapphire-reserve (Best for Beginners)  [GPT #11, Gemini #12, Claude #11]
+# #9 chase-sapphire-reserve  [GPT #11, Gemini #11, Claude #5]
 #   The Chase Sapphire Reserve is a premium card that offers extensive travel
-#   and dining rewards, making it ideal for frequent travelers. While its high
-#   annual fee may deter some, the rich rewards and benefits justify its place
-#   in the rankings.
+#   benefits and high rewards on dining. While its annual fee is significant,
+#   the value of its rewards and perks can outweigh the cost for frequent
+#   travelers.
 #
-# #12 delta-skymiles-gold-american-express-card  [GPT #12, Gemini #11, Claude #12]
-#   The Delta SkyMiles Gold American Express Card is tailored for frequent
-#   Delta flyers, offering solid rewards on dining and groceries. Its signup
-#   bonus and travel benefits make it a valuable option for those loyal to the
-#   airline.
+# #10 wells-fargo-autograph  [GPT #10, Gemini #9, Claude #10]
+#   The Wells Fargo Autograph Card provides a competitive rewards structure
+#   across multiple categories without an annual fee. Its points on dining and
+#   groceries make it a versatile choice for everyday spending.
+#
+# #11 chase-freedom-unlimited  [GPT #9, Gemini #10, Claude #11]
+#   The Chase Freedom Unlimited Card is a great option for those who want a
+#   straightforward cash back card with no annual fee. Its rewards on dining
+#   and travel make it a versatile choice for everyday and travel expenses.
+#
+# #12 delta-skymiles-gold-american-express-card  [GPT #12, Gemini #12, Claude #12]
+#   The Delta SkyMiles Gold American Express Card is ideal for frequent Delta
+#   flyers, offering rewards on dining and groceries. Its signup bonus and
+#   travel benefits make it a compelling choice for those who prioritize
+#   airline rewards.
 #
 # ============================================================
 
@@ -84,11 +82,11 @@ updated_at: "2026-11-01"
 seo_title: Best Credit Cards for Dining and Groceries of 2026
 seo_description: Compare the best dining and grocery credit cards of 2026. Earn 3-4x points or up to 6% cash back on food spending.
 intro: |
-  Finding the best credit card for dining and grocery purchases can significantly enhance your rewards and savings. This ranking features a diverse selection of cards, from premium options with rich benefits to no-annual-fee choices that still deliver solid rewards.
+  Choosing the right credit card for dining and grocery purchases can maximize your rewards and savings. This ranking showcases a variety of options, from premium cards with extensive benefits to no-annual-fee alternatives that still offer valuable rewards.
 
 panel:
   method: borda
-  generated_at: "2026-10-20"
+  generated_at: "2026-11-01"
   models:
     - key: openai
       label: GPT
@@ -110,71 +108,73 @@ cards:
 
   - slug: american-express-gold-card
     badge: Best Premium
-    highlight: Earn 4 points per dollar at restaurants and U.S. supermarkets (on up to $25,000 per year), with a 100,000-point signup bonus after spending $8,000 in the first 6 months and a $325 annual fee.
+    highlight: Earn 4 points per dollar at restaurants and U.S. supermarkets on up to $25,000 per year, then 1 point. The card offers a 100,000-point signup bonus after spending $8,000 in the first 6 months, with a $325 annual fee.
     consensus:
-      score: 34
-      ranks: { openai: 2, gemini: 1, claude: 2 }
+      score: 33
+      ranks: { openai: 2, gemini: 1, claude: 3 }
 
   - slug: citi-strata-premier
     highlight: Earn 3 points per dollar on dining and groceries, with a 60,000-point signup bonus after spending $4,000 in the first 3 months and a $95 annual fee.
     consensus:
-      score: 28
-      ranks: { openai: 3, gemini: 4, claude: 4 }
-
-  - slug: capital-one-savorone
-    highlight: Earn 3% cash back on dining and groceries, with no annual fee and a 0% intro APR for 12 months on purchases.
-    consensus:
-      score: 27
-      ranks: { openai: 4, gemini: 3, claude: 5 }
+      score: 29
+      ranks: { openai: 3, gemini: 3, claude: 4 }
 
   - slug: chase-sapphire-preferred
-    highlight: Earn 3 points per dollar on dining and groceries, with a 75,000-point signup bonus after spending $5,000 in the first 3 months and a $95 annual fee.
+    previous_rank: 5
+    highlight: Earn 3 points per dollar on dining and 3 points on online grocery purchases, with a 75,000-point signup bonus after spending $5,000 in the first 3 months and a $95 annual fee.
+    consensus:
+      score: 26
+      ranks: { openai: 4, gemini: 7, claude: 2 }
+
+  - slug: capital-one-savorone
+    previous_rank: 4
+    highlight: Earn 3% cash back on dining and groceries, with no annual fee and a $200 cash signup bonus after spending $500 in the first 3 months.
     consensus:
       score: 23
-      ranks: { openai: 5, gemini: 8, claude: 3 }
+      ranks: { openai: 5, gemini: 4, claude: 7 }
 
   - slug: us-bank-altitude-go-visa-signature
     badge: Best No-Fee
-    previous_rank: 7
-    highlight: Earn 4 points per dollar on dining (up to $2,000 per quarter) and 2 points on groceries, with no annual fee and a 20,000-point signup bonus after spending $1,000 in the first 3 months.
+    highlight: Earn 4 points per dollar on dining (up to $2,000 per quarter) and 2 points on groceries, with a 20,000-point signup bonus after spending $1,000 in the first 3 months and no annual fee.
     consensus:
       score: 21
       ranks: { openai: 7, gemini: 5, claude: 6 }
 
   - slug: blue-cash-everyday-card
-    previous_rank: 6
-    highlight: Earn 3% cash back at U.S. supermarkets on up to $6,000 per year, then 1%, with no annual fee and a $200 cash signup bonus after spending $2,000 in the first 6 months.
-    consensus:
-      score: 19
-      ranks: { openai: 6, gemini: 6, claude: 8 }
-
-  - slug: chase-freedom-flex
-    highlight: Earn 5% cash back on rotating categories (including grocery stores in Q4 2026) on up to $1,500 per quarter, with no annual fee and a $250 cash signup bonus after spending $500 in the first 3 months.
+    highlight: Earn 3% cash back at U.S. supermarkets on up to $6,000 per year, then 1%, with a $200 cash signup bonus after spending $2,000 in the first 6 months and no annual fee.
     consensus:
       score: 17
-      ranks: { openai: 8, gemini: 7, claude: 7 }
+      ranks: { openai: 8, gemini: 6, claude: 8 }
 
-  - slug: wells-fargo-autograph
-    highlight: Earn 3 points per dollar on dining, travel, gas, transit, and streaming, with no annual fee and a 20,000-point signup bonus after spending $1,000 in the first 3 months.
+  - slug: chase-freedom-flex
+    highlight: Earn 5% cash back on rotating categories (including grocery stores in Q4 2026) on up to $1,500 per quarter, with a $250 cash signup bonus after spending $500 in the first 3 months and no annual fee.
     consensus:
-      score: 11
-      ranks: { openai: 9, gemini: 9, claude: 10 }
-
-  - slug: chase-freedom-unlimited
-    highlight: Earn 3% cash back on dining and 5% on travel purchases through the Chase Travel portal, with no annual fee and a $200 cash signup bonus after spending $500 in the first 3 months.
-    consensus:
-      score: 10
-      ranks: { openai: 10, gemini: 10, claude: 9 }
+      score: 16
+      ranks: { openai: 6, gemini: 8, claude: 9 }
 
   - slug: chase-sapphire-reserve
-    badge: Best for Beginners
-    highlight: Earn 3 points per dollar on dining, with an 100,000-point signup bonus after spending $6,000 in the first 3 months and a $795 annual fee.
+    previous_rank: 11
+    highlight: Earn 3 points per dollar on dining and 100,000 points after spending $6,000 in the first 3 months, with a $795 annual fee.
     consensus:
-      score: 5
-      ranks: { openai: 11, gemini: 12, claude: 11 }
+      score: 12
+      ranks: { openai: 11, gemini: 11, claude: 5 }
+
+  - slug: wells-fargo-autograph
+    previous_rank: 9
+    highlight: Earn 3 points per dollar on dining and groceries, with a 20,000-point signup bonus after spending $1,000 in the first 3 months and no annual fee.
+    consensus:
+      score: 10
+      ranks: { openai: 10, gemini: 9, claude: 10 }
+
+  - slug: chase-freedom-unlimited
+    previous_rank: 10
+    highlight: Earn 3% cash back on dining and 5% on travel purchases through the Chase Travel portal, with a $200 cash signup bonus after spending $500 in the first 3 months and no annual fee.
+    consensus:
+      score: 9
+      ranks: { openai: 9, gemini: 10, claude: 11 }
 
   - slug: delta-skymiles-gold-american-express-card
-    highlight: Earn 2 miles per dollar on dining and groceries, with an 80,000-mile signup bonus after spending $3,000 in the first 6 months and a $150 annual fee.
+    highlight: Earn 2 points per dollar on dining and groceries, with an 80,000-mile signup bonus after spending $3,000 in the first 6 months and a $150 annual fee.
     consensus:
-      score: 4
-      ranks: { openai: 12, gemini: 11, claude: 12 }
+      score: 3
+      ranks: { openai: 12, gemini: 12, claude: 12 }
