@@ -75,11 +75,11 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 200000
-  type: "points"
+  value: 3
+  type: "free_nights"
   spend_requirement: 3000
   timeframe_months: 3
-  note: "Limited-time offer, listed by Chase as 'this week only': earn 200,000 bonus points after spending $3,000 on eligible purchases within 3 months of account opening. Replaces the earlier 4 Free Night Awards offer."
+  note: "Earn 3 Free Night Awards after spending $3,000 on eligible purchases within 3 months of account opening. Each Free Night Award is valued up to 50,000 points."
 apr:
   regular:
     min: 19.24
