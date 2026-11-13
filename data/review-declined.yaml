@@ -169,6 +169,8 @@ rewards_removed:
   - { slug: ihg-rewards-club-traveler-credit-card, category: utilities }
   - { slug: ihg-rewards-club-traveler-credit-card, category: phone }
   - { slug: ihg-rewards-club-traveler-credit-card, category: streaming }
+  - { slug: safeway-foru-american-express, category: utilities,
+      why: "keep: the page's '3% back on gas, dining and bills' covers utilities; the extractor found no category for 'bills' (issue #2398)" }
 
 # Rate changes on an EXISTING category that we decided against. Keyed on
 # slug + category + the proposed `value`, so a later proposal of a different
