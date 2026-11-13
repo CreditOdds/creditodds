@@ -53,3 +53,10 @@ our_take: >
   else earns only 1%, which makes it a poor catch-all card. No foreign
   transaction fee helps on trips abroad, but compare it carefully against
   no-fee cards with similar category rates before applying.
+benefits:
+  - name: "Price Match Guarantee"
+    value: 0
+    description: "Travel credit for the difference if you find a cheaper eligible flight, hotel or rental car within 24 hours of booking through Capital One Travel."
+    frequency: "per_trip"
+    category: "travel"
+    enrollment_required: false
