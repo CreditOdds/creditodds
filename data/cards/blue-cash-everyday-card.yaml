@@ -57,7 +57,7 @@ rewards:
     value: 1
     unit: "percent"
 signup_bonus:
-  value: 200
+  value: 150
   type: "cash"
   spend_requirement: 2000
   timeframe_months: 6
@@ -71,8 +71,8 @@ apr:
     months: 18
     note: "0% intro APR for up to 18 months on purchases and balance transfers from account opening. Amex sets the intro period at approval, and it may be as short as 6 months."
   regular:
-    min: 19.49
-    max: 28.49
+    min: 19.74
+    max: 28.74
 benefits:
   - name: "Disney Streaming Credit"
     value: 84

@@ -46,11 +46,10 @@ rewards:
     value: 2
     unit: points_per_dollar
 signup_bonus:
-  value: 125000
+  value: 85000
   type: "points"
   spend_requirement: 5000
   timeframe_months: 6
-  note: "Plus a $150 statement credit. Offer ends 2026-09-30."
 apr:
   regular:
     min: 19.49

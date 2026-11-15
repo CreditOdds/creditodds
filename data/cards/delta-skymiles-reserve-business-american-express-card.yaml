@@ -37,11 +37,11 @@ rewards:
     unit: points_per_dollar
     note: "All purchases earn 1.5x after $150,000 in eligible purchases in a calendar year"
 signup_bonus:
-  value: 200000
+  value: 125000
   type: "miles"
-  spend_requirement: 20000
+  spend_requirement: 15000
   timeframe_months: 6
-  note: "Offer ends 2026-11-04."
+  note: 'Amex advertises this as "as high as 125,000 Bonus Miles"; actual offer may be lower.'
 apr:
   regular:
     min: 19.49

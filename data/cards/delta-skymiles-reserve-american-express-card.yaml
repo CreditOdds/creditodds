@@ -107,11 +107,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 50000
+  value: 125000
   type: "miles"
-  spend_requirement: 10000
+  spend_requirement: 5000
   timeframe_months: 6
-  note: "Two-part limited-time offer: two round-trip Delta Comfort Flight Certificates valid to the U.S. 48, Puerto Rico, or the U.S. Virgin Islands, plus 50,000 bonus miles. Certificates require 21+ day advance purchase and taxes and fees up to $80 per person. Offer ends 2026-11-04."
+  note: 'Amex advertises this as "as high as 125,000 Bonus Miles"; actual offer may be lower.'
 apr:
   regular:
     min: 19.49

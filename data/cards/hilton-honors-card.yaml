@@ -45,11 +45,11 @@ rewards:
     value: 3
     unit: points_per_dollar
 signup_bonus:
-  value: 80000
+  value: 70000
   type: "points"
   spend_requirement: 2000
   timeframe_months: 6
-  note: "Plus $100 statement credit after spending $2,000 on eligible purchases within first 6 months"
+  note: "Limited-time offer: 70,000 bonus points plus a Free Night Reward. Offer ends 2027-01-13."
 apr:
   regular:
     min: 19.49

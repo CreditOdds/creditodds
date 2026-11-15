@@ -44,21 +44,22 @@ rewards:
     value: 1
     unit: percent
 signup_bonus:
-  value: 300
+  value: 250
   type: "cash"
   spend_requirement: 3000
   timeframe_months: 6
 apr:
   purchase_intro:
     rate: 0
-    months: 12
+    months: 18
+    note: "0% intro APR for up to 18 months on purchases and balance transfers from account opening. Amex sets the intro period at approval, and it may be as short as 6 months."
   balance_transfer_intro:
     rate: 0
-    months: 12
-    note: "0% intro APR for 12 months on balance transfers requested within 60 days of account opening"
+    months: 18
+    note: "0% intro APR for up to 18 months on purchases and balance transfers from account opening. Amex sets the intro period at approval, and it may be as short as 6 months."
   regular:
-    min: 19.49
-    max: 28.49
+    min: 19.74
+    max: 28.74
 benefits:
   - name: "Disney Bundle Discount"
     value: 84
