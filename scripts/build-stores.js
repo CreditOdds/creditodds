@@ -63,8 +63,26 @@ function loadAffiliates() {
   for (const [slug, raw] of Object.entries(merchants)) {
     const entry = typeof raw === 'string' ? { url: raw } : raw;
 
-    if (!entry || typeof entry.url !== 'string' || !entry.url.startsWith('https://')) {
-      errors.push(`affiliates.yaml: ${slug} needs an https url`);
+    // A referral code is the one case with no link: some programs (Google Fi)
+    // hand out a code the customer types in at sign-up, with no trackable URL.
+    // An entry therefore needs a url, a code, or both.
+    if (!entry || (entry.url === undefined && entry.code === undefined)) {
+      errors.push(`affiliates.yaml: ${slug} needs an https url or a code`);
+      continue;
+    }
+    if (entry.url !== undefined && (typeof entry.url !== 'string' || !entry.url.startsWith('https://'))) {
+      errors.push(`affiliates.yaml: ${slug} url must be an https url`);
+      continue;
+    }
+    // Quoted in the yaml so an all-digit or hex-looking code stays a string.
+    if (entry.code !== undefined && (typeof entry.code !== 'string' || !/^[A-Za-z0-9-]{3,32}$/.test(entry.code))) {
+      errors.push(`affiliates.yaml: ${slug} code must be a quoted string of 3-32 letters, digits or hyphens`);
+      continue;
+    }
+    // A code-only entry renders no button, so a banner or a button label on it
+    // would be silently dropped. Reject rather than let that pass unnoticed.
+    if (entry.url === undefined && (entry.cta !== undefined || entry.banner_image !== undefined)) {
+      errors.push(`affiliates.yaml: ${slug} has a code but no url, so cta and banner_* do not apply`);
       continue;
     }
 
@@ -128,7 +146,8 @@ function loadAffiliates() {
     }
 
     result.set(slug, {
-      url: entry.url,
+      ...(entry.url ? { url: entry.url } : {}),
+      ...(entry.code ? { code: entry.code } : {}),
       network,
       ...(entry.offer ? { offer: entry.offer } : {}),
       ...(entry.cta ? { cta: entry.cta } : {}),

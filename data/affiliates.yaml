@@ -10,7 +10,14 @@
 # so a typo can't silently drop revenue.
 #
 # Fields per entry:
-#   url      (required) the tracking link, https only
+#   url      (required unless `code` is set) the tracking link, https only
+#   code     (optional) a referral code the customer types in at sign-up, for
+#            programs that issue a code and no link (Google Fi). Quote it. With
+#            no `url` the CTA renders the code with a copy button and NO link;
+#            `offer` then reads as what the code gets, after "for " — e.g.
+#            offer "a Fi bill credit" gives "Use this referral code at sign-up
+#            for a Fi bill credit". Unlike a tracking link, a referral code
+#            pays CreditOdds in kind, and the CTA says so on the page.
 #   network  (optional) overrides the top-level default, for future networks
 #   offer    (optional) the merchant's standing offer, phrased to read between
 #            "See " and " at {store.name}" — e.g. offer "10 free meals" gives
@@ -45,6 +52,13 @@
 network: flexoffers
 
 merchants:
+  # Google Fi — personal referral code, no link. Network is "referral" so
+  # PostHog can split it from the tracking-link networks. No dollar amount in
+  # `offer`: Fi's referral credit moves between promotions.
+  google-fi:
+    code: "3HHFPX"
+    network: referral
+    offer: "a Fi bill credit"
   # Advance Auto Parts — Top text link (Buy online pickup instore)
   advance-auto-parts:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.2190.994818&trid=1552713.157187&foc=16&fot=9999&fos=6"
