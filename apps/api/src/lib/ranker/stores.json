@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-23T05:28:37.677Z",
-  "count": 1127,
+  "generated_at": "2026-11-15T21:31:02.938Z",
+  "count": 1128,
   "stores": [
     {
       "name": "1-800 Contacts",
@@ -6458,6 +6458,25 @@
       ],
       "website": "https://www.goodyearautoservice.com",
       "intro": "Goodyear Auto Service runs company-owned shops selling tires and handling maintenance under the Goodyear brand. Charges here typically code as general auto retail or online shopping, not as fuel or travel, so category bonuses seldom apply at checkout. With no widely held card targeting tire service, a strong flat-rate everyday card tends to maximize earnings on a new set or routine work.\n"
+    },
+    {
+      "name": "Google Fi",
+      "slug": "google-fi",
+      "aliases": [
+        "Google Fi Wireless",
+        "Project Fi"
+      ],
+      "categories": [
+        "cell_phone_providers",
+        "phone"
+      ],
+      "website": "https://fi.google.com",
+      "intro": "Google Fi Wireless is Google's phone carrier, sold online and billed monthly\nthrough a Google account. It runs on T-Mobile's network in the US and is\npopular with travelers for plans that include international data. There is no\nGoogle Fi co-brand credit card, so the best angle is a card that earns an\nelevated rate on phone or cell-phone-provider purchases, or a flat-rate\ncashback card if no phone category applies.\n",
+      "affiliate": {
+        "code": "3HHFPX",
+        "network": "referral",
+        "offer": "a Fi bill credit"
+      }
     },
     {
       "name": "Govee",

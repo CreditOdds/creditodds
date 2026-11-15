@@ -9997,6 +9997,60 @@
   color: var(--ink);
   margin: 0;
 }
+/* Referral-code variant: no outbound button, so the right-hand slot holds the
+   code itself and a copy button. The code is the thing the reader carries
+   away, so it gets the mono-weight emphasis; the copy button reuses the
+   accent fill so the panel still has exactly one saturated element. */
+.landing-v2.store-v2 .store-affiliate-note {
+  margin: 6px 0 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-2, var(--ink));
+}
+.landing-v2.store-v2 .store-affiliate-code {
+  display: flex;
+  flex: 0 1 auto;
+  align-items: stretch;
+  max-width: 100%;
+}
+.landing-v2.store-v2 .store-affiliate-code-value {
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  border: 1px dashed var(--ink);
+  border-right: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  user-select: all;
+}
+.landing-v2.store-v2 .store-affiliate-code-copy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 0;
+  background: var(--accent);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.landing-v2.store-v2 .store-affiliate-code-copy:hover {
+  background: var(--accent-deep);
+}
+.landing-v2.store-v2 .store-affiliate-code-icon {
+  width: 16px;
+  height: 16px;
+}
 /* inline-block, not inline-flex: on narrow screens a long label like
    "See exclusive discounts at Banana Republic" wraps, and as a flex item the
    label box would stretch to the full line, stranding the arrow against the

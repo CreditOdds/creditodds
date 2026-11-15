@@ -1,8 +1,8 @@
 'use client';
 
-import { useId, useState } from 'react';
+import { useId, useRef, useState } from 'react';
 import posthog from 'posthog-js';
-import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/solid';
+import { ArrowTopRightOnSquareIcon, CheckIcon, ClipboardDocumentIcon } from '@heroicons/react/24/solid';
 import type { StoreAffiliate } from '@/lib/stores';
 import { trackStoreEvent } from '@/lib/api';
 
@@ -31,6 +31,8 @@ export default function StoreAffiliateCta(props: Props) {
   const head = words.join(' ');
   const titleId = useId();
   const [bannerFailed, setBannerFailed] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const codeRef = useRef<HTMLElement>(null);
 
   // The second placement only makes sense underneath a ranked list, so it is
   // suppressed on stores that produced no picks.
@@ -42,7 +44,7 @@ export default function StoreAffiliateCta(props: Props) {
   // PostHog — without it a banner click and a button click are indistinguishable.
   const banner = bannerFailed ? undefined : affiliate.banner;
 
-  const track = (creativeType: 'banner' | 'text') => {
+  const track = (creativeType: 'banner' | 'text' | 'code') => {
     trackStoreEvent('affiliate_click', storeSlug).catch(() => {});
     posthog.capture('affiliate_link_clicked', {
       store_slug: storeSlug,
@@ -55,6 +57,68 @@ export default function StoreAffiliateCta(props: Props) {
     });
   };
 
+  // Code-only variant: the program issues a referral code and no link, so
+  // there is nothing to send the reader to. The code is plain selectable text
+  // (the copy button is a convenience, and the clipboard API is unavailable on
+  // insecure origins and in some in-app browsers), and a copy counts as the
+  // click for tracking. Unlike a tracking link, a referral code pays us in
+  // kind, so the disclosure sits in the panel itself.
+  const { code, url } = affiliate;
+  if (!url) {
+    if (!code) return null;
+    const copyCode = async () => {
+      track('code');
+      let ok = false;
+      try {
+        await navigator.clipboard.writeText(code);
+        ok = true;
+      } catch {
+        // Clipboard API refused (permission denied, insecure origin, in-app
+        // browser). Select the code and try the legacy command; even if that
+        // fails too, the code is left highlighted, one Ctrl/Cmd+C from copied.
+        const el = codeRef.current;
+        const selection = window.getSelection();
+        if (el && selection) {
+          const range = document.createRange();
+          range.selectNodeContents(el);
+          selection.removeAllRanges();
+          selection.addRange(range);
+          try {
+            ok = document.execCommand('copy');
+          } catch {
+            ok = false;
+          }
+        }
+      }
+      if (ok) {
+        setCopied(true);
+        window.setTimeout(() => setCopied(false), 2000);
+      }
+    };
+    return (
+      <aside className="store-affiliate store-affiliate-has-code" aria-labelledby={titleId}>
+        <div className="store-affiliate-body">
+          <h2 id={titleId} className="store-affiliate-title">
+            Signing up for {storeName}?
+          </h2>
+          <p className="store-affiliate-note">
+            Use this referral code at sign-up{affiliate.offer ? ` for ${affiliate.offer}` : ''}.
+            CreditOdds earns a referral credit when you do.
+          </p>
+        </div>
+        <div className="store-affiliate-code">
+          <code ref={codeRef} className="store-affiliate-code-value">{code}</code>
+          <button type="button" className="store-affiliate-code-copy" onClick={copyCode}>
+            {copied
+              ? <CheckIcon className="store-affiliate-code-icon" aria-hidden="true" />
+              : <ClipboardDocumentIcon className="store-affiliate-code-icon" aria-hidden="true" />}
+            <span aria-live="polite">{copied ? 'Copied' : 'Copy code'}</span>
+          </button>
+        </div>
+      </aside>
+    );
+  }
+
   return (
     <aside className="store-affiliate" aria-labelledby={titleId}>
       <div className="store-affiliate-body">
@@ -64,7 +128,7 @@ export default function StoreAffiliateCta(props: Props) {
       </div>
       {banner ? (
         <a
-          href={affiliate.url}
+          href={url}
           target="_blank"
           rel="sponsored nofollow noopener noreferrer"
           className="store-affiliate-banner"
@@ -93,7 +157,7 @@ export default function StoreAffiliateCta(props: Props) {
         </a>
       ) : (
         <a
-          href={affiliate.url}
+          href={url}
           target="_blank"
           rel="sponsored nofollow noopener noreferrer"
           className="store-affiliate-btn"

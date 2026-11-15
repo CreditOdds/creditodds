@@ -15,7 +15,14 @@ export interface StoreFaq {
 
 /** Merged in at build time from data/affiliates.yaml, keyed by store slug. */
 export interface StoreAffiliate {
-  url: string;
+  /** Absent on a code-only entry; every entry has a `url`, a `code`, or both. */
+  url?: string;
+  /**
+   * A referral code the customer types in at sign-up, for programs that issue
+   * a code and no link. With no `url` the CTA shows the code and a copy
+   * button instead of an outbound button.
+   */
+  code?: string;
   network: string;
   /**
    * The merchant's standing offer, phrased to read between "See " and
