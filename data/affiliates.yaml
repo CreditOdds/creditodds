@@ -53,12 +53,13 @@ network: flexoffers
 
 merchants:
   # Google Fi — personal referral code, no link. Network is "referral" so
-  # PostHog can split it from the tracking-link networks. No dollar amount in
-  # `offer`: Fi's referral credit moves between promotions.
+  # PostHog can split it from the tracking-link networks. The $60 and its
+  # conditions are from the referrer dashboard as of 2026-11-15; Fi's referral
+  # credit moves between promotions, so recheck the amount when auditing.
   google-fi:
     code: "3HHFPX"
     network: referral
-    offer: "a Fi bill credit"
+    offer: "a $60 Fi bill credit after 30 days of service and your first paid bill"
   # Advance Auto Parts — Top text link (Buy online pickup instore)
   advance-auto-parts:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.2190.994818&trid=1552713.157187&foc=16&fot=9999&fos=6"
