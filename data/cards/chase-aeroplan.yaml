@@ -35,11 +35,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 115000
+  value: 80000
   type: "points"
-  spend_requirement: 20000
-  timeframe_months: 12
-  note: "75,000 points after $4,000 in purchases in the first 3 months, plus 40,000 points after $20,000 in purchases in the first 12 months"
+  spend_requirement: 3000
+  timeframe_months: 3
+  note: "Earn 60,000 bonus points after spending $3,000 on purchases in the first 3 months from account opening, plus up to 20,000 more bonus points by earning 50% more bonus points (1.5X) per $1 spent on purchases that normally earn 1 point in the first 2 months from account opening."
 apr:
   regular:
     min: 19.74
