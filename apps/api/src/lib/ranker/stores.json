@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-15T21:31:02.938Z",
+  "generated_at": "2026-11-16T19:57:21.685Z",
   "count": 1128,
   "stores": [
     {
@@ -14549,7 +14549,11 @@
         "online_shopping"
       ],
       "website": "https://www.temu.com",
-      "intro": "Temu is a U.S.-facing online marketplace owned by Chinese e-commerce giant PDD\nHoldings, launched stateside in 2022 and aggressively marketed on ultra-low prices and\ndirect-from-manufacturer shipping. Purchases typically code as online shopping or\nmerchandise, so a card with an online-shopping category bonus (Capital One SavorOne\npromotions, Chase Freedom Flex when activated, Citi Custom Cash on online shopping\nmonth) will earn its full multiplier. Temu has no co-brand credit card, so the best\nearn comes from a general online-shopping bonus.\n"
+      "intro": "Temu is a U.S.-facing online marketplace owned by Chinese e-commerce giant PDD\nHoldings, launched stateside in 2022 and aggressively marketed on ultra-low prices and\ndirect-from-manufacturer shipping. Purchases typically code as online shopping or\nmerchandise, so a card with an online-shopping category bonus (Capital One SavorOne\npromotions, Chase Freedom Flex when activated, Citi Custom Cash on online shopping\nmonth) will earn its full multiplier. Temu has no co-brand credit card, so the best\nearn comes from a general online-shopping bonus.\n",
+      "affiliate": {
+        "url": "https://temu.to/k/p6v0efgv2m1",
+        "network": "temu"
+      }
     },
     {
       "name": "Tenergy",
