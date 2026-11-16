@@ -3078,6 +3078,22 @@ merchants:
     banner_width: 300
     banner_height: 250
 
+  # --- Added 2026-11-16 (Temu Affiliate Program, direct, not a network) ---
+  # Temu
+  # The "Save Big" all-user general link (the same short link Temu lists for
+  # its new-user "$200 Coupon Bundle"). Chosen over the other links in the
+  # Temu dashboard because it lands on the web shop for every visitor; the
+  # gift-calendar and "$0 Gifts" links push desktop visitors to an app
+  # download page, and the "Affordable Price" one is new-app-users only.
+  # No `offer`: the $200 bundle is a new-user coupon pack with fine print,
+  # not an evergreen price, so the button reads "Shop at Temu". The matching
+  # invite code is aly845827; not set here because a `url` entry renders the
+  # link only.
+  temu:
+    url: "https://temu.to/k/p6v0efgv2m1"
+    network: temu
+    link_id: "p6v0efgv2m1"
+
 # ---------------------------------------------------------------------------
 # DORMANT — programs that ended, removed 2026-10-23. Store pages still live,
 # just unmonetized. Verified in each network's dashboard on 2026-10-22; these
