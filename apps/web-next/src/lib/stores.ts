@@ -20,9 +20,12 @@ export interface StoreAffiliate {
   /**
    * A referral code the customer types in at sign-up, for programs that issue
    * a code and no link. With no `url` the CTA shows the code and a copy
-   * button instead of an outbound button.
+   * button instead of an outbound button. With a `url` too, the code shows
+   * under the title next to the outbound button.
    */
   code?: string;
+  /** Overrides the panel title ("Shopping at {name}?"). */
+  headline?: string;
   network: string;
   /**
    * The merchant's standing offer, phrased to read between "See " and

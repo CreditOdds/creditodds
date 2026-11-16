@@ -10051,6 +10051,27 @@
   width: 16px;
   height: 16px;
 }
+/* Link-plus-code variant: the code sits under the title and the outbound
+   button keeps the accent fill, so the copy button goes outlined here to leave
+   the panel exactly one saturated element. */
+.landing-v2.store-v2 .store-affiliate-code-quiet {
+  display: inline-flex;
+  margin-top: 10px;
+}
+.landing-v2.store-v2 .store-affiliate-code-quiet .store-affiliate-code-value {
+  font-size: 16px;
+  padding: 0 12px;
+}
+.landing-v2.store-v2 .store-affiliate-code-quiet .store-affiliate-code-copy {
+  padding: 8px 14px;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 14px;
+}
+.landing-v2.store-v2 .store-affiliate-code-quiet .store-affiliate-code-copy:hover {
+  background: var(--paper-2);
+}
 /* inline-block, not inline-flex: on narrow screens a long label like
    "See exclusive discounts at Banana Republic" wraps, and as a flex item the
    label box would stretch to the full line, stranding the arrow against the

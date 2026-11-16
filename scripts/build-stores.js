@@ -95,6 +95,17 @@ function loadAffiliates() {
       errors.push(`affiliates.yaml: ${slug} cta must be a string`);
       continue;
     }
+    // The title is user-facing copy on the page's most prominent module, so
+    // keep it a short line and hold it to the no-em-dash house style.
+    if (entry.headline !== undefined
+        && (typeof entry.headline !== 'string' || entry.headline.trim().length === 0 || entry.headline.length > 80)) {
+      errors.push(`affiliates.yaml: ${slug} headline must be a string of 1-80 characters`);
+      continue;
+    }
+    if (typeof entry.headline === 'string' && /\u2014/.test(entry.headline)) {
+      errors.push(`affiliates.yaml: ${slug} headline must not contain an em dash`);
+      continue;
+    }
     if (entry.offer !== undefined && typeof entry.offer !== 'string') {
       errors.push(`affiliates.yaml: ${slug} offer must be a string`);
       continue;
@@ -151,6 +162,7 @@ function loadAffiliates() {
       network,
       ...(entry.offer ? { offer: entry.offer } : {}),
       ...(entry.cta ? { cta: entry.cta } : {}),
+      ...(entry.headline ? { headline: entry.headline } : {}),
       ...(entry.banner_image ? {
         banner: {
           image: entry.banner_image,
