@@ -53,8 +53,8 @@ signup_bonus:
   note: "80,000 bonus points plus a 25,000-point Global Companion Award after spending $4,000 on purchases within the first 90 days"
 apr:
   regular:
-    min: 19.49
-    max: 27.49
+    min: 19.74
+    max: 27.74
 benefits:
   - name: "Annual Global 25K Companion Award"
     value: 25000

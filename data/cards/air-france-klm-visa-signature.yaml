@@ -34,8 +34,8 @@ signup_bonus:
   note: "Plus 100 Experience Points (XP) toward Flying Blue elite status"
 apr:
   regular:
-    min: 19.49
-    max: 27.49
+    min: 19.74
+    max: 27.74
 benefits:
   - name: "Anniversary Miles"
     value: 0
