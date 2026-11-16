@@ -14,10 +14,11 @@
 #   code     (optional) a referral code the customer types in at sign-up, for
 #            programs that issue a code and no link (Google Fi). Quote it. With
 #            no `url` the CTA renders the code with a copy button and NO link;
-#            `offer` then reads as what the code gets, after "for " — e.g.
-#            offer "a Fi bill credit" gives "Use this referral code at sign-up
-#            for a Fi bill credit". Unlike a tracking link, a referral code
-#            pays CreditOdds in kind, and the CTA says so on the page.
+#            `offer` then reads as what the READER gets, after "and you get "
+#            — e.g. offer "a $60 bill credit" gives "Enter this referral code
+#            at sign-up and you get a $60 bill credit". Unlike a tracking link,
+#            a referral code pays CreditOdds in kind, and the CTA says so on
+#            the page.
 #   network  (optional) overrides the top-level default, for future networks
 #   offer    (optional) the merchant's standing offer, phrased to read between
 #            "See " and " at {store.name}" — e.g. offer "10 free meals" gives
