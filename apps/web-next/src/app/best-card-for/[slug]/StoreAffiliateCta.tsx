@@ -102,8 +102,8 @@ export default function StoreAffiliateCta(props: Props) {
             Signing up for {storeName}?
           </h2>
           <p className="store-affiliate-note">
-            Use this referral code at sign-up{affiliate.offer ? ` for ${affiliate.offer}` : ''}.
-            CreditOdds earns a referral credit when you do.
+            Enter this referral code at sign-up{affiliate.offer ? ` and you get ${affiliate.offer}` : ''}.
+            CreditOdds gets a referral credit too.
           </p>
         </div>
         <div className="store-affiliate-code">
