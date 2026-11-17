@@ -22,6 +22,10 @@
 #            With a `url` too (Temu), the code shows under the title with a
 #            copy button, next to the outbound button, and `offer` reads after
 #            "Enter this code at sign-up for " instead.
+#   code_note (optional, needs `code`) replaces the "Enter this code at
+#            sign-up..." sentence, for programs where the code goes somewhere
+#            specific. Max 160 characters, no em dash. The referral-credit
+#            disclosure is always appended after it and cannot be dropped.
 #   headline (optional) replaces the panel title ("Shopping at {store.name}?",
 #            or "Signing up for {store.name}?" on a code-only entry). Max 80
 #            characters, no em dash.
@@ -3104,6 +3108,10 @@ merchants:
     network: temu
     link_id: "p6v0efgv2m1"
     headline: "New to Temu? Grab the new-user coupons first"
+    # Temu pays 35% for 30 days plus a download bonus only when a NEW user
+    # installs the app and orders; web-only shoppers earn little or nothing,
+    # so the instruction sends readers to the app.
+    code_note: "Download the Temu app and enter this code for Temu's new-user coupon bundle."
     offer: "Temu's new-user coupon bundle"
     cta: "Get the Temu coupon bundle"
 

@@ -106,6 +106,22 @@ function loadAffiliates() {
       errors.push(`affiliates.yaml: ${slug} headline must not contain an em dash`);
       continue;
     }
+    // Replaces only the instruction sentence; the component appends the
+    // referral-credit disclosure itself, so a note cannot drop it.
+    if (entry.code_note !== undefined) {
+      if (entry.code === undefined) {
+        errors.push(`affiliates.yaml: ${slug} has a code_note but no code`);
+        continue;
+      }
+      if (typeof entry.code_note !== 'string' || entry.code_note.trim().length === 0 || entry.code_note.length > 160) {
+        errors.push(`affiliates.yaml: ${slug} code_note must be a string of 1-160 characters`);
+        continue;
+      }
+      if (/\u2014/.test(entry.code_note)) {
+        errors.push(`affiliates.yaml: ${slug} code_note must not contain an em dash`);
+        continue;
+      }
+    }
     if (entry.offer !== undefined && typeof entry.offer !== 'string') {
       errors.push(`affiliates.yaml: ${slug} offer must be a string`);
       continue;
@@ -163,6 +179,7 @@ function loadAffiliates() {
       ...(entry.offer ? { offer: entry.offer } : {}),
       ...(entry.cta ? { cta: entry.cta } : {}),
       ...(entry.headline ? { headline: entry.headline } : {}),
+      ...(entry.code_note ? { code_note: entry.code_note } : {}),
       ...(entry.banner_image ? {
         banner: {
           image: entry.banner_image,
