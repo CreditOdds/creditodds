@@ -14,13 +14,14 @@
 #   code     (optional) a referral code the customer types in at sign-up, for
 #            programs that issue a code and no link (Google Fi). Quote it. With
 #            no `url` the CTA renders the code with a copy button and NO link;
-#            `offer` then reads as what the code gets, after "for " — e.g.
-#            offer "a Fi bill credit" gives "Use this referral code at sign-up
-#            for a Fi bill credit". Unlike a tracking link, a referral code
-#            pays CreditOdds in kind, and the CTA says so on the page.
+#            `offer` then reads as what the READER gets, after "and you get "
+#            — e.g. offer "a $60 bill credit" gives "Enter this referral code
+#            at sign-up and you get a $60 bill credit". Unlike a tracking link,
+#            a referral code pays CreditOdds in kind, and the CTA says so on
+#            the page.
 #            With a `url` too (Temu), the code shows under the title with a
-#            copy button, next to the outbound button, and `offer` reads the
-#            same way after "Enter this code at sign-up for ".
+#            copy button, next to the outbound button, and `offer` reads after
+#            "Enter this code at sign-up for " instead.
 #   headline (optional) replaces the panel title ("Shopping at {store.name}?",
 #            or "Signing up for {store.name}?" on a code-only entry). Max 80
 #            characters, no em dash.
@@ -59,12 +60,13 @@ network: flexoffers
 
 merchants:
   # Google Fi — personal referral code, no link. Network is "referral" so
-  # PostHog can split it from the tracking-link networks. No dollar amount in
-  # `offer`: Fi's referral credit moves between promotions.
+  # PostHog can split it from the tracking-link networks. The $60 and its
+  # conditions are from the referrer dashboard as of 2026-11-15; Fi's referral
+  # credit moves between promotions, so recheck the amount when auditing.
   google-fi:
     code: "3HHFPX"
     network: referral
-    offer: "a Fi bill credit"
+    offer: "a $60 Fi bill credit after 30 days of service and your first paid bill"
   # Advance Auto Parts — Top text link (Buy online pickup instore)
   advance-auto-parts:
     url: "https://track.flexlinkspro.com/g.ashx?foid=156074.2190.994818&trid=1552713.157187&foc=16&fot=9999&fos=6"

@@ -118,8 +118,8 @@ export default function StoreAffiliateCta(props: Props) {
             {affiliate.headline ?? `Signing up for ${storeName}?`}
           </h2>
           <p className="store-affiliate-note">
-            Use this referral code at sign-up{affiliate.offer ? ` for ${affiliate.offer}` : ''}.
-            CreditOdds earns a referral credit when you do.
+            Enter this referral code at sign-up{affiliate.offer ? ` and you get ${affiliate.offer}` : ''}.
+            CreditOdds gets a referral credit too.
           </p>
         </div>
         <AffiliateCode code={code} onCopy={() => track('code')} />
@@ -141,7 +141,7 @@ export default function StoreAffiliateCta(props: Props) {
           <>
             <p className="store-affiliate-note">
               Enter this code at sign-up{affiliate.offer ? ` for ${affiliate.offer}` : ''}.
-              CreditOdds earns a referral credit when you use it.
+              CreditOdds gets a referral credit too.
             </p>
             <AffiliateCode code={code} onCopy={() => track('code')} quiet />
           </>
