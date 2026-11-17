@@ -26,6 +26,12 @@ export interface StoreAffiliate {
   code?: string;
   /** Overrides the panel title ("Shopping at {name}?"). */
   headline?: string;
+  /**
+   * Replaces the "Enter this code at sign-up..." sentence next to a `code`,
+   * for programs where the code goes somewhere specific (Temu: in the app).
+   * The referral-credit disclosure is always appended after it.
+   */
+  code_note?: string;
   network: string;
   /**
    * The merchant's standing offer, phrased to read between "See " and

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-17T03:09:04.687Z",
+  "generated_at": "2026-11-17T15:59:25.817Z",
   "count": 1128,
   "stores": [
     {
@@ -14556,7 +14556,8 @@
         "network": "temu",
         "offer": "Temu's new-user coupon bundle",
         "cta": "Get the Temu coupon bundle",
-        "headline": "New to Temu? Grab the new-user coupons first"
+        "headline": "New to Temu? Grab the new-user coupons first",
+        "code_note": "Download the Temu app and enter this code for Temu's new-user coupon bundle."
       }
     },
     {
