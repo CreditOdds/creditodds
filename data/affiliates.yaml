@@ -19,6 +19,12 @@
 #            at sign-up and you get a $60 bill credit". Unlike a tracking link,
 #            a referral code pays CreditOdds in kind, and the CTA says so on
 #            the page.
+#            With a `url` too (Temu), the code shows under the title with a
+#            copy button, next to the outbound button, and `offer` reads after
+#            "Enter this code at sign-up for " instead.
+#   headline (optional) replaces the panel title ("Shopping at {store.name}?",
+#            or "Signing up for {store.name}?" on a code-only entry). Max 80
+#            characters, no em dash.
 #   network  (optional) overrides the top-level default, for future networks
 #   offer    (optional) the merchant's standing offer, phrased to read between
 #            "See " and " at {store.name}" — e.g. offer "10 free meals" gives
@@ -3087,14 +3093,19 @@ merchants:
   # Temu dashboard because it lands on the web shop for every visitor; the
   # gift-calendar and "$0 Gifts" links push desktop visitors to an app
   # download page, and the "Affordable Price" one is new-app-users only.
-  # No `offer`: the $200 bundle is a new-user coupon pack with fine print,
-  # not an evergreen price, so the button reads "Shop at Temu". The matching
-  # invite code is aly845827; not set here because a `url` entry renders the
-  # link only.
+  # `code` is the invite code Temu pairs with this link (new or reinstalled
+  # app users). No dollar figure anywhere: the "$200" bundle is a coupon pack
+  # with minimum spends and "40% off" is app-only, so neither is a fair
+  # headline promise. Temu's new-user coupon bundle itself is a standing
+  # offer, not a dated sale.
   temu:
     url: "https://temu.to/k/p6v0efgv2m1"
+    code: "aly845827"
     network: temu
     link_id: "p6v0efgv2m1"
+    headline: "New to Temu? Grab the new-user coupons first"
+    offer: "Temu's new-user coupon bundle"
+    cta: "Get the Temu coupon bundle"
 
 # ---------------------------------------------------------------------------
 # DORMANT — programs that ended, removed 2026-10-23. Store pages still live,
