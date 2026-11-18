@@ -19,9 +19,9 @@ rewards:
     note: "1% when you buy, 1% when you pay"
 signup_bonus:
   value: 200
-  type: cash
-  spend_requirement: 1500
-  timeframe_months: 6
+  type: "cash"
+  spend_requirement: 500
+  timeframe_months: 3
 apr:
   balance_transfer_intro:
     rate: 0
