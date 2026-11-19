@@ -990,6 +990,22 @@ test('a skip that states no opinion on the host derives known_block from the URL
     true,
     'a blocked host must stay blocked when the caller states nothing'
   );
+  // Issue #2394: the block is on the exact host. www.bankofamerica.com product
+  // pages and paypal.com are unreadable by any automated path, but
+  // business.bankofamerica.com still fetches fine and must keep being checked.
+  assert.equal(
+    resolveKnownBlock('https://www.bankofamerica.com/credit-cards/products/cash-back-credit-card/'),
+    true
+  );
+  assert.equal(
+    resolveKnownBlock('https://www.paypal.com/us/digital-wallet/manage-money/paypal-cashback-mastercard'),
+    true
+  );
+  assert.equal(
+    resolveKnownBlock('https://business.bankofamerica.com/en/credit-cards/atmos-rewards-business'),
+    false,
+    'a sibling subdomain that still fetches must not inherit the block'
+  );
   assert.equal(resolveKnownBlock('https://creditcards.chase.com/anything'), false);
 });
 

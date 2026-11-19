@@ -422,8 +422,45 @@ function stripHtml(html) {
 // credit after $30 in club purchases in 30 days, purchase APR 20.15%/28.15%,
 // no intro APR) and all four matched. The welcome offer amount is the field that
 // rotates, so that is the one to watch. Drop this entry if the bot wall eases.
+//
+// bankofamerica.com and paypal.com were added on 2026-11-16 (issue #2394). Ten
+// Bank of America cards and the PayPal Cashback Mastercard skipped five runs in
+// a row with "HTTP 403", every run from 2026-11-06 on, after verifying cleanly
+// on 2026-11-04. Measured on 2026-11-15 from the machine the local routine
+// runs on:
+//   bankofamerica.com, plain fetch -> HTTP 200, ~245k chars of HTML, but it is
+//     a client-rendered shell: no offer, APR or fee text, only navigation and
+//     a meta description. That is why all ten cards carry browser_first.
+//   bankofamerica.com, Playwright with this script's exact launch+context
+//     config, and again with Playwright's untouched defaults -> HTTP 403,
+//     Akamai "Access Denied" (245 chars)
+//   paypal.com, plain fetch -> HTTP 403; Playwright, both configs -> HTTP 403
+//   ordinary (non-automated) browser, same IP, same hour -> full page for all
+//     eleven
+// So no automated path reads these pages, and nothing short of disguising the
+// client would. That is not something this job should do; the entry below is
+// the honest alternative. Dropping browser_first would be worse than the skip:
+// the shell would go to the extractor, come back empty, and read as "no
+// changes".
+//
+// All eleven were verified by hand in an ordinary browser on 2026-11-16.
+// Annual fees, welcome offers, earning rates and intro APRs matched the stored
+// values on every card. The one drift was Bank of America's standard APR, up
+// 0.25 points on all ten cards (a field this job does not compare); the YAML
+// was updated in the same change.
+//
+// The match is on the exact host, so business.bankofamerica.com (Atmos Rewards
+// Business) is NOT covered and still fetches and verifies normally.
+//
+// Cost: these eleven cards now need a manual look, and the stale alarm no
+// longer fires for them. The welcome offers on Customized Cash, Unlimited
+// Cash, Atmos Ascent and Atmos Summit are the fields that rotate. Drop an
+// entry as soon as a Playwright fetch of one of its product pages returns the
+// real page again.
 const KNOWN_BLOCKED_HOSTS = new Map([
   ['samsclub.com', 'samsclub.com serves a JS-only shell to automated clients and answers direct GraphQL calls with a bot interstitial; headed mode does not help (navigator.webdriver is true either way)'],
+  ['bankofamerica.com', 'bankofamerica.com product pages are a client-rendered shell on plain fetch and answer headless Chromium with an Akamai "Access Denied" 403 (since 2026-11-06); verify the page by hand in an ordinary browser'],
+  ['paypal.com', 'paypal.com answers both plain fetch and headless Chromium with HTTP 403 (since 2026-11-06); verify the page by hand in an ordinary browser'],
 ]);
 
 // Hosts that answer headless Chromium with a bot interstitial but serve a plain

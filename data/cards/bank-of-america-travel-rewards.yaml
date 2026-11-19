@@ -26,8 +26,8 @@ apr:
     rate: 0
     months: 15
   regular:
-    min: 17.49
-    max: 27.49
+    min: 17.74
+    max: 27.74
 apply_link: https://www.bankofamerica.com/credit-cards/products/travel-rewards-credit-card/
 affiliate_link: https://track.acclaimnetwork.com/apn/click?b2s=302211&SUBID=PARAM&praff=7221
 our_take: >
