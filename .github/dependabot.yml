@@ -1,6 +1,11 @@
-# Weekly dependency updates. The monorepo uses a single root lockfile
-# (workspaces), so all npm updates go through the root directory — a
-# per-workspace entry would try to write workspace lockfiles that don't exist.
+# Weekly dependency updates. npm updates go through the root directory, which
+# updates the root workspace lockfile. Two workspaces also commit their own
+# lockfile for their deploys, and Dependabot does NOT update those:
+# apps/api/package-lock.json (SAM build) and apps/functions/package-lock.json
+# (Firebase Functions). .github/workflows/workspace-lockfile-sync.yml
+# regenerates them on any PR that changes those package.json files; by hand,
+# run scripts/sync-workspace-lockfiles.sh. Adding per-directory entries here
+# instead would open duplicate PRs for the same bumps.
 version: 2
 updates:
   - package-ecosystem: npm
