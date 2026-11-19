@@ -1,0 +1,93 @@
+name: Workspace lockfile sync
+
+# apps/api and apps/functions keep their own package-lock.json next to the
+# root workspace lock (see scripts/sync-workspace-lockfiles.sh for why).
+# Dependabot only updates the root lock, so every bump of their dependencies
+# leaves those locks stale. Dependabot's #2404 bumped firebase-admin in both
+# package.json files and the root lock only; the API lock was fixed by hand
+# before merge and the functions lock was missed.
+#
+# On any PR that touches those package files, this job checks each lock
+# against its package.json. If one disagrees and the PR branch lives in this
+# repo (Dependabot's always do), it regenerates the lock and pushes the fix to
+# the PR branch. Fork PRs can't be pushed to, so they just fail with the fix
+# command.
+
+on:
+  pull_request:
+    paths:
+      - 'apps/api/package.json'
+      - 'apps/api/package-lock.json'
+      - 'apps/functions/package.json'
+      - 'apps/functions/package-lock.json'
+      - 'scripts/sync-workspace-lockfiles.sh'
+      - '.github/workflows/workspace-lockfile-sync.yml'
+
+# Dependabot-triggered runs get a read-only GITHUB_TOKEN unless the workflow
+# asks for more. contents: write is what lets the fix step push.
+permissions:
+  contents: write
+
+concurrency:
+  group: workspace-lockfile-sync-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SAME_REPO: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+    steps:
+      # Same-repo PRs: check out the PR branch itself (not the default
+      # detached merge commit) so a fix commit can be pushed back to it.
+      # Fork PRs: the default merge-commit checkout, check only.
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ env.SAME_REPO == 'true' && github.event.pull_request.head.ref || '' }}
+          # The fix step pushes with the checkout's GITHUB_TOKEN credentials.
+          persist-credentials: true
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Check workspace lockfiles
+        id: check
+        continue-on-error: true
+        run: bash scripts/sync-workspace-lockfiles.sh --check
+
+      - name: Fail (fork PR, can't push a fix)
+        if: steps.check.outcome == 'failure' && env.SAME_REPO != 'true'
+        run: |
+          echo "::error title=Workspace lockfile out of sync::Run scripts/sync-workspace-lockfiles.sh and commit the regenerated lock(s)."
+          exit 1
+
+      # The commit message carries [dependabot skip] so Dependabot keeps
+      # rebasing its PR: without it, Dependabot stops rebasing a PR once
+      # someone else has pushed to it. On a rebase it force-pushes over this
+      # commit, which re-triggers this job and re-applies the fix.
+      #
+      # A push made with GITHUB_TOKEN does not trigger workflows, so no check
+      # runs on the fix commit itself; this job's green result on the
+      # previous head is the record that the fix went in.
+      - name: Regenerate and push the workspace lockfiles
+        if: steps.check.outcome == 'failure' && env.SAME_REPO == 'true'
+        env:
+          HEAD_REF: ${{ github.event.pull_request.head.ref }}
+        run: |
+          bash scripts/sync-workspace-lockfiles.sh
+          bash scripts/sync-workspace-lockfiles.sh --check
+          LOCKS='apps/api/package-lock.json apps/functions/package-lock.json'
+          if git diff --quiet -- $LOCKS; then
+            echo "::error::Check failed but regenerating changed nothing."
+            exit 1
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add $LOCKS
+          git commit -m 'Sync workspace lockfiles with their package.json [dependabot skip]'
+          git push origin "HEAD:refs/heads/${HEAD_REF}"
+          echo "::notice title=Workspace lockfiles synced::Pushed regenerated lockfile(s) to ${HEAD_REF}."
