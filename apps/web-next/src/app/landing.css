@@ -8845,6 +8845,66 @@
 @media (prefers-reduced-motion: reduce) {
   .landing-v2 .cj-apply-btn-referral::before { animation: none; }
 }
+.landing-v2 .cj-apply-checkins {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.15);
+  font-family: var(--font-inter), sans-serif;
+}
+.landing-v2 .cj-apply-checkins-k {
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+}
+.landing-v2 .cj-apply-checkins-bar {
+  display: flex;
+  gap: 2px;
+  height: 6px;
+  margin-top: 8px;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.landing-v2 .cj-apply-checkins-seg { flex-basis: 0; min-width: 4px; }
+.landing-v2 .cj-apply-checkins-seg.is-approved,
+.landing-v2 .cj-apply-checkins-legend .is-approved .cj-apply-checkins-dot { background: #4ade80; }
+.landing-v2 .cj-apply-checkins-seg.is-denied,
+.landing-v2 .cj-apply-checkins-legend .is-denied .cj-apply-checkins-dot { background: #f87171; }
+.landing-v2 .cj-apply-checkins-seg.is-pending,
+.landing-v2 .cj-apply-checkins-legend .is-pending .cj-apply-checkins-dot { background: rgba(255, 255, 255, 0.35); }
+.landing-v2 .cj-apply-checkins-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 11px;
+  color: var(--muted-2);
+}
+.landing-v2 .cj-apply-checkins-legend li {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.landing-v2 .cj-apply-checkins-legend strong { color: #fff; font-weight: 600; }
+.landing-v2 .cj-apply-checkins-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.landing-v2 .cj-apply-checkins-link {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #c4b5fd;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+.landing-v2 .cj-apply-checkins-link:hover { color: #fff; }
+/* The check-ins link jumps here; clear the 65px sticky navbar. */
+.landing-v2 .cj-section#odds { scroll-margin-top: 84px; }
 .landing-v2 .cj-apply-closed {
   padding: 12px;
   border: 1px dashed var(--muted);

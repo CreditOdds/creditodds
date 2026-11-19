@@ -1185,21 +1185,9 @@ export interface ApplyOutcomeBreakdown {
   total: number;
 }
 
-// Aggregated self-reported apply outcomes per card from the post-apply
-// check-in prompt. `period` is in days; pass 0 for all-time. These are
-// anonymous tier-1 signals (one row per visitor+card, deduped server-side)
-// and are NOT the same as the full records data points — used by the admin
-// dashboard to gauge the click -> outcome funnel. Returns {} on error.
-export async function getApplyOutcomesBreakdown(
-  period: number = 30
-): Promise<Record<number, ApplyOutcomeBreakdown>> {
-  const res = await fetch(
-    `${API_BASE}/apply-outcome?period=${period}`,
-    { cache: 'no-store' }
-  );
-  if (!res.ok) return {};
-  const data = await res.json();
-  const raw = (data.outcomes || {}) as Record<string, Partial<ApplyOutcomeBreakdown>>;
+function normalizeApplyOutcomes(
+  raw: Record<string, Partial<ApplyOutcomeBreakdown>>
+): Record<number, ApplyOutcomeBreakdown> {
   const normalized: Record<number, ApplyOutcomeBreakdown> = {};
   for (const [id, value] of Object.entries(raw)) {
     const approved = value.approved ?? 0;
@@ -1215,6 +1203,42 @@ export async function getApplyOutcomesBreakdown(
     };
   }
   return normalized;
+}
+
+// Aggregated self-reported apply outcomes per card from the post-apply
+// check-in prompt. `period` is in days; pass 0 for all-time. These are
+// anonymous tier-1 signals (one row per visitor+card, deduped server-side)
+// and are NOT the same as the full records data points. Used by the admin
+// dashboard to gauge the click -> outcome funnel. Returns {} on error.
+export async function getApplyOutcomesBreakdown(
+  period: number = 30
+): Promise<Record<number, ApplyOutcomeBreakdown>> {
+  const res = await fetch(
+    `${API_BASE}/apply-outcome?period=${period}`,
+    { cache: 'no-store' }
+  );
+  if (!res.ok) return {};
+  const data = await res.json();
+  return normalizeApplyOutcomes(data.outcomes || {});
+}
+
+// Window for the card page's check-ins line. The copy there names it, so
+// change both together.
+export const CARD_PAGE_APPLY_OUTCOME_DAYS = 90;
+
+// Last-90-day apply outcomes for every card, for the card page's check-ins
+// line under the Apply button. ISR-safe (revalidate, not no-store) and the
+// same URL for every card, so all card pages share one cached fetch. The
+// endpoint has no per-card filter; callers pick their id.
+export async function getAllApplyOutcomes(
+  signal?: AbortSignal
+): Promise<Record<number, ApplyOutcomeBreakdown>> {
+  const res = await fetchWithRetry(`${API_BASE}/apply-outcome?period=${CARD_PAGE_APPLY_OUTCOME_DAYS}`, {
+    signal, next: { revalidate: 300 },
+  });
+  if (!res.ok) return {};
+  const data = await res.json();
+  return normalizeApplyOutcomes(data.outcomes || {});
 }
 
 // CardWire - card metric change history
