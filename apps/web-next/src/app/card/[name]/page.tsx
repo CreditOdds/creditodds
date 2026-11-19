@@ -3,7 +3,7 @@ import { optionalRead } from "@/lib/optionalRead";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { CardNotFoundError } from "@/lib/cardNotFound";
-import { Card, CardBenefit, getCard, getCardGraphs, getCardRecords, getAllCards, getCardRatings, getCardWire, getCardProductChanges, getComparePartners, EMPTY_PRODUCT_CHANGES, GraphData, CardRecord, CardWireEntry, ProductChangeEdge } from "@/lib/api";
+import { Card, CardBenefit, getCard, getCardGraphs, getCardRecords, getAllCards, getCardRatings, getCardWire, getCardProductChanges, getComparePartners, getAllApplyOutcomes, ApplyOutcomeBreakdown, EMPTY_PRODUCT_CHANGES, GraphData, CardRecord, CardWireEntry, ProductChangeEdge } from "@/lib/api";
 import { getNews, NewsItem } from "@/lib/news";
 import { getArticles, Article } from "@/lib/articles";
 import { getBestPages } from "@/lib/best";
@@ -160,7 +160,7 @@ export default async function CardPage({ params }: CardPageProps) {
 
   // Fetch all data in parallel — chain getCard → getCardRatings together
   // so ratings fetches concurrently with graphs/news/articles instead of after them all
-  const [cardWithRatingsAndWire, graphData, records, allNews, allArticles, allCards, comparePartners, bestPages, localBenefits] = await Promise.all([
+  const [cardWithRatingsAndWire, graphData, records, allNews, allArticles, allCards, comparePartners, bestPages, localBenefits, allApplyOutcomes] = await Promise.all([
     getCardOrNotFound(slug).then(async (card) => {
       // card_id is the numeric DB id once a card has been synced to the
       // database, but falls back to the slug for a brand-new card that hasn't
@@ -186,9 +186,15 @@ export default async function CardPage({ params }: CardPageProps) {
     optionalRead(signal => getComparePartners(slug, 20, signal), []),
     optionalRead(signal => getBestPages(signal), []),
     optionalRead(() => getLocalCardBenefits(slug), undefined),
+    optionalRead(signal => getAllApplyOutcomes(signal), {} as Record<number, ApplyOutcomeBreakdown>),
   ]);
 
   const { card, ratings, wire, productChanges } = cardWithRatingsAndWire;
+
+  // Self-reported outcomes from the post-apply check-in, keyed by numeric DB
+  // id. card_id falls back to the slug for unsynced cards, so guard it.
+  const outcomeId = Number(card.db_card_id ?? card.card_id);
+  const applyOutcomes = Number.isInteger(outcomeId) ? allApplyOutcomes[outcomeId] : undefined;
 
   // Merge benefits from local cards.json: use as fallback when API has none,
   // and overlay value_unit on API benefits while CloudFront catches up to the
@@ -268,5 +274,5 @@ export default async function CardPage({ params }: CardPageProps) {
     .filter((r): r is { rank: number; title: string; slug: string } => r !== null)
     .sort((a, b) => a.rank - b.rank);
 
-  return <CardClient card={card} graphData={graphData} records={records} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} frequentlyComparedCards={frequentlyComparedCards} bestRankings={bestRankings} productChanges={productChangeFlow} />;
+  return <CardClient card={card} graphData={graphData} records={records} news={cardNews} articles={cardArticles} ratings={ratings} similarCards={similarCards} wire={wire} frequentlyComparedCards={frequentlyComparedCards} bestRankings={bestRankings} productChanges={productChangeFlow} applyOutcomes={applyOutcomes} />;
 }

@@ -21,6 +21,8 @@ import {
   trackReferralEvent,
   trackCardView,
   CardWireEntry,
+  ApplyOutcomeBreakdown,
+  CARD_PAGE_APPLY_OUTCOME_DAYS,
 } from "@/lib/api";
 import { getValuationDetails } from "@/lib/valuations";
 import { DEFAULT_MULTI_YEAR_CYCLE, formatBenefitValue, formatRewardCapCaveat, frequencyLabel, isCreditBenefit, isPerkBenefit } from "@/lib/cardDisplayUtils";
@@ -222,6 +224,70 @@ function WireChip({
   );
 }
 
+// Below this many applicant answers (approved + denied + pending) the line is
+// hidden: one or two taps say more about who answered than about the card.
+const MIN_APPLY_CHECKINS = 3;
+
+/**
+ * Self-reported outcomes from the post-apply check-in prompt over the last
+ * CARD_PAGE_APPLY_OUTCOME_DAYS days, shown under the Apply button. Counts
+ * only, never a rate: these are anonymous one-tap answers, deliberately
+ * separate from the data points behind the odds charts. "Just looking"
+ * answers are left out since they are not applications. The footer link to
+ * the odds section only renders when that section has charts to show.
+ */
+function ApplyCheckIns({
+  outcomes,
+  showResultsLink,
+}: {
+  outcomes: ApplyOutcomeBreakdown;
+  showResultsLink: boolean;
+}) {
+  const { approved, denied, pending } = outcomes;
+  const applied = approved + denied + pending;
+  if (applied < MIN_APPLY_CHECKINS) return null;
+  const segments = [
+    { key: "approved", n: approved, label: "approved" },
+    { key: "denied", n: denied, label: "denied" },
+    { key: "pending", n: pending, label: "pending" },
+  ] as const;
+  return (
+    <div className="cj-apply-checkins">
+      <div className="cj-apply-checkins-k">
+        {applied} {applied === 1 ? "reader" : "readers"} reported back after
+        applying in the last {CARD_PAGE_APPLY_OUTCOME_DAYS} days
+      </div>
+      <div className="cj-apply-checkins-bar" aria-hidden="true">
+        {segments.map((s) =>
+          s.n > 0 ? (
+            <span
+              key={s.key}
+              className={`cj-apply-checkins-seg is-${s.key}`}
+              style={{ flexGrow: s.n }}
+            />
+          ) : null,
+        )}
+      </div>
+      <ul className="cj-apply-checkins-legend">
+        {segments.map((s) => (
+          <li key={s.key} className={`is-${s.key}`}>
+            <span className="cj-apply-checkins-dot" aria-hidden="true" />
+            <strong>{s.n}</strong> {s.label}
+          </li>
+        ))}
+      </ul>
+      {showResultsLink && (
+        // Plain anchor, same reasoning as the pulled-card jump: the native
+        // hash jump honours scroll-margin-top and works without JS.
+        <a href="#odds" className="cj-apply-checkins-link">
+          See full approval results below
+          <span aria-hidden="true"> ↓</span>
+        </a>
+      )}
+    </div>
+  );
+}
+
 interface CardClientProps {
   card: Card;
   graphData: GraphData[];
@@ -241,6 +307,7 @@ interface CardClientProps {
     walletTotal: number;
     redditTotal: number;
   };
+  applyOutcomes?: ApplyOutcomeBreakdown;
 }
 
 // Isolated so useSearchParams doesn't bail the whole CardClient out of static
@@ -272,6 +339,7 @@ export default function CardClient({
   frequentlyComparedCards = [],
   bestRankings = [],
   productChanges,
+  applyOutcomes,
 }: CardClientProps) {
   // "What to get instead" is rendered at the bottom of the page but advertised
   // in the pulled-card banner at the top, so both need the same id and the same
@@ -382,6 +450,12 @@ export default function CardClient({
   const handleSubmitSuccess = () => router.refresh();
 
   const applyHref = cardApplyHref(card);
+
+  // The odds section shows charts only past this bar; below it there is
+  // nothing for the check-ins link under the Apply button to point at.
+  const hasOddsCharts =
+    (card.total_records || 0) >= MIN_DATA_POINTS_FOR_CHARTS &&
+    (card.approved_count || 0) > 0;
 
   // ---------- Computed ----------
   const chartOne = graphData[0] || [];
@@ -750,6 +824,12 @@ export default function CardClient({
             <div className="cj-apply-closed">
               Apply link not available yet
             </div>
+          )}
+          {(applyHref || randomReferralUrl) && applyOutcomes && (
+            <ApplyCheckIns
+              outcomes={applyOutcomes}
+              showResultsLink={hasOddsCharts}
+            />
           )}
         </>
       ) : (
@@ -1457,7 +1537,7 @@ export default function CardClient({
               )}
             </div>
 
-            {(card.total_records || 0) >= MIN_DATA_POINTS_FOR_CHARTS && (card.approved_count || 0) > 0 ? (
+            {hasOddsCharts ? (
               <>
                 <div className="cj-graph-tabs cj-odds-view-tabs" role="tablist" style={{ marginTop: 8 }}>
                   <button
