@@ -6,7 +6,7 @@
   "comment_firebase_app": "Explicit peer for firebase-admin database-compat bundling. Keep @firebase/app at 0.16.2 on Lambda Node 22: 0.16.3 requires Node >=24.12.0. The API has its own deployment lockfile; keep it and the root workspace lockfile in sync after dependency changes. .github/dependabot.yml also holds this pin until the runtime upgrade.",
   "dependencies": {
     "@firebase/app": "0.16.2",
-    "firebase-admin": "14.5.0",
+    "firebase-admin": "14.5.1",
     "mysql2": "^3.24.6",
     "serverless-mysql": "^1.5.4",
     "yup": "^0.32.9"
