@@ -56,11 +56,11 @@ rewards:
     value: 1
     unit: points_per_dollar
 signup_bonus:
-  value: 70000
+  value: 90000
   type: "points"
-  spend_requirement: 4000
+  spend_requirement: 6000
   timeframe_months: 3
-  note: "Get 70,000 bonus points and a $99 Companion Fare (plus taxes and fees from $23) after you make $4,000 or more in purchases within the first 90 days of opening your account."
+  note: "Earn 90,000 bonus points after you make $6,000 or more in purchases within the first 90 days of opening your account."
 apr:
   regular:
     min: 19.49
