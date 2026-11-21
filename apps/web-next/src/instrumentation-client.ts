@@ -17,6 +17,7 @@ import {
   isInjectedDocumentScriptError,
   isOffBundleScriptError,
 } from '@/lib/benignClientError';
+import { stripHeadResponseSize } from '@/lib/headSpanPayload';
 import { installTranslatedDomGuard } from '@/lib/translatedDomGuard';
 
 // Before React hydrates: stop in-page translation (Chrome's <font> wrappers)
@@ -51,6 +52,12 @@ Sentry.init({
   tracesSampleRate: process.env.NODE_ENV === 'production' ? 0.2 : 1.0,
 
   debug: false,
+
+  // Next's export-mode link prefetch sends a HEAD to every prefetched page,
+  // and Sentry records the HEAD's Content-Length (the full uncompressed page)
+  // as a payload size, opening bogus "Large HTTP payload" issues. See
+  // headSpanPayload.ts.
+  beforeSendSpan: stripHeadResponseSize,
 
   // Drop benign teardown noise — chiefly Firebase Analytics' IndexedDB
   // AbortErrors when the user navigates/reloads mid-transaction. The page
