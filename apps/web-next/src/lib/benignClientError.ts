@@ -148,6 +148,30 @@
 // on authState.isAuthenticated. The throw lives in
 // AbstractPopupRedirectOperation with no handle we can attach to.
 //
+// Firebase Auth's hidden helper iframe can time out on slow or filtering
+// mobile connections: "FirebaseError: Firebase: Error
+// (auth/network-request-failed)." (CREDITODDS-JAVASCRIPT-NEXTJS-2D, Firefox
+// Mobile on Android, /news/:id, onunhandledrejection). On mobile browsers and
+// Safari, browserPopupRedirectResolver initialises proactively at page load:
+// it loads gapi from apis.google.com and opens
+// https://<authDomain>/__/auth/iframe, then pings it. If the ping hasn't
+// answered within PING_TIMEOUT (5s in a browser), _openIframe rejects the
+// promise it hands to gapi's context.open callback, and that promise appears
+// to be left without a handler. Firebase's own caller (_initialize, awaited in
+// a try/catch during auth init) does handle its side, so the escape is inside
+// gapi, where we can't attach anything. The device was not offline in -2D (the
+// breadcrumbs show 200s from firebaseinstallations and firebase.googleapis.com
+// just before); the iframe itself was slow or blocked, likely by the browser's
+// tracking protection. Nothing breaks: auth state still loads from local
+// persistence, and the resolver drops its failed promise so a later
+// signInWithPopup retries the iframe. User-initiated sign-in failures with
+// this code are caught and shown by the login page and BestCardForMe, never
+// sent to Sentry, so the only way this code reaches Sentry is as SDK-internal
+// noise. Checked when adding this: the CSP allows the auth domain in
+// frame-src and apis.google.com in script-src, so this isn't a policy block
+// that would hit every mobile visitor. If sign-in starts failing for
+// everyone, check that again first, since this filter hides that signal.
+//
 // Finally, hasOnlyForeignFrames (below) drops exceptions by stack shape rather
 // than message: every frame lacks a resolvable script URL. See its comment.
 const BENIGN_CLIENT_SIGNATURES = [
@@ -171,6 +195,7 @@ const BENIGN_ANY_ERROR_SIGNATURES = [
   'Unable to load image data:',
   'INTERNAL ASSERTION FAILED: Pending promise was never set',
   'WKWebView API client did not respond to this postMessage',
+  'auth/network-request-failed',
 ];
 
 // Matched only when the whole message equals the entry, for wording too

@@ -135,6 +135,27 @@ describe("isBenignClientError", () => {
     ).toBe(true);
   });
 
+  it("drops Firebase Auth's iframe ping-timeout network-request-failed", () => {
+    // FirebaseError shape from _openIframe's PING_TIMEOUT reject (issue -2D).
+    expect(
+      isBenignClientError({
+        name: "FirebaseError",
+        code: "auth/network-request-failed",
+        message: "Firebase: Error (auth/network-request-failed).",
+      }),
+    ).toBe(true);
+  });
+
+  it("keeps other Firebase Auth errors", () => {
+    expect(
+      isBenignClientError({
+        name: "FirebaseError",
+        code: "auth/internal-error",
+        message: "Firebase: Error (auth/internal-error).",
+      }),
+    ).toBe(false);
+  });
+
   it("keeps other FirebaseErrors", () => {
     expect(
       isBenignClientError({
