@@ -1,0 +1,13 @@
+{
+  "_note": "Sample for --fixture dry runs. Visit counts are from the admin Store traffic tab (7d) on 2026-11-23; previous_rank values are invented to exercise every movement pill.",
+  "period_days": 7,
+  "stores": [
+    { "rank": 1, "slug": "temu", "name": "Temu", "visits": 345, "previous_rank": 1 },
+    { "rank": 2, "slug": "playstation-store", "name": "PlayStation Store", "visits": 32, "previous_rank": 5 },
+    { "rank": 3, "slug": "paramount-plus", "name": "Paramount+", "visits": 25, "previous_rank": null },
+    { "rank": 4, "slug": "spotify", "name": "Spotify", "visits": 20, "previous_rank": 2 },
+    { "rank": 5, "slug": "neiman-marcus", "name": "Neiman Marcus", "visits": 17, "previous_rank": 9 },
+    { "rank": 6, "slug": "rei", "name": "REI", "visits": 17, "previous_rank": 6 },
+    { "rank": 7, "slug": "jewel-osco", "name": "Jewel-Osco", "visits": 16, "previous_rank": null }
+  ]
+}
