@@ -72,9 +72,16 @@ function categoryLine(store) {
   return labels[0] || '';
 }
 
+// Hundreds of stores get a handful of visits a week, so last week's rank
+// below the top few is mostly the API's alphabetical tie-break. Only show
+// movement against a rank that meant something; a climb from further back
+// gets no pill rather than a misleading "up 137".
+const MOVEMENT_RANK_CUTOFF = 20;
+
 function withMovement(store) {
   const { rank, previous_rank: prev } = store;
   if (!prev) return { ...store, movement: 'new' };
+  if (prev > MOVEMENT_RANK_CUTOFF) return { ...store, movement: 'none' };
   if (prev > rank) return { ...store, movement: 'up', movementAmount: prev - rank };
   if (prev < rank) return { ...store, movement: 'down', movementAmount: rank - prev };
   return { ...store, movement: 'same' };
@@ -140,7 +147,7 @@ function movementPillSvg(store, rightX, centerY) {
             font-family="Menlo,Consolas,monospace" font-size="11" font-weight="600" fill="${up ? SO.good : SO.warn}" letter-spacing="0.8">${escapeXml(text)}</text>`;
   }
 
-  return ''; // same rank: no pill
+  return ''; // same rank, or last week's rank was past the cutoff: no pill
 }
 
 function fit(text, maxChars) {
@@ -281,7 +288,8 @@ async function main() {
   for (const s of stores) {
     const move = s.movement === 'up' ? `+${s.movementAmount}`
       : s.movement === 'down' ? `-${s.movementAmount}`
-      : s.movement === 'new' ? 'NEW' : 'same';
+      : s.movement === 'new' ? 'NEW'
+      : s.movement === 'none' ? `from #${s.previous_rank}, no pill` : 'same';
     console.log(`  #${s.rank} ${s.name} (${s.slug}): ${s.visits} views, ${move}`);
   }
 
