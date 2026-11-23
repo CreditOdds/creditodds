@@ -20,7 +20,7 @@ rewards:
 signup_bonus:
   value: 200
   type: "cash"
-  spend_requirement: 500
+  spend_requirement: 750
   timeframe_months: 3
 apr:
   balance_transfer_intro:
