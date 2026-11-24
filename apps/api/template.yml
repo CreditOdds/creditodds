@@ -1045,6 +1045,16 @@ Resources:
             Method: GET
             RestApiId:
               Ref: CreditCardOddsAPI
+        GetTopStores:
+          # Public, visits-only top-N list for the weekly social post.
+          Type: Api
+          Properties:
+            Auth:
+              Authorizer: NONE
+            Path: /store-event/top
+            Method: GET
+            RestApiId:
+              Ref: CreditCardOddsAPI
         StoreEventOptions:
           Type: Api
           Properties:

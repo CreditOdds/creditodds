@@ -7,9 +7,12 @@
 // Affiliate experiment assignment views and attributed clicks are also stored
 // in store_affiliate_experiment_events.
 //
-// POST is public (anonymous visitors fire the beacons). GET is admin-only —
-// it exposes traffic/conversion analytics, so it is gated the same way the
-// admin.js endpoints are (Firebase custom claim `admin`, or a fallback UID).
+// POST is public (anonymous visitors fire the beacons). GET /store-event is
+// admin-only: it exposes traffic/conversion analytics, so it is gated the same
+// way the admin.js endpoints are (Firebase custom claim `admin`, or a fallback
+// UID). GET /store-event/top is public but deliberately narrow: visit counts
+// for the top N known stores plus last week's rank, nothing about clicks or
+// affiliate status. It feeds the weekly "most viewed stores" social post.
 const mysql = require("../db");
 const storesData = require("../lib/ranker/stores.json");
 
@@ -19,6 +22,59 @@ const storesData = require("../lib/ranker/stores.json");
 const affiliateStoreSlugs = new Set(
   (storesData.stores || []).filter((store) => store.affiliate).map((store) => store.slug)
 );
+
+// store_slug arrives from an unauthenticated beacon, so the table can hold
+// slugs that are not real stores. The public top list only ranks slugs that
+// exist in the catalog and reports the catalog's display name.
+const storeNameBySlug = new Map(
+  (storesData.stores || []).map((store) => [store.slug, store.name])
+);
+
+const TOP_STORES_DEFAULT_LIMIT = 7;
+const TOP_STORES_MAX_LIMIT = 25;
+
+// Ranks known stores by visits; ties break by slug so the order is stable.
+function rankBy(rows, key) {
+  return rows
+    .filter((r) => r[key] > 0)
+    .sort((a, b) => b[key] - a[key] || a.slug.localeCompare(b.slug));
+}
+
+// Top N stores by visits over the same window the admin tab's "7d" uses
+// (event_date >= CURDATE() - 7), plus each store's rank over the 7 days
+// before that, so callers can show week-over-week movement.
+async function getTopStores(limit) {
+  const rows = await mysql.query(
+    `SELECT store_slug,
+            SUM(CASE WHEN event_date >= CURDATE() - INTERVAL 7 DAY THEN event_count ELSE 0 END) AS visits,
+            SUM(CASE WHEN event_date <  CURDATE() - INTERVAL 7 DAY THEN event_count ELSE 0 END) AS previous_visits
+     FROM store_page_events
+     WHERE event_type = 'visit'
+       AND event_date >= CURDATE() - INTERVAL 14 DAY
+     GROUP BY store_slug`
+  );
+
+  const known = rows
+    .filter((r) => storeNameBySlug.has(r.store_slug))
+    .map((r) => ({
+      slug: r.store_slug,
+      visits: Number(r.visits) || 0,
+      previous_visits: Number(r.previous_visits) || 0,
+    }));
+
+  const previousRank = new Map();
+  rankBy(known, 'previous_visits').forEach((r, i) => previousRank.set(r.slug, i + 1));
+
+  return rankBy(known, 'visits')
+    .slice(0, limit)
+    .map((r, i) => ({
+      rank: i + 1,
+      slug: r.slug,
+      name: storeNameBySlug.get(r.slug),
+      visits: r.visits,
+      previous_rank: previousRank.get(r.slug) || null,
+    }));
+}
 
 // Keep in sync with FALLBACK_ADMIN_IDS / isAdmin in src/handlers/admin.js.
 const FALLBACK_ADMIN_IDS = ['zXOyHmGl7HStyAqEdLsgXLA5inS2'];
@@ -207,6 +263,32 @@ exports.StoreEventHandler = async (event) => {
       break;
 
     case "GET":
+      // Public, visits-only leaderboard. Must be checked before the admin gate.
+      if (event.resource === "/store-event/top") {
+        try {
+          const requested = parseInt(event.queryStringParameters?.limit, 10);
+          const limit = Number.isFinite(requested)
+            ? Math.min(Math.max(requested, 1), TOP_STORES_MAX_LIMIT)
+            : TOP_STORES_DEFAULT_LIMIT;
+          await ensureTable();
+          const stores = await getTopStores(limit);
+          await mysql.end();
+          response = {
+            statusCode: 200,
+            headers: { ...responseHeaders, "Cache-Control": "public, max-age=300" },
+            body: JSON.stringify({ period_days: 7, stores }),
+          };
+        } catch (error) {
+          console.error("Error fetching top stores:", error);
+          response = {
+            statusCode: 500,
+            headers: { ...responseHeaders, "Cache-Control": "no-store" },
+            body: JSON.stringify({ error: "Failed to fetch top stores" }),
+          };
+        }
+        break;
+      }
+
       // Admin-only: traffic + conversion analytics.
       if (!isAdmin(event)) {
         response = {

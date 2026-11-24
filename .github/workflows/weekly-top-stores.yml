@@ -1,0 +1,43 @@
+name: Weekly Top Stores Post
+
+# Sibling of weekly-top-cards.yml: a ranking image of the 7 most-viewed
+# /best-card-for store pages, queued through the Social Posting Service.
+# Reads the public, visits-only GET /store-event/top endpoint.
+
+on:
+  schedule:
+    # Every Friday at 3pm UTC (10am ET / 11am ET during DST). Mon/Wed/Thu at
+    # this hour are the data-pipeline canary, top cards, and SUB changes.
+    - cron: '0 15 * * 5'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Render and print only, do not queue the post'
+        type: boolean
+        default: true
+
+jobs:
+  post-top-stores:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - run: npm ci
+
+      - name: Queue weekly top stores post with image
+        env:
+          SOCIAL_API_URL: ${{ secrets.SOCIAL_API_URL }}
+          SOCIAL_API_KEY: ${{ secrets.SOCIAL_API_KEY }}
+          DRY_RUN: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run && '--dry-run' || '' }}
+        run: node scripts/post-weekly-top-stores.js $DRY_RUN --out weekly-top-stores-preview.png
+
+      - name: Upload preview image (dry runs)
+        if: github.event_name == 'workflow_dispatch' && inputs.dry_run
+        uses: actions/upload-artifact@v7
+        with:
+          name: weekly-top-stores-preview
+          path: weekly-top-stores-preview.png
